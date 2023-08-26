@@ -1,0 +1,1 @@
+export default {url:"https://www.krisscode.fr/"}

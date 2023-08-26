@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Calligraffitti&display=swap');
+@import "https://unpkg.com/water.css@2/out/water.min.css";
+:root {
+    --links: #be92e2;
+}
+body{
+    /* The image used */
+    background: #030c2d;
+    /* Full height */
+    height: 100%;
+}
+
+
+.containerTitle {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    background: #0c0d0c;
+    border-radius: 10px;
+    text-decoration: none;
+    opacity: 0.7;
+    font-size: 1em;
+
+}
+.but1{ background-color: #3a3f3a;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;}
+.but1:hover{
+    background-color: #cca058;
+}
+a {
+    padding: 0.2em;
+    font-weight: bold;
+    font-size: 1.5em;
+    height: 50px;
+    color: #dbdeec;
+}
+
+a:hover {
+    color: #e4ddea;
+    font-size: 28px;
+}
+button{
+
+    color: #cca058;
+    border-color: #3a3f42;
+}
+
+button:before, button:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    height: 100%;
+    filter: blur(30px);
+    opacity: 0.4;
+    transition: 0.6s;
+}
+p, h1, span, label{
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+    color: #e8e1ef;
+    font-weight: bold;
+}
+a{
+    font-size: 1em;
+}
+#idLabel{
+ display: none;
+}
+.btn{
+    color: white;
+    background-color: #634b3f;
+}
+.btn:hover{
+
+    background-color: #777f5b;
+}
+
+nav.menu {
+    background: #5e7047;
+    position: relative;
+    min-height: 45px;
+    height: 100%;
+}
+
+.menu > ul > li {
+    list-style: none;
+    display: inline-block;
+    color: #fff;
+    line-height: 45px;
+
+}
+.menu > ul li a, .xs-.menu li a {
+    text-decoration: none;
+    color: #fff;
+    display:block;
+    padding: 0px 24px;
+}
+.menu > ul li a:hover {
+    background:#444;
+    color: #fff;
+    transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -webkit-transition-duration: 0.3s;
+}
+.active{
+    background:#444 !important;
+
+}
+.displaynone{
+    display: none;
+}
+.xs-.menu-cont{
+    display:none;
+}
+.xs-.menu-cont > a {
+    background: none repeat scroll 0 0 #eedcd5;
+    border-radius: 3px;
+    padding: 3px 6px;
+    display: block;
+    border-bottom:1px solid #eddcd6;
+    box-shadow: 0 1px 2px #c2b1aa;
+    -webkit-box-shadow: 0 1px 2px #96857e;
+    -moz-box-shadow: 0 1px 2px #e67248;
+}
+.xs-.menu-cont > a:hover{
+    cursor: pointer;
+}
+
+.xs-.menu li {
+    color: #fff;
+    padding: 14px 30px;
+    border-bottom: 1px solid #ccc;
+    background: #FF7F50;
+
+}
+.xs-.menu  a{
+    text-decoration:none;
+}
+
+.mega-.menu {
+    background: none repeat scroll 0 0 #888;
+    left: 0;
+    margin-top: 3px;
+    position: absolute;
+    width: 100%;
+    padding:15px;
+    display:none;
+    transition-duration: 0.9s;
+
+}
+.menutoggle i {
+    color: #fff;
+    font-size: 33px;
+    margin: 0;
+    padding: 0;
+}
+form {
+    position: relative;
+    z-index: 1;
+    background: #786d6d;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+form input, form div input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #5b5353;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+form button, form div button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #759ed8;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+}
+form button:hover,form button:active,form button:focus {
+    background: #4aa6be;
+}
+form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+form .message a {
+    color: #53828e;
+    text-decoration: none;
+}
+nav{
+    display: flex;
+    flex-direction:column;
+}
+nav.menu {
+    background: #639db4;
+    position: relative;
+    min-height: 45px;
+    height: 100%;
+}
+
+.menu > ul > li {
+    list-style: none;
+    display: inline-block;
+    color: #fff;
+    line-height: 45px;
+
+}
+.menu > ul li a, .xs-.menu li a {
+    text-decoration: none;
+    color: #fff;
+    display:block;
+    padding: 0px 24px;
+}
+.menu > ul li a:hover {
+    background:#444;
+    color: #fff;
+    transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -webkit-transition-duration: 0.3s;
+}
+.cache{
+    display: none;
+}
+
+.wrapper {
+    border: 3px solid blue;
+}
+
+.container {
+    background-color: #e02042;
+}
+
+.barCompleted {
+    background-color: #66acc2;
+    width: 80%;
+}
+
+.label {
+    font-size: 20px;
+    color: green;
+}

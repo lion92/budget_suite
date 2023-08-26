@@ -1,0 +1,57 @@
+{
+  "name": "projet_budget",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://gestiontaches.krissclotilde.com",
+  "dependencies": {
+    "@ramonak/react-progress-bar": "^5.0.3",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.23.0",
+    "chart.js": "^2.9.4",
+    "node-excel-export": "^1.4.4",
+    "react": "^17.0.2",
+    "react-calendar": "^4.6.0",
+    "react-chartjs-2": "^2.11.2",
+    "react-color": "^2.19.3",
+    "react-dom": "^17.0.2",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^5.3.4",
+    "react-scripts": "4.0.3",
+    "reducers": "^3.0.0-alpha",
+    "redux": "^4.2.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.2",
+    "typescript": "^5.1.6",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.10"
+  }
+}
