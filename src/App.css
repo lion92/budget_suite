@@ -250,10 +250,6 @@ nav.menu {
     border: 3px solid blue;
 }
 
-.container {
-    background-color: #e02042;
-}
-
 .barCompleted {
     background-color: #66acc2;
     width: 80%;
@@ -268,6 +264,13 @@ nav.menu {
 }
 .visible{
     display: block;
-
-
+}
+.containerCote{
+    display: flex;
+    flex-direction: row;
+}
+button{
+    font-size: 15px;
+    width: 200px;
+    height: 75px;
 }

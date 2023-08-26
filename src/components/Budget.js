@@ -26,7 +26,7 @@ export function Budget(props) {
         let [textCat2, setTextCat2] = useState([]);
         const [load, setLoad] = useState(false);
         const [datePick, onChangeDatePick] = useState(new Date());
-        const [montantCSS, setMontantCSS] = useState("");
+        const [montantCSS, setMontantCSS] = useState("hidden");
         const [budget, setBudget] = useState(0);
         const [budgetCSS, setBudgetCSS] = useState("hidden");
         const [categorieCSS, setCategorieCSS] = useState("hidden");
@@ -335,13 +335,14 @@ export function Budget(props) {
 
                 <ProgressBar className={budgetCSS} completed={calcul() / 100}
                 />
-                <form>
-                    <div className="containerGraph">
+                <div className="container">
+                    <div>
 
-                        <div className="containerGraph">
+                        <div>
                             <div className="cache">
                                 <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                             </div>
+                            <div className="containerCote">
                             <button onClick={(e) => {
                                 e.preventDefault();
                                 if (categorieCSS === "visible") {
@@ -368,6 +369,8 @@ export function Budget(props) {
                             </div>
                             <p className="error">{actionCategorieError}</p>
                         </div>
+                        </div>
+                        <div className="containerCote">
 
                         <button onClick={(e) => {
                             e.preventDefault();
@@ -385,6 +388,8 @@ export function Budget(props) {
                                    onChange={(e) => setActionDescription(e.target.value)}/>{" "}
                             <p className="error">{actionDescriptionError}</p>
                         </div>
+                        </div>
+                        <div className="containerCote">
                         <button onClick={(e) => {
                             e.preventDefault();
                             if (montantCSS === "visible") {
@@ -401,6 +406,8 @@ export function Budget(props) {
                                    onChange={(e) => setMontant(e.target.value)}/>{" "}
                             <p className={montantCSS + " " + "error"}>{montantError}</p>
                         </div>
+                        </div>
+                        <div className="containerCote">
                         <button onClick={(e) => {
                             e.preventDefault();
                             if (dateCSS === "visible") {
@@ -418,6 +425,8 @@ export function Budget(props) {
                                 <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
                             </div>
                         </div>
+                        </div>
+                        <div className="containerCote">
                         <button onClick={(e) => {
                             e.preventDefault();
                             if (buttonCSS === "visible") {
@@ -438,6 +447,7 @@ export function Budget(props) {
                             </div>
                             <button onClick={getData}>Download</button>
                         </div>
+                        </div>
                         <div>
 
                         </div>
@@ -445,7 +455,7 @@ export function Budget(props) {
                     </div>
 
 
-                </form>
+                </div>
                 <div className="container">
 
                     <table>
