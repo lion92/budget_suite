@@ -263,3 +263,11 @@ nav.menu {
     font-size: 20px;
     color: green;
 }
+.hidden{
+    display: none;
+}
+.visible{
+    display: block;
+
+
+}

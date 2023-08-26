@@ -5,6 +5,7 @@ import lien from './lien'
 import Calendar from 'react-calendar';
 import GraphParDate from "./GraphParDate";
 import ProgressBar from "@ramonak/react-progress-bar";
+
 export function Budget(props) {
 
 
@@ -25,7 +26,13 @@ export function Budget(props) {
         let [textCat2, setTextCat2] = useState([]);
         const [load, setLoad] = useState(false);
         const [datePick, onChangeDatePick] = useState(new Date());
+        const [montantCSS, setMontantCSS] = useState("");
         const [budget, setBudget] = useState(0);
+        const [budgetCSS, setBudgetCSS] = useState("hidden");
+        const [categorieCSS, setCategorieCSS] = useState("hidden");
+        const [descriptionCSS, setDescriptionCSS] = useState("hidden");
+        const [dateCSS, setDateCSS] = useState("hidden");
+        const [buttonCSS, setbuttonCSS] = useState("hidden");
 
 
         const data = {
@@ -61,7 +68,7 @@ export function Budget(props) {
                     }
                 }
             },
-            labels: textp.map(value => value.description+""+value.dateTransaction),
+            labels: textp.map(value => value.description + "" + value.dateTransaction),
             datasets: [{
                 label: "Depense par date",
                 backgroundColor: 'pink',
@@ -278,20 +285,18 @@ export function Budget(props) {
 
         };
         let calcul = () => {
-            if(montantTotal!==0){
-                if(budget!==0){
-                    return ((montantTotal*100)/budget)*100                }
-                else
-                {
+            if (montantTotal !== 0) {
+                if (budget !== 0) {
+                    return ((montantTotal * 100) / budget) * 100
+                } else {
                     return 1
                 }
-            }
-            else
-            {
+            } else {
                 return 0;
             }
 
         };
+
         function setIdCat(option) {
             setActionCategorie(option.id);
 
@@ -303,20 +308,33 @@ export function Budget(props) {
             setValue("");
 
         };
+
+
         /////////////////////////
         return (
             <div>
                 <Navigation></Navigation>
 
-                <div>
-                    <label>Budget à définir</label>
-                    <input value={budget} onChange={(e) => setBudget(e.target.value)}/>{" "}
-                </div>
-                {
-                   "Ecrire le montant de votre budget et le calcul affichera le pourcentage des dépenses en fonction de votre budget"
-                }
-                <ProgressBar completed={calcul()/100}
-                 />
+                <button onClick={() => {
+                    if (budgetCSS === "visible") {
+
+                        setBudgetCSS("hidden")
+                    } else {
+                        setBudgetCSS("visible");
+                    }
+                }}>Ajouter un budget pour évaluer vos dépense^^
+                </button>
+                <label className={budgetCSS}>Ajouter un buget</label>
+                <label className={budgetCSS}>Budget à définir</label>
+                <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
+                <p className={budgetCSS}>
+                    {
+                        "Ecrire le montant de votre budget et le calcul affichera le pourcentage des dépenses en fonction de votre budget"
+                    }
+                </p>
+
+                <ProgressBar className={budgetCSS} completed={calcul() / 100}
+                />
                 <form>
                     <div className="containerGraph">
 
@@ -324,9 +342,19 @@ export function Budget(props) {
                             <div className="cache">
                                 <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                             </div>
-                            <p>Id={actionCategorie}</p>
-                            <label>Categorie</label>
-                            <div>
+                            <button onClick={(e) => {
+                                e.preventDefault();
+                                if (categorieCSS === "visible") {
+
+                                    setCategorieCSS("hidden")
+                                } else {
+                                    setCategorieCSS("visible");
+                                }
+                            }}>Ajouter une categorie à la prochaine dépense.
+                            </button>
+                            <p className={categorieCSS}>Id={actionCategorie}</p>
+                            <label className={categorieCSS}>Categorie</label>
+                            <div className={categorieCSS}>
                                 {textCat.map((option, index) => {
                                     return <h1 className="but1" onClick={() => {
                                         setIdCat(option)
@@ -340,32 +368,78 @@ export function Budget(props) {
                             </div>
                             <p className="error">{actionCategorieError}</p>
                         </div>
+
+                        <button onClick={(e) => {
+                            e.preventDefault();
+                            if (descriptionCSS === "visible") {
+
+                                setDescriptionCSS("hidden")
+                            } else {
+                                setDescriptionCSS("visible");
+                            }
+                        }}>Ajouter une description à la prochaine dépense.
+                        </button>
                         <div>
-                            <label>Description</label>
-                            <input value={actionDescription}
+                            <label className={descriptionCSS}>Description</label>
+                            <input className={descriptionCSS} value={actionDescription}
                                    onChange={(e) => setActionDescription(e.target.value)}/>{" "}
                             <p className="error">{actionDescriptionError}</p>
                         </div>
+                        <button onClick={(e) => {
+                            e.preventDefault();
+                            if (montantCSS === "visible") {
+
+                                setMontantCSS("hidden")
+                            } else {
+                                setMontantCSS("visible");
+                            }
+                        }}>Ajouter une description à la prochaine dépense.
+                        </button>
                         <div>
-                            <label>Montant</label>
-                            <input value={montant} onChange={(e) => setMontant(e.target.value)}/>{" "}
-                            <p className="error">{montantError}</p>
+                            <label className={montantCSS}>Montant</label>
+                            <input className={montantCSS} value={montant}
+                                   onChange={(e) => setMontant(e.target.value)}/>{" "}
+                            <p className={montantCSS + " " + "error"}>{montantError}</p>
                         </div>
+                        <button onClick={(e) => {
+                            e.preventDefault();
+                            if (dateCSS === "visible") {
+
+                                setDateCSS("hidden")
+                            } else {
+                                setDateCSS("visible");
+                            }
+                        }}>Ajouter une description à la prochaine dépense.
+                        </button>
                         <div>
-                            <div>
-                                <div>{datePick.toLocaleDateString()}</div>
-                                <div>{datePick.toDateString()}</div>
-                                <Calendar onChange={onChangeDatePick} value={datePick}/>
+                            <div className={dateCSS}>
+                                <div className={dateCSS}>{datePick.toLocaleDateString()}</div>
+                                <div className={dateCSS}>{datePick.toDateString()}</div>
+                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
                             </div>
+                        </div>
+                        <button onClick={(e) => {
+                            e.preventDefault();
+                            if (buttonCSS === "visible") {
+
+                                setbuttonCSS("hidden")
+                            } else {
+                                setbuttonCSS("visible");
+                            }
+                        }}>Acceder aux bouttons creation modification suppression
+                        </button>
+                        <div className={buttonCSS}>
                             <button onClick={fetchCreer}>creer</button>
                             <button onClick={modifier}>modifier</button>
-                        </div>
-                        <div>
-                            <button onClick={deleteMontant}>Supprimer</button>
-                            <button onClick={recherche}>Rechercher</button>
-                        </div>
-                        <div>
+
+                            <div>
+                                <button onClick={deleteMontant}>Supprimer</button>
+                                <button onClick={recherche}>Rechercher</button>
+                            </div>
                             <button onClick={getData}>Download</button>
+                        </div>
+                        <div>
+
                         </div>
 
                     </div>
