@@ -313,28 +313,23 @@ export function Budget(props) {
         /////////////////////////
         return (
             <div>
-                <Navigation></Navigation>
+                <div className="div2">
+                    <button onClick={() => {
+                        if (budgetCSS === "visible") {
 
-                <button onClick={() => {
-                    if (budgetCSS === "visible") {
+                            setBudgetCSS("hidden")
+                        } else {
+                            setBudgetCSS("visible");
+                        }
+                    }}>Ajouter un budget
+                    </button>
+                    <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
+                    <p className={budgetCSS}>
+                    </p>
 
-                        setBudgetCSS("hidden")
-                    } else {
-                        setBudgetCSS("visible");
-                    }
-                }}>Ajouter un budget pour évaluer vos dépense^^
-                </button>
-                <label className={budgetCSS}>Ajouter un buget</label>
-                <label className={budgetCSS}>Budget à définir</label>
-                <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
-                <p className={budgetCSS}>
-                    {
-                        "Ecrire le montant de votre budget et le calcul affichera le pourcentage des dépenses en fonction de votre budget"
-                    }
-                </p>
-
-                <ProgressBar className={budgetCSS} completed={calcul() / 100}
-                />
+                    <ProgressBar className={budgetCSS} completed={calcul() / 100}
+                    />
+                </div>
                 <div className="container">
                     <div>
 
@@ -343,110 +338,107 @@ export function Budget(props) {
                                 <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                             </div>
                             <div className="containerCote">
+                                <button onClick={(e) => {
+                                    e.preventDefault();
+                                    if (categorieCSS === "visible") {
+
+                                        setCategorieCSS("hidden")
+                                    } else {
+                                        setCategorieCSS("visible");
+                                    }
+                                }}>Ajouter une categorie
+                                </button>
+                                <p className={categorieCSS}>Id={actionCategorie}</p>
+                                <div className={categorieCSS}>
+                                    {textCat.map((option, index) => {
+                                        return <h1 className="but1" onClick={() => {
+                                            setIdCat(option)
+                                        }}
+                                                   key={option.id}>
+                                            {option.id + " " + option.categorie}
+
+
+                                        </h1>
+                                    })}
+                                </div>
+                                <p className="error">{actionCategorieError}</p>
+                            </div>
+                        </div>
+                        <div className="containerCote">
+
                             <button onClick={(e) => {
                                 e.preventDefault();
-                                if (categorieCSS === "visible") {
+                                if (descriptionCSS === "visible") {
 
-                                    setCategorieCSS("hidden")
+                                    setDescriptionCSS("hidden")
                                 } else {
-                                    setCategorieCSS("visible");
+                                    setDescriptionCSS("visible");
                                 }
-                            }}>Ajouter une categorie à la prochaine dépense.
+                            }}>Ajouter une description
                             </button>
-                            <p className={categorieCSS}>Id={actionCategorie}</p>
-                            <label className={categorieCSS}>Categorie</label>
-                            <div className={categorieCSS}>
-                                {textCat.map((option, index) => {
-                                    return <h1 className="but1" onClick={() => {
-                                        setIdCat(option)
-                                    }}
-                                               key={option.id}>
-                                        {option.id + " " + option.categorie}
-
-
-                                    </h1>
-                                })}
-                            </div>
-                            <p className="error">{actionCategorieError}</p>
-                        </div>
-                        </div>
-                        <div className="containerCote">
-
-                        <button onClick={(e) => {
-                            e.preventDefault();
-                            if (descriptionCSS === "visible") {
-
-                                setDescriptionCSS("hidden")
-                            } else {
-                                setDescriptionCSS("visible");
-                            }
-                        }}>Ajouter une description à la prochaine dépense.
-                        </button>
-                        <div>
-                            <label className={descriptionCSS}>Description</label>
-                            <input className={descriptionCSS} value={actionDescription}
-                                   onChange={(e) => setActionDescription(e.target.value)}/>{" "}
-                            <p className="error">{actionDescriptionError}</p>
-                        </div>
-                        </div>
-                        <div className="containerCote">
-                        <button onClick={(e) => {
-                            e.preventDefault();
-                            if (montantCSS === "visible") {
-
-                                setMontantCSS("hidden")
-                            } else {
-                                setMontantCSS("visible");
-                            }
-                        }}>Ajouter une description à la prochaine dépense.
-                        </button>
-                        <div>
-                            <label className={montantCSS}>Montant</label>
-                            <input className={montantCSS} value={montant}
-                                   onChange={(e) => setMontant(e.target.value)}/>{" "}
-                            <p className={montantCSS + " " + "error"}>{montantError}</p>
-                        </div>
-                        </div>
-                        <div className="containerCote">
-                        <button onClick={(e) => {
-                            e.preventDefault();
-                            if (dateCSS === "visible") {
-
-                                setDateCSS("hidden")
-                            } else {
-                                setDateCSS("visible");
-                            }
-                        }}>Ajouter une description à la prochaine dépense.
-                        </button>
-                        <div>
-                            <div className={dateCSS}>
-                                <div className={dateCSS}>{datePick.toLocaleDateString()}</div>
-                                <div className={dateCSS}>{datePick.toDateString()}</div>
-                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
-                            </div>
-                        </div>
-                        </div>
-                        <div className="containerCote">
-                        <button onClick={(e) => {
-                            e.preventDefault();
-                            if (buttonCSS === "visible") {
-
-                                setbuttonCSS("hidden")
-                            } else {
-                                setbuttonCSS("visible");
-                            }
-                        }}>Acceder aux bouttons creation modification suppression
-                        </button>
-                        <div className={buttonCSS}>
-                            <button onClick={fetchCreer}>creer</button>
-                            <button onClick={modifier}>modifier</button>
-
                             <div>
-                                <button onClick={deleteMontant}>Supprimer</button>
-                                <button onClick={recherche}>Rechercher</button>
+                                <input className={descriptionCSS} value={actionDescription}
+                                       onChange={(e) => setActionDescription(e.target.value)}/>{" "}
+                                <p className="error">{actionDescriptionError}</p>
                             </div>
-                            <button onClick={getData}>Download</button>
                         </div>
+                        <div className="containerCote">
+                            <button onClick={(e) => {
+                                e.preventDefault();
+                                if (montantCSS === "visible") {
+
+                                    setMontantCSS("hidden")
+                                } else {
+                                    setMontantCSS("visible");
+                                }
+                            }}>Ajouter un montant
+                            </button>
+                            <div>
+                                <input className={montantCSS} value={montant}
+                                       onChange={(e) => setMontant(e.target.value)}/>{" "}
+                                <p className={montantCSS + " " + "error"}>{montant}</p>
+                            </div>
+                        </div>
+                        <button onClick={(e) => {
+                        e.preventDefault();
+                        if (dateCSS === "visible") {
+
+                            setDateCSS("hidden")
+                        } else {
+                            setDateCSS("visible");
+                        }
+                    }}>Ajouter une date
+                    </button>
+                        <div className="containerCote">
+
+
+                                <div className={dateCSS}>
+                                    <div className={dateCSS}>{datePick.toLocaleDateString()}</div>
+                                    <div className={dateCSS}>{datePick.toDateString()}</div>
+                                    <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
+                                </div>
+                        </div>
+                        <div className="containerCote">
+                            <button onClick={(e) => {
+                                e.preventDefault();
+                                if (buttonCSS === "visible") {
+
+                                    setbuttonCSS("hidden")
+                                } else {
+                                    setbuttonCSS("visible");
+                                }
+                            }}>Acceder aux bouttons
+                            </button>
+                            <div className={buttonCSS}>
+                                <button onClick={fetchCreer}>creer</button>
+                                <button onClick={modifier}>modifier</button>
+
+                                <div>
+                                    <button onClick={deleteMontant}>Supprimer</button>
+                                    <button onClick={recherche}>Rechercher</button>
+                                </div>
+                                <button onClick={getData}>Download</button>
+                            </div>
                         </div>
                         <div>
 
@@ -456,7 +448,7 @@ export function Budget(props) {
 
 
                 </div>
-                <div className="container">
+                <div>
 
                     <table>
                         <thead>
