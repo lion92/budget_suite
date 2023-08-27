@@ -1,13 +1,12 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import Helloword from "./Helloword";
 
 const Navigation = () => {
     return (
-        <>
-        <Helloword></Helloword>
+        <div >
         <nav className="menu">
-            <ul className='containerTitle' >
+            <ul >
                 <NavLink to={"/"}>
                     <li>Bienvenue</li>
                 </NavLink>
@@ -31,8 +30,11 @@ const Navigation = () => {
             </ul>
 
         </nav>
+            <h1>Hello</h1>
+            <h2>Bienvenue dans l'outil de gestion de budget. <br/>Pour utliser l'outil veuillez vous inscrire et vous connecter avec votre mot de passe et email.</h2>
             <p>Bienvenue</p>
-        </>
+            <Link  onClick={() =>  {localStorage.removeItem('jwt'); localStorage.removeItem("utilisateur");}}to="/">Deconnexion</Link>
+        </div>
     );
 };
 

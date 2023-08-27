@@ -164,10 +164,9 @@ export function Categorie(props) {
         };
         /////////////////////////
         return (
-            <div>
-                <Navigation></Navigation>
-                <form>
-                    <div className="containerGraph">
+            <div className="parent">
+                <div>
+                    <div className="div2">
                         <div>
                             {colorCategorie}
                             <input type="color" id="favcolor" name="favcolor"  value={colorCategorie} onChange={(e) =>  {setColorCategorie(e.target.value); console.log(e.target.value)}}/>
@@ -215,7 +214,7 @@ export function Categorie(props) {
                     </div>
 
 
-                </form>
+                </div>
             </div>
         );
     }

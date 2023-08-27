@@ -8,6 +8,7 @@ body{
     background: #030c2d;
     /* Full height */
     height: 100%;
+    max-width: 80%;
 }
 
 
@@ -88,10 +89,7 @@ a{
 }
 
 nav.menu {
-    background: #5e7047;
     position: relative;
-    min-height: 45px;
-    height: 100%;
 }
 
 .menu > ul > li {
@@ -211,37 +209,8 @@ form .message a {
     color: #53828e;
     text-decoration: none;
 }
-nav{
-    display: flex;
-    flex-direction:column;
-}
-nav.menu {
-    background: #639db4;
-    position: relative;
-    min-height: 45px;
-    height: 100%;
-}
 
-.menu > ul > li {
-    list-style: none;
-    display: inline-block;
-    color: #fff;
-    line-height: 45px;
 
-}
-.menu > ul li a, .xs-.menu li a {
-    text-decoration: none;
-    color: #fff;
-    display:block;
-    padding: 0px 24px;
-}
-.menu > ul li a:hover {
-    background:#444;
-    color: #fff;
-    transition-duration: 0.3s;
-    -moz-transition-duration: 0.3s;
-    -webkit-transition-duration: 0.3s;
-}
 .cache{
     display: none;
 }
@@ -268,9 +237,58 @@ nav.menu {
 .containerCote{
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
 }
 button{
     font-size: 15px;
     width: 200px;
     height: 75px;
+}
+.container2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    flex-direction: column;
+
+}
+.card{
+    border: solid black;
+    margin: 10px;
+    padding: 10px;
+    width: 250px;
+}
+
+
+.container3 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.div1 { grid-area: 1 / 1 / 6 / 3; }
+.div2 { grid-area: 1 / 3 / 6 / 6; }
+
+.div3{position:relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: auto;
+    width: 80%;
+    left:50%;
+
+}
+*{
+    font-size: 1em;
 }

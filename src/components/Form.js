@@ -178,11 +178,11 @@ export default function Form(props) {
 
     return (
 
-        <> <Navigation></Navigation>
-            <div>
+        <div className="parent">
+            <div className="div2">
 
 
-                <form>
+                <div>
                     <label id="idLabel">
                         id:{idVal} </label>
                     <div className="containerGraph">
@@ -203,13 +203,11 @@ export default function Form(props) {
                         </div>
 
                     </div>
-                </form>
-
-            </div>
-            {!load ? <div>
+                </div>
+                {!load ? <div>
 
 
-                    <div className="container">
+
                         {textp.map((item, index) => {
                             return (
                                 <Item
@@ -223,11 +221,12 @@ export default function Form(props) {
                                 ></Item>
                             );
                         })}
+
                     </div>
+                    : <h1>Chargement...</h1>}
 
-                </div>
-                : <h1>Chargement...</h1>}
+            </div>
+            </div>
 
-        </>
     );
 }

@@ -75,10 +75,9 @@ const Inscription = () => {
     return (
 
         <div>
-            <div>
-                <Navigation></Navigation>
-                <div id="iconLogin"/>
-                <form>
+            <div className="parent">
+                <div id="iconLogin div2"/>
+                <div>
                 <div>
                     <input id='nom' value={nom} placeholder={'nom'}
                            onChange={e => {
@@ -141,7 +140,7 @@ const Inscription = () => {
                 </div>
                 <p className="error">{inscriptionError}</p>
                 <button onClick={fetchInscription} id='btnSignup'>SIGNUP</button>
-                </form>
+                </div>
                 </div>
         </div>
     );

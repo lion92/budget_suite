@@ -101,7 +101,7 @@ const Connection = () => {
                 <>
                     <div>
 
-                        <Navigation></Navigation>
+                        <div className="div2">
                         {""+probleme}
                         <div>{messageLog}</div>
                         <div id="iconLogin"/>
@@ -129,7 +129,7 @@ const Connection = () => {
                         <button onClick={fetchConnection} id='btnLogin'>LOGIN</button>
                         <h1>{(probleme !== 'connecte' ? 'incorrect' : 'connecte')}</h1>
                     </div>
-
+                    </div>
                 </>
 
             ) : ''

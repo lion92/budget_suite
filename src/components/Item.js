@@ -9,7 +9,7 @@ export default function Item(props) {
                 props.updatefunc(props.id);
                 props.changeDec(props.description);
                 props.changetext(props.title)
-            }} className="card">
+            }}>
                 <h1>{props.title}</h1>
 
                 <p>{props.description}</p>
