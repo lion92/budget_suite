@@ -1,5 +1,4 @@
 import React from 'react'
-import Helloword from "./Helloword";
 import Navigation from "./Navigation";
 
 function NotFound() {

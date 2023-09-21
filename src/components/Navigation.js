@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link, NavLink} from "react-router-dom";
-import Helloword from "./Helloword";
+
 
 const Navigation = () => {
     return (
         <div >
-        <nav className="menu">
-            <ul >
+        <nav className="container2">
+            <ul className="container2">
                 <NavLink to={"/"}>
                     <li>Bienvenue</li>
                 </NavLink>

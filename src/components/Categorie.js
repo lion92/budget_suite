@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import Navigation from "./Navigation";
 import Item from "./Item";
 import lien from './lien'
 
@@ -164,7 +163,7 @@ export function Categorie(props) {
         };
         /////////////////////////
         return (
-            <div className="parent">
+            <div className="container2">
                 <div>
                     <div className="div2">
                         <div>

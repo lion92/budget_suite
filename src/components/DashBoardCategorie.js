@@ -1,8 +1,6 @@
 import React from 'react';
 import './dashboard.scss'
 import Navigation from "./Navigation";
-import App from "../App";
-import Budget from "./Budget";
 import {Categorie} from "./Categorie";
 
 const DashBoardCategorie = () => {

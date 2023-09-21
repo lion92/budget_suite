@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
 import Item from "./Item";
-import Navigation from "./Navigation";
 import lien from './lien'
 
 export default function Form(props) {
@@ -204,7 +203,7 @@ export default function Form(props) {
 
                     </div>
                 </div>
-                {!load ? <div>
+                {!load ? <div className="container2">
 
 
 

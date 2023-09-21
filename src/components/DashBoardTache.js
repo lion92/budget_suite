@@ -1,13 +1,12 @@
 import React from 'react';
 import './dashboard.scss'
 import Navigation from "./Navigation";
-import Budget from "./Budget";
 import Form from "./Form";
 
 const DashBoardTache = () => {
 
     return (
-        <div>
+        <div className="container2">
             <div className="app">
                 <header className="app-header">
                     <div className="app-header-logo">

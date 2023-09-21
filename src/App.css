@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Calligraffitti&display=swap');
 @import "https://unpkg.com/water.css@2/out/water.min.css";
+
 :root {
     --links: #be92e2;
 }
@@ -40,19 +41,16 @@ body{
 }
 a {
     padding: 0.2em;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 1.5em;
     height: 50px;
     color: #dbdeec;
 }
 
-a:hover {
-    color: #e4ddea;
-    font-size: 28px;
-}
+
 button{
 
-    color: #cca058;
+    color: #e51919;
     border-color: #3a3f42;
 }
 
@@ -71,7 +69,7 @@ p, h1, span, label{
     padding: 0;
     margin: 0;
     color: #e8e1ef;
-    font-weight: bold;
+    font-weight: normal;
 }
 a{
     font-size: 1em;
@@ -89,12 +87,13 @@ a{
 }
 
 nav.menu {
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-items: center;
 }
 
 .menu > ul > li {
     list-style: none;
-    display: inline-block;
     color: #fff;
     line-height: 45px;
 
@@ -102,15 +101,11 @@ nav.menu {
 .menu > ul li a, .xs-.menu li a {
     text-decoration: none;
     color: #fff;
-    display:block;
     padding: 0px 24px;
 }
 .menu > ul li a:hover {
     background:#444;
     color: #fff;
-    transition-duration: 0.3s;
-    -moz-transition-duration: 0.3s;
-    -webkit-transition-duration: 0.3s;
 }
 .active{
     background:#444 !important;
@@ -119,34 +114,6 @@ nav.menu {
 .displaynone{
     display: none;
 }
-.xs-.menu-cont{
-    display:none;
-}
-.xs-.menu-cont > a {
-    background: none repeat scroll 0 0 #eedcd5;
-    border-radius: 3px;
-    padding: 3px 6px;
-    display: block;
-    border-bottom:1px solid #eddcd6;
-    box-shadow: 0 1px 2px #c2b1aa;
-    -webkit-box-shadow: 0 1px 2px #96857e;
-    -moz-box-shadow: 0 1px 2px #e67248;
-}
-.xs-.menu-cont > a:hover{
-    cursor: pointer;
-}
-
-.xs-.menu li {
-    color: #fff;
-    padding: 14px 30px;
-    border-bottom: 1px solid #ccc;
-    background: #FF7F50;
-
-}
-.xs-.menu  a{
-    text-decoration:none;
-}
-
 .mega-.menu {
     background: none repeat scroll 0 0 #888;
     left: 0;
@@ -250,6 +217,10 @@ button{
     align-items: center;
     margin: 10px;
     flex-direction: column;
+    justify-items: center;
+    text-align: center;
+    flex-direction: column;
+
 
 }
 .card{
@@ -275,20 +246,24 @@ button{
     grid-row-gap: 0px;
 }
 
-.div1 { grid-area: 1 / 1 / 6 / 3; }
+.div1 { grid-area: 1 / 1 / 1 / 3; }
 .div2 { grid-area: 1 / 3 / 6 / 6; }
-
-.div3{position:relative;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: auto;
-    width: 80%;
-    left:50%;
-
-}
 *{
     font-size: 1em;
 }
+h2{
+    color: white;
+}
+ td, th, tr{
+     color: white;
+     background-color: black;
+     font-size: 0.9em;
+ }
+ .card{
+     padding: 15px;
+     background-color: #7c7373;
+     width: 100%;
+ }
+ button:hover{
+     background-color: #ece5c1;
+ }

@@ -1,14 +1,12 @@
 import React from 'react';
 import './dashboard.scss'
 import Navigation from "./Navigation";
-import App from "../App";
-import Budget from "./Budget";
 import Helloword from "./Helloword";
 
 const DashBoardHello = () => {
 
     return (
-        <div>
+        <div class="container2">
             <div className="app">
                 <header className="app-header">
                     <div className="app-header-logo">

@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
-import Navigation from "./Navigation";
 import lien from './lien'
+
 const Inscription = () => {
     const [email, setEmail] = useState("");
     const [inscriptionError, setInscriptionError] = useState("");

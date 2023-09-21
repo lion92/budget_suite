@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Graph from "./Graph";
-import Navigation from "./Navigation";
 import lien from './lien'
 import Calendar from 'react-calendar';
 import GraphParDate from "./GraphParDate";
@@ -493,9 +492,12 @@ export function Budget(props) {
                         </tfoot>
                     </table>
 
+
                 </div>
-                <Graph data={data}></Graph>
-                <GraphParDate data={dataParDate}></GraphParDate>
+                <div>
+                    <Graph data={data}></Graph>
+                    <GraphParDate data={dataParDate}></GraphParDate>
+                </div>
             </div>
         );
     }
