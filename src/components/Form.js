@@ -177,7 +177,7 @@ export default function Form(props) {
 
     return (
 
-        <div className="parent">
+        <div>
             <div className="div2">
 
 

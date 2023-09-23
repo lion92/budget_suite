@@ -6,7 +6,7 @@ import Helloword from "./Helloword";
 const DashBoardHello = () => {
 
     return (
-        <div class="container2">
+        <div className="container2">
             <div className="app">
                 <header className="app-header">
                     <div className="app-header-logo">
@@ -46,9 +46,9 @@ const DashBoardHello = () => {
                             </div>
                         </footer>
                     </div>
-                    <div className="div2">
+
                         <Helloword></Helloword>
-                    </div>
+
 
 
                 </div>

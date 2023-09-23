@@ -100,7 +100,7 @@ const Connection = () => {
                 <>
                     <div>
 
-                        <div className="div2">
+                        <div className="container2">
                         {""+probleme}
                         <div>{messageLog}</div>
                         <div id="iconLogin"/>

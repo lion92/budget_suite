@@ -41,9 +41,8 @@ const DashBoardTache = () => {
                             </div>
                         </footer>
                     </div>
-                    <div className="div2">
+
                      <Form></Form>
-                    </div>
 
 
                 </div>

@@ -6,7 +6,7 @@ import Inscription from "./inscription";
 const DashBoardInscription = () => {
 
     return (
-        <div className="container2">
+        <div>
             <div className="app">
                 <header className="app-header">
                     <div className="app-header-logo">
@@ -27,14 +27,7 @@ const DashBoardInscription = () => {
 					<div className="kriss"/>
 				</span>
                         </button>
-                        <div className="app-header-actions-buttons">
-                            <button className="icon-button large">
-                                <i className="ph-magnifying-glass"></i>
-                            </button>
-                            <button className="icon-button large">
-                                <i className="ph-bell"></i>
-                            </button>
-                        </div>
+
                     </div>
                     <div className="app-header-mobile">
                         <button className="icon-button large">
@@ -54,9 +47,8 @@ const DashBoardInscription = () => {
                             </div>
                         </footer>
                     </div>
-                    <div className="div2">
+
                         <Inscription></Inscription>
-                    </div>
 
 
                 </div>

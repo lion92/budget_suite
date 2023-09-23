@@ -32,6 +32,7 @@ export function Budget(props) {
         const [descriptionCSS, setDescriptionCSS] = useState("hidden");
         const [dateCSS, setDateCSS] = useState("hidden");
         const [buttonCSS, setbuttonCSS] = useState("hidden");
+        const [selectv, setselectedtv] = useState("");
 
 
         const data = {
@@ -135,6 +136,18 @@ export function Budget(props) {
             fetchAPICat2();
         };
 
+
+        async function filterByMonth(monthNum) {
+
+
+            let month=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout", "Septembre","Octobre","Novembre","Decembre"];
+            let tout=await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum)+1)));
+            await setText(await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum)+1))));
+
+            await setMontantTotal(tout.map(val => val.montant).reduce(function (a, b) {
+                return a + b;
+            }, 0))
+        }
 
         ////////////////////////////////////////////
         ///////////////////fectchApi/////////////////////////
@@ -399,23 +412,23 @@ export function Budget(props) {
                             </div>
                         </div>
                         <button onClick={(e) => {
-                        e.preventDefault();
-                        if (dateCSS === "visible") {
+                            e.preventDefault();
+                            if (dateCSS === "visible") {
 
-                            setDateCSS("hidden")
-                        } else {
-                            setDateCSS("visible");
-                        }
-                    }}>Ajouter une date
-                    </button>
+                                setDateCSS("hidden")
+                            } else {
+                                setDateCSS("visible");
+                            }
+                        }}>Ajouter une date
+                        </button>
                         <div className="containerCote">
 
 
-                                <div className={dateCSS}>
-                                    <div className={dateCSS}>{datePick.toLocaleDateString()}</div>
-                                    <div className={dateCSS}>{datePick.toDateString()}</div>
-                                    <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
-                                </div>
+                            <div className={dateCSS}>
+                                <div className={dateCSS}>{datePick.toLocaleDateString()}</div>
+                                <div className={dateCSS}>{datePick.toDateString()}</div>
+                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
+                            </div>
                         </div>
                         <div className="containerCote">
                             <button onClick={(e) => {
@@ -448,7 +461,26 @@ export function Budget(props) {
 
                 </div>
                 <div>
+                    <select onChange={async (e) => {await filterByMonth(e.target.value)}}
+                            className='form-select'>
+                        <option >Janvier</option>
+                        <option>Fevrier</option>
+                        <option >Mars</option>
+                        <option >Avril</option>
+                        <option >Mai</option>
+                        <option>Juin</option>
+                        <option >Juillet</option>
+                        <option >Aout</option>
+                        <option >Septembre</option>
+                        <option >Octobre</option>
+                        <option >Novembre</option>
+                        <option >Decemmbre</option>
 
+
+                    </select>
+                </div>
+
+                <div>
                     <table>
                         <thead>
                         <tr>

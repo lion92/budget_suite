@@ -47,9 +47,8 @@ const DashBoardCategorie = () => {
                             </div>
                         </footer>
                     </div>
-                    <div className="div2">
+
                         <Categorie></Categorie>
-                    </div>
 
 
                 </div>

@@ -41,9 +41,7 @@ const DashBoardLogin = () => {
                             </div>
                         </footer>
                     </div>
-                    <div className="div2">
-                        <Connection></Connection>
-                    </div>
+                    <Connection></Connection>
 
 
                 </div>
