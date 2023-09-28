@@ -1,9 +1,9 @@
 import React from 'react';
 import './dashboard.scss'
-import Navigation from "./Navigation";
+
 import {Categorie} from "./Categorie";
 import {NavLink} from "react-router-dom";
-import Budget from "./Budget";
+
 
 const DashBoardCategorie = () => {
 
@@ -12,7 +12,7 @@ const DashBoardCategorie = () => {
             <div className="sidebar">
                 <div className="logo-details">
                     <i className='bx bxl-c-plus-plus icon'></i>
-                    <div className="logo_name">CodingLab</div>
+                    <div className="logo_name">Kriss CLOTILDE Budget</div>
                     <i className='bx bx-menu' id="btn"></i>
                 </div>
                 <ul className="nav-list">
@@ -67,7 +67,7 @@ const DashBoardCategorie = () => {
                     </div>
 
                 </div>
-
+                <h1>Catégorie</h1>
                <Categorie></Categorie>
 
             </section>

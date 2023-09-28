@@ -1,9 +1,7 @@
 import React from 'react';
 import './dashboard.scss'
-import Navigation from "./Navigation";
 import Form from "./Form";
 import {NavLink} from "react-router-dom";
-import Budget from "./Budget";
 
 const DashBoardTache = () => {
 
@@ -12,7 +10,7 @@ const DashBoardTache = () => {
             <div className="sidebar">
                 <div className="logo-details">
                     <i className='bx bxl-c-plus-plus icon'></i>
-                    <div className="logo_name">CodingLab</div>
+                    <div className="logo_name">Kriss CLOTILDE Budget</div>
                     <i className='bx bx-menu' id="btn"></i>
                 </div>
                 <ul className="nav-list">
@@ -67,7 +65,7 @@ const DashBoardTache = () => {
                     </div>
 
                 </div>
-
+                <h1>Tache</h1>
               <Form></Form>
 
             </section>

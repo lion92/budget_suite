@@ -9,13 +9,12 @@ import DashLogin from "./components/DashLogin";
 import DashBoardCategorie from "./components/DashBoardCategorie";
 import DashBoardInscription from "./components/DashInscription";
 import DashBoardHello from "./components/DashBoardHello";
-import dashboard from "./components/dashboard";
 
 
 const Root=()=>(
     <Router>
         <Switch>
-            <Route exact path="/" component={dashboard}/>
+            <Route exact path="/" component={DashBoardHello}/>
             <Route exact path="/login" component={DashLogin}/>
             <Route exact path="/inscription" component={DashBoardInscription}/>
             <Route exact path="/categorie" component={DashBoardCategorie}/>
