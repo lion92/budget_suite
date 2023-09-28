@@ -23,12 +23,13 @@
 
 body {
     line-height: 1.5;
-    min-height: 100vh;
+
     font-family: "Be Vietnam Pro", sans-serif;
     background-color: var(--c-gray-900);
     color: var(--c-text-primary);
-    display: flex;
-    justify-content: center;
+    max-width: 100%;
+
+
 }
 
 *,
@@ -54,7 +55,6 @@ a {
 }
 
 .responsive-wrapper {
-    width: 90%;
     max-width: 1600px;
     margin-left: auto;
     margin-right: auto;
@@ -793,17 +793,3 @@ i {
  }
 }
 
-input,
-select,
-a,
-textarea,
-button {
-&:focus {
-     outline: 0;
-     box-shadow: 0 0 0 2px var(--c-gray-800), 0 0 0 4px var(--c-gray-300);
- }
-}
-
-input{
-    width: 12em;
-}

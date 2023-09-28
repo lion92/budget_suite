@@ -4,13 +4,6 @@
 :root {
     --links: #be92e2;
 }
-body{
-    /* The image used */
-    background: #030c2d;
-    /* Full height */
-    height: 100%;
-    max-width: 80%;
-}
 
 
 .containerTitle {
@@ -145,12 +138,10 @@ form input, form div input {
     font-family: "Roboto", sans-serif;
     outline: 0;
     background: #5b5353;
-    width: 100%;
     border: 0;
     margin: 0 0 15px;
     padding: 15px;
     box-sizing: border-box;
-    font-size: 14px;
 }
 form button, form div button {
     font-family: "Roboto", sans-serif;
@@ -208,8 +199,6 @@ form .message a {
 }
 button{
     font-size: 15px;
-    width: 200px;
-    height: 75px;
 }
 .container2{
     display: flex;

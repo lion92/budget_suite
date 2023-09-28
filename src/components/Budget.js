@@ -325,7 +325,7 @@ export function Budget(props) {
         /////////////////////////
         return (
             <div>
-                <div className="div2">
+                <div>
                     <button onClick={() => {
                         if (budgetCSS === "visible") {
 
@@ -342,7 +342,7 @@ export function Budget(props) {
                     <ProgressBar className={budgetCSS} completed={calcul() / 100}
                     />
                 </div>
-                <div className="container">
+                <div>
                     <div>
 
                         <div>
@@ -376,7 +376,7 @@ export function Budget(props) {
                                 <p className="error">{actionCategorieError}</p>
                             </div>
                         </div>
-                        <div className="containerCote">
+                        <div>
 
                             <button onClick={(e) => {
                                 e.preventDefault();
