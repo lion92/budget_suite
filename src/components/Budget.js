@@ -4,6 +4,7 @@ import lien from './lien'
 import Calendar from 'react-calendar';
 import GraphParDate from "./GraphParDate";
 import ProgressBar from "@ramonak/react-progress-bar";
+import {NavLink} from "react-router-dom";
 
 export function Budget(props) {
 
@@ -324,213 +325,71 @@ export function Budget(props) {
 
         /////////////////////////
         return (
-            <div>
-                <div>
-                    <button onClick={() => {
-                        if (budgetCSS === "visible") {
+            <>
+                <div className="sidebar">
+                    <div className="logo-details">
+                        <i className='bx bxl-c-plus-plus icon'></i>
+                        <div className="logo_name">CodingLab</div>
+                        <i className='bx bx-menu' id="btn"></i>
+                    </div>
+                    <ul className="nav-list">
 
-                            setBudgetCSS("hidden")
-                        } else {
-                            setBudgetCSS("visible");
-                        }
-                    }}>Ajouter un budget
-                    </button>
-                    <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
-                    <p className={budgetCSS}>
-                    </p>
 
-                    <ProgressBar className={budgetCSS} completed={calcul() / 100}
-                    />
+                        <NavLink to={"/"}>
+                            <li>Bienvenue</li>
+                        </NavLink>
+                        <NavLink to={"/login"}>
+                            <li>Login</li>
+                        </NavLink>
+                        <NavLink to={"/inscription"}>
+                            <li>Inscription</li>
+                        </NavLink>
+                        <NavLink to={"/categorie"}>
+                            <li>Categorie</li>
+                        </NavLink>
+                        <NavLink to={"/form"}>
+                            <li>Tache</li>
+                        </NavLink>
+                        <NavLink to={"/budget"}>
+                            <li>Budget</li>
+                        </NavLink>
+                    </ul>
                 </div>
-                <div>
-                    <div>
-
-                        <div>
-                            <div className="cache">
-                                <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
-                            </div>
-                            <div className="containerCote">
-                                <button onClick={(e) => {
-                                    e.preventDefault();
-                                    if (categorieCSS === "visible") {
-
-                                        setCategorieCSS("hidden")
-                                    } else {
-                                        setCategorieCSS("visible");
-                                    }
-                                }}>Ajouter une categorie
-                                </button>
-                                <p className={categorieCSS}>Id={actionCategorie}</p>
-                                <div className={categorieCSS}>
-                                    {textCat.map((option, index) => {
-                                        return <h1 className="but1" onClick={() => {
-                                            setIdCat(option)
-                                        }}
-                                                   key={option.id}>
-                                            {option.id + " " + option.categorie}
+                <section className="home-section">
 
 
-                                        </h1>
-                                    })}
-                                </div>
-                                <p className="error">{actionCategorieError}</p>
-                            </div>
-                        </div>
-                        <div>
-
-                            <button onClick={(e) => {
-                                e.preventDefault();
-                                if (descriptionCSS === "visible") {
-
-                                    setDescriptionCSS("hidden")
-                                } else {
-                                    setDescriptionCSS("visible");
-                                }
-                            }}>Ajouter une description
-                            </button>
-                            <div>
-                                <input className={descriptionCSS} value={actionDescription}
-                                       onChange={(e) => setActionDescription(e.target.value)}/>{" "}
-                                <p className="error">{actionDescriptionError}</p>
-                            </div>
-                        </div>
-                        <div className="containerCote">
-                            <button onClick={(e) => {
-                                e.preventDefault();
-                                if (montantCSS === "visible") {
-
-                                    setMontantCSS("hidden")
-                                } else {
-                                    setMontantCSS("visible");
-                                }
-                            }}>Ajouter un montant
-                            </button>
-                            <div>
-                                <input className={montantCSS} value={montant}
-                                       onChange={(e) => setMontant(e.target.value)}/>{" "}
-                                <p className={montantCSS + " " + "error"}>{montant}</p>
-                            </div>
-                        </div>
-                        <button onClick={(e) => {
-                            e.preventDefault();
-                            if (dateCSS === "visible") {
-
-                                setDateCSS("hidden")
-                            } else {
-                                setDateCSS("visible");
-                            }
-                        }}>Ajouter une date
-                        </button>
-                        <div className="containerCote">
 
 
-                            <div className={dateCSS}>
-                                <div className={dateCSS}>{datePick.toLocaleDateString()}</div>
-                                <div className={dateCSS}>{datePick.toDateString()}</div>
-                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
-                            </div>
-                        </div>
-                        <div className="containerCote">
-                            <button onClick={(e) => {
-                                e.preventDefault();
-                                if (buttonCSS === "visible") {
+                    <div id="header">
+                        <div className="header uboxed">
+                            <ul className="logo">
+                                <li>
 
-                                    setbuttonCSS("hidden")
-                                } else {
-                                    setbuttonCSS("visible");
-                                }
-                            }}>Acceder aux bouttons
-                            </button>
-                            <div className={buttonCSS}>
-                                <button onClick={fetchCreer}>creer</button>
-                                <button onClick={modifier}>modifier</button>
-
-                                <div>
-                                    <button onClick={deleteMontant}>Supprimer</button>
-                                    <button onClick={recherche}>Rechercher</button>
-                                </div>
-                                <button onClick={getData}>Download</button>
-                            </div>
-                        </div>
-                        <div>
-
+                                </li>
+                            </ul>
+                            <ul className="menu">
+                                <li></li>
+                                <li></li>
+                                <li>
+                                    <div id="lang">
+                                        <div className="selected"></div>
+                                        <div className="options">
+                                            <a href="#"></a>
+                                            <a href="#"></a>
+                                            <a href="#"></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
 
                     </div>
 
+                    <Budget></Budget>
 
-                </div>
-                <div>
-                    <select onChange={async (e) => {await filterByMonth(e.target.value)}}
-                            className='form-select'>
-                        <option >Janvier</option>
-                        <option>Fevrier</option>
-                        <option >Mars</option>
-                        <option >Avril</option>
-                        <option >Mai</option>
-                        <option>Juin</option>
-                        <option >Juillet</option>
-                        <option >Aout</option>
-                        <option >Septembre</option>
-                        <option >Octobre</option>
-                        <option >Novembre</option>
-                        <option >Decemmbre</option>
+                </section>
 
-
-                    </select>
-                </div>
-
-                <div>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Montant</th>
-                            <th>Description</th>
-                            <th>Categorie Id</th>
-                            <th>Categorie</th>
-                            <th>Date de la dépense</th>
-                            <th>Date d'ajout</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        {textp.map((item, index) => {
-                            return (
-                                <>
-                                    <tr onClick={() => {
-                                        setIdMontant(item.id);
-                                        setMontant(item.montant);
-                                        setActionDescription(item.description);
-                                    }}>
-                                        <th>{item.id}</th>
-                                        <th className="montant">{item.montant}</th>
-                                        <th className="description">{item.description}</th>
-                                        <th className="description">{item.categorieId}</th>
-                                        <th className="description">{item.categorie}</th>
-                                        <th className="description">{item.dateTransaction}</th>
-                                        <th className="description">{item.dateAjout}</th>
-
-                                    </tr>
-                                </>
-                            );
-                        })}
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th scope="row" colSpan="2"></th>
-                            <td colSpan="2">montantTotal{montantTotal}</td>
-                        </tr>
-                        </tfoot>
-                    </table>
-
-
-                </div>
-                <div>
-                    <Graph data={data}></Graph>
-                    <GraphParDate data={dataParDate}></GraphParDate>
-                </div>
-            </div>
+            </>
         );
     }
 }

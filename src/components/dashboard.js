@@ -13,11 +13,7 @@ const dashboard = () => {
                     <i className='bx bx-menu' id="btn"></i>
                 </div>
                 <ul className="nav-list">
-                    <li>
-                        <i className='bx bx-search'></i>
-                        <input type="text" placeholder="Search..."/>
-                            <span className="tooltip">Search</span>
-                    </li>
+
 
                     <NavLink to={"/"}>
                         <li>Bienvenue</li>
