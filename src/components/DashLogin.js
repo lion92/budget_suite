@@ -8,12 +8,13 @@ const DashBoardLogin = () => {
     return (
         <>
             <div className="sidebar">
+
+
                 <div className="logo-details">
-                    <i className='bx bxl-c-plus-plus icon'></i>
+
                     <div className="logo_name">Kriss CLOTILDE Budget</div>
-                    <i className='bx bx-menu' id="btn"></i>
+
                 </div>
-                <Link  onClick={() =>  {localStorage.removeItem('jwt'); localStorage.removeItem("utilisateur");}}to="/"><button style={{color:'red'}}>Deconnexion</button></Link>
                 <ul className="nav-list">
 
 
@@ -43,6 +44,7 @@ const DashBoardLogin = () => {
 
 
                 <div id="header">
+
                     <div className="header uboxed">
                         <ul className="logo">
                             <li>
@@ -68,6 +70,7 @@ const DashBoardLogin = () => {
                 </div>
 
                 <Connection></Connection>
+                <Link style={{width:'20px', margin:'0'}} onClick={() =>  {localStorage.removeItem('jwt'); localStorage.removeItem("utilisateur");}}to="/"><button style={{color:'red'}}>Deconnexion</button></Link>
 
             </section>
 

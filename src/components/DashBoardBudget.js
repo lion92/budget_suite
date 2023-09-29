@@ -10,9 +10,7 @@ const DashBoardBudget = () => {
         <>
             <div className="sidebar">
                 <div className="logo-details">
-                    <i className='bx bxl-c-plus-plus icon'></i>
                     <div className="logo_name">Kriss CLOTILDE Budget</div>
-                    <i className='bx bx-menu' id="btn"></i>
                 </div>
                 <ul className="nav-list">
 
