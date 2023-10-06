@@ -426,9 +426,8 @@ export function Budget(props) {
 
 
                             <div className={dateCSS}>
-                                <div className={dateCSS}>{datePick.toLocaleDateString()}</div>
-                                <div className={dateCSS}>{datePick.toDateString()}</div>
-                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick}/>
+                                <div className={dateCSS}>{datePick.toLocaleDateString("fr-FR")}</div>
+                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick.toLocaleDateString("fr-FR")}/>
                             </div>
                         </div>
                         <div className="containerCote">

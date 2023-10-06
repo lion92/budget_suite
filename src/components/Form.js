@@ -184,7 +184,7 @@ export default function Form(props) {
                 <div>
                     <label id="idLabel">
                         id:{idVal} </label>
-                    <div className="containerGraph">
+                    <div className="divCentrer">
                         <div>
                             <label>Titre</label>
                             <input value={valueInput} onChange={(e) => Valuechange(e)}/>{" "}
@@ -195,7 +195,7 @@ export default function Form(props) {
                             <textarea value={valueInputDescription} onChange={(e) => valueChangeDescription(e)}/>{" "}
                             <p className="error">{messageErrorDescription}</p>
                         </div>
-                        <div>
+                        <div className="divCentrer">
                             <button onClick={modifier}>modifier</button>
                             <button onClick={fetchCreer}>creer</button>
                             <button onClick={recherche}>Rechercher</button>
