@@ -229,7 +229,7 @@ export function Budget(props) {
                         categorie: actionCategorie,
                         description: actionDescription,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        dateTransaction: datePick.toISOString()
+                        dateTransaction: datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -252,7 +252,7 @@ export function Budget(props) {
                         description: actionDescription,
                         montant: montant,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        dateTransaction: datePick.toISOString()
+                        dateTransaction: datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -426,8 +426,8 @@ export function Budget(props) {
 
 
                             <div className={dateCSS}>
-                                <div className={dateCSS}>{datePick.toLocaleDateString("fr-FR")}</div>
-                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick.toLocaleDateString("fr-FR")}/>
+                                <div className={dateCSS}>{datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })}</div>
+                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })}/>
                             </div>
                         </div>
                         <div className="containerCote">
@@ -474,7 +474,7 @@ export function Budget(props) {
                         <option >Septembre</option>
                         <option >Octobre</option>
                         <option >Novembre</option>
-                        <option >Decemmbre</option>
+                        <option >Decembre</option>
 
 
                     </select>
