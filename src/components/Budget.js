@@ -4,6 +4,12 @@ import lien from './lien'
 import Calendar from 'react-calendar';
 import GraphParDate from "./GraphParDate";
 import ProgressBar from "@ramonak/react-progress-bar";
+import {RiMoneyEuroCircleFill, RiPassPendingLine} from "react-icons/ri";
+import {BiCategory} from "react-icons/bi";
+import {MdOutlineDescription} from "react-icons/md";
+import {CiCalendarDate, CiCircleRemove} from "react-icons/ci";
+import {GrAddCircle} from "react-icons/gr";
+import {RxUpdate} from "react-icons/rx";
 
 
 export function Budget(props) {
@@ -335,6 +341,7 @@ export function Budget(props) {
                             setBudgetCSS("visible");
                         }
                     }}>Ajouter un budget
+                        <RiMoneyEuroCircleFill style={{fontSize:"5em", color:'blueviolet'}}/>
                     </button>
                     <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
                     <p className={budgetCSS}>
@@ -360,8 +367,9 @@ export function Budget(props) {
                                         setCategorieCSS("visible");
                                     }
                                 }}>Ajouter une categorie
+                                    <BiCategory style={{fontSize:'5em',color:'blueviolet'}}/>
                                 </button>
-                                <p className={categorieCSS}>Id={actionCategorie}</p>
+                                <p className={categorieCSS}>{actionCategorie}</p>
                                 <div className={categorieCSS}>
                                     {textCat.map((option, index) => {
                                         return <h1 className="but1" onClick={() => {
@@ -388,6 +396,7 @@ export function Budget(props) {
                                     setDescriptionCSS("visible");
                                 }
                             }}>Ajouter une description
+                                <MdOutlineDescription style={{fontSize:'5em',color:'blueviolet'}}/>
                             </button>
                             <div>
                                 <input className={descriptionCSS} value={actionDescription}
@@ -405,6 +414,7 @@ export function Budget(props) {
                                     setMontantCSS("visible");
                                 }
                             }}>Ajouter un montant
+                                <RiPassPendingLine style={{fontSize:'5em',color:'blueviolet'}}/>
                             </button>
                             <div>
                                 <input className={montantCSS} value={montant}
@@ -421,6 +431,7 @@ export function Budget(props) {
                                 setDateCSS("visible");
                             }
                         }}>Ajouter une date
+                            <CiCalendarDate style={{fontSize:'5em',color:'blueviolet'}}/>
                         </button>
                         <div className="containerCote">
 
@@ -442,12 +453,11 @@ export function Budget(props) {
                             }}>Acceder aux bouttons
                             </button>
                             <div className={buttonCSS}>
-                                <button onClick={fetchCreer}>creer</button>
-                                <button onClick={modifier}>modifier</button>
+                                <button onClick={fetchCreer}>creer <GrAddCircle style={{fontSize:'5em',color:'blueviolet'}}/></button>
+                                <button onClick={modifier}>modifier <RxUpdate style={{fontSize:'5em',color:'blueviolet'}}/></button>
 
                                 <div>
-                                    <button onClick={deleteMontant}>Supprimer</button>
-                                    <button onClick={recherche}>Rechercher</button>
+                                    <button onClick={deleteMontant}><CiCircleRemove style={{fontSize:'5em',color:'blueviolet'}}/>Supprimer</button>
                                 </div>
                                 <button onClick={getData}>Download</button>
                             </div>

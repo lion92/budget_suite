@@ -167,7 +167,7 @@ export function Categorie(props) {
                 <div>
                     <div className="div2">
                         <div>
-                            {colorCategorie}
+
                             <input type="color" id="favcolor" name="favcolor"  value={colorCategorie} onChange={(e) =>  {setColorCategorie(e.target.value); console.log(e.target.value)}}/>
 
                         </div>
@@ -202,9 +202,9 @@ export function Categorie(props) {
                                             id={item.id}
                                         ></Item>
 
-                                        <label>id</label>
-                                        <span>{item.id}</span>
-                                        {colorCategorie}
+
+
+
 
                                     </div>
                                 );

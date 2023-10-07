@@ -1,8 +1,9 @@
 import React from 'react';
 import './dashboard.scss'
-import Helloword from "./Helloword";
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import './dash.scss'
+import {RiLockPasswordLine, RiMoneyEuroCircleFill} from "react-icons/ri";
+import {LuMailOpen} from "react-icons/lu";
 
 const DashBoardHello = () => {
 
@@ -41,8 +42,6 @@ const DashBoardHello = () => {
             <section className="home-section">
 
 
-
-
                 <div id="header">
                     <div className="header uboxed">
                         <ul className="logo">
@@ -67,9 +66,16 @@ const DashBoardHello = () => {
                     </div>
 
                 </div>
+                <div className="divCentrer">
+                    <h1>Bienvenue dans l'application de gestion de budget.</h1>
+                    <RiMoneyEuroCircleFill style={{fontSize:"5em", color:'blueviolet'}}/>
+                    <p>Pour utliser l'outil veuillez vous inscrire et vous connecter avec votre mot de passe et
+                        email.</p>
+                    <div><LuMailOpen style={{fontSize: "5em", color: "blueviolet"}}/>
+                        <RiLockPasswordLine style={{fontSize: "5em", color: "blueviolet"}}/></div>
 
-                <h1>Bienvenue dans l'application de gestion de budget.</h1>
-                <p>Pour utliser l'outil veuillez vous inscrire et vous connecter avec votre mot de passe et email.</p>
+                </div>
+
 
             </section>
 
