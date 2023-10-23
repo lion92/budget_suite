@@ -198,7 +198,7 @@ export default function Form(props) {
                         <div className="divCentrer">
                             <button onClick={modifier}>modifier</button>
                             <button onClick={fetchCreer}>creer</button>
-                            <button onClick={recherche}>Rechercher</button>
+
                         </div>
 
                     </div>

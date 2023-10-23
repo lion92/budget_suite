@@ -255,3 +255,13 @@ h2{
  button:hover{
      background-color: #ece5c1;
  }
+.containerButton {
+    display: flex;
+    list-style: none;
+    align-items: baseline;
+    gap:5px;
+    margin: 2%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: #c6a46a;
+}

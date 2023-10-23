@@ -4,6 +4,12 @@ import lien from './lien'
 import Calendar from 'react-calendar';
 import GraphParDate from "./GraphParDate";
 import ProgressBar from "@ramonak/react-progress-bar";
+import {RiMoneyEuroCircleFill, RiPassPendingLine} from "react-icons/ri";
+import {BiCategory} from "react-icons/bi";
+import {MdOutlineDescription} from "react-icons/md";
+import {CiCalendarDate, CiCircleRemove} from "react-icons/ci";
+import {GrAddCircle} from "react-icons/gr";
+import {RxUpdate} from "react-icons/rx";
 
 
 export function Budget(props) {
@@ -34,6 +40,8 @@ export function Budget(props) {
         const [dateCSS, setDateCSS] = useState("hidden");
         const [buttonCSS, setbuttonCSS] = useState("hidden");
         const [selectv, setselectedtv] = useState("");
+        let [monthNumSave, selectMonthNumSave] = useState(1);
+        let [messageAjout, setMessageAjout] = useState("");
 
 
         const data = {
@@ -83,8 +91,9 @@ export function Budget(props) {
 
 
         const fetchAPICat2 = useCallback(async () => {
+            let str=localStorage.getItem("month")
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser);
+            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser+"/"+str)
             const resbis = await response.json();
             await setTextCat2(resbis);
 
@@ -142,6 +151,7 @@ export function Budget(props) {
 
 
             let month=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout", "Septembre","Octobre","Novembre","Decembre"];
+
             let tout=await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum)+1)));
             await setText(await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum)+1))));
 
@@ -238,7 +248,8 @@ export function Budget(props) {
             );
             const resbis = await response;
             await fetchAPI();
-            fetchAPICat2();
+            await fetchAPICat2();
+            await setMessageAjout("Ajout de "+montant+" categorie "+actionCategorie+" description "+actionDescription)
 
         });
         ////////////////////update////////////
@@ -326,7 +337,8 @@ export function Budget(props) {
         /////////////////////////
         return (
             <div>
-                <div>
+                <div className="containerButton">
+                <div className="containerButton">
                     <button onClick={() => {
                         if (budgetCSS === "visible") {
 
@@ -335,6 +347,7 @@ export function Budget(props) {
                             setBudgetCSS("visible");
                         }
                     }}>Ajouter un budget
+                        <RiMoneyEuroCircleFill style={{fontSize:"5em", color:'blueviolet'}}/>
                     </button>
                     <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
                     <p className={budgetCSS}>
@@ -344,13 +357,13 @@ export function Budget(props) {
                     />
                 </div>
                 <div>
-                    <div>
+                    <div className="containerButton">
 
                         <div>
                             <div className="cache">
                                 <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                             </div>
-                            <div className="containerCote">
+                            <div className="containerButton">
                                 <button onClick={(e) => {
                                     e.preventDefault();
                                     if (categorieCSS === "visible") {
@@ -360,8 +373,9 @@ export function Budget(props) {
                                         setCategorieCSS("visible");
                                     }
                                 }}>Ajouter une categorie
+                                    <BiCategory style={{fontSize:'5em',color:'blueviolet'}}/>
                                 </button>
-                                <p className={categorieCSS}>Id={actionCategorie}</p>
+                                <p className={categorieCSS}>{actionCategorie}</p>
                                 <div className={categorieCSS}>
                                     {textCat.map((option, index) => {
                                         return <h1 className="but1" onClick={() => {
@@ -377,7 +391,7 @@ export function Budget(props) {
                                 <p className="error">{actionCategorieError}</p>
                             </div>
                         </div>
-                        <div>
+                        <div className="containerButton">
 
                             <button onClick={(e) => {
                                 e.preventDefault();
@@ -388,14 +402,15 @@ export function Budget(props) {
                                     setDescriptionCSS("visible");
                                 }
                             }}>Ajouter une description
+                                <MdOutlineDescription style={{fontSize:'5em',color:'blueviolet'}}/>
                             </button>
-                            <div>
+                            <div className="containerButton">
                                 <input className={descriptionCSS} value={actionDescription}
                                        onChange={(e) => setActionDescription(e.target.value)}/>{" "}
                                 <p className="error">{actionDescriptionError}</p>
                             </div>
                         </div>
-                        <div className="containerCote">
+                        <div className="containerCote containerButton">
                             <button onClick={(e) => {
                                 e.preventDefault();
                                 if (montantCSS === "visible") {
@@ -405,6 +420,7 @@ export function Budget(props) {
                                     setMontantCSS("visible");
                                 }
                             }}>Ajouter un montant
+                                <RiPassPendingLine style={{fontSize:'5em',color:'blueviolet'}}/>
                             </button>
                             <div>
                                 <input className={montantCSS} value={montant}
@@ -421,6 +437,7 @@ export function Budget(props) {
                                 setDateCSS("visible");
                             }
                         }}>Ajouter une date
+                            <CiCalendarDate style={{fontSize:'5em',color:'blueviolet'}}/>
                         </button>
                         <div className="containerCote">
 
@@ -442,12 +459,12 @@ export function Budget(props) {
                             }}>Acceder aux bouttons
                             </button>
                             <div className={buttonCSS}>
-                                <button onClick={fetchCreer}>creer</button>
-                                <button onClick={modifier}>modifier</button>
+                                <button onClick={fetchCreer}>creer <GrAddCircle style={{fontSize:'5em',color:'blueviolet'}}/></button>
+                                <div>{messageAjout}</div>
+                                <button onClick={modifier}>modifier <RxUpdate style={{fontSize:'5em',color:'blueviolet'}}/></button>
 
                                 <div>
-                                    <button onClick={deleteMontant}>Supprimer</button>
-                                    <button onClick={recherche}>Rechercher</button>
+                                    <button onClick={deleteMontant}><CiCircleRemove style={{fontSize:'5em',color:'blueviolet'}}/>Supprimer</button>
                                 </div>
                                 <button onClick={getData}>Download</button>
                             </div>
@@ -458,10 +475,10 @@ export function Budget(props) {
 
                     </div>
 
-
+</div>
                 </div>
                 <div>
-                    <select onChange={async (e) => {await filterByMonth(e.target.value)}}
+                    <select onChange={async (e) => {await filterByMonth(e.target.value);let month=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout", "Septembre","Octobre","Novembre","Decembre"];localStorage.setItem("month",""+(month.indexOf(e.target.value)+1)); fetchAPICat2()}}
                             className='form-select'>
                         <option >Janvier</option>
                         <option>Fevrier</option>
