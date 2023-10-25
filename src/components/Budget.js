@@ -6,10 +6,10 @@ import GraphParDate from "./GraphParDate";
 import ProgressBar from "@ramonak/react-progress-bar";
 import {RiMoneyEuroCircleFill, RiPassPendingLine} from "react-icons/ri";
 import {BiCategory} from "react-icons/bi";
-import {MdOutlineDescription} from "react-icons/md";
 import {CiCalendarDate, CiCircleRemove} from "react-icons/ci";
 import {GrAddCircle} from "react-icons/gr";
 import {RxUpdate} from "react-icons/rx";
+import {MdOutlineDescription} from "react-icons/md";
 
 
 export function Budget(props) {
@@ -26,7 +26,8 @@ export function Budget(props) {
         let [valueInput, setValue] = useState("");
         let [valueInputDescription, setDescription] = useState("");
         let [idVal, setId] = useState(-1);
-        let [textp, setText] = useState([]);
+        let [listDesDepense, setListDesDepense] = useState([]);
+        let [descriptionFiltre, setDescriptionFiltre] = useState("");
         let [textCat, setTextCat] = useState([]);
         let [montantTotal, setMontantTotal] = useState(0);
         let [textCat2, setTextCat2] = useState([]);
@@ -42,8 +43,17 @@ export function Budget(props) {
         const [selectv, setselectedtv] = useState("");
         let [monthNumSave, selectMonthNumSave] = useState(1);
         let [messageAjout, setMessageAjout] = useState("");
+        let [categorieFiltre, setCategorieFiltre] = useState("");
+        const [modal, setModal] = useState(false);
+        const toggleDescription = () => {
+            setModal(!modal);
+        };
 
-
+        if (modal) {
+            document.body.classList.add('active-modal')
+        } else {
+            document.body.classList.remove('active-modal')
+        }
         const data = {
             labels: textCat2.map(value => value.categorie),
             datasets: [
@@ -77,13 +87,13 @@ export function Budget(props) {
                     }
                 }
             },
-            labels: textp.map(value => value.description + "" + value.dateTransaction),
+            labels: listDesDepense.map(value => value.description + "" + value.dateTransaction),
             datasets: [{
                 label: "Depense par date",
                 backgroundColor: 'pink',
                 borderColor: 'red',
                 fill: false,
-                data: textp.map(value => {
+                data: listDesDepense.map(value => {
                     return {x: value.dateTransaction, y: value?.montant}
                 }),
             }]
@@ -91,9 +101,9 @@ export function Budget(props) {
 
 
         const fetchAPICat2 = useCallback(async () => {
-            let str=localStorage.getItem("month")
+            let str = localStorage.getItem("month")
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser+"/"+str)
+            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str)
             const resbis = await response.json();
             await setTextCat2(resbis);
 
@@ -107,7 +117,7 @@ export function Budget(props) {
             await setTextCat(resbis);
 
             return resbis;
-        }, [setText]);
+        }, [setListDesDepense]);
 
         let idCategorie = (data) => {
             let str = "" + data
@@ -132,7 +142,7 @@ export function Budget(props) {
             e.preventDefault();
             if (montant === 0) {
                 let f = await fetchAPI();
-                await setText(f);
+                await setListDesDepense(f);
             } else {
                 let f = await fetchAPI();
                 await console.log(f);
@@ -140,7 +150,7 @@ export function Budget(props) {
                         return ("" + elemt.montant === "" + montant)
                     }
                 );
-                await setText(tab);
+                await setListDesDepense(tab);
             }
 
             fetchAPICat2();
@@ -150,10 +160,10 @@ export function Budget(props) {
         async function filterByMonth(monthNum) {
 
 
-            let month=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout", "Septembre","Octobre","Novembre","Decembre"];
+            let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
-            let tout=await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum)+1)));
-            await setText(await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum)+1))));
+            let tout = await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum) + 1)));
+            await setListDesDepense(await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum) + 1))));
 
             await setMontantTotal(tout.map(val => val.montant).reduce(function (a, b) {
                 return a + b;
@@ -166,12 +176,12 @@ export function Budget(props) {
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
             const response = await fetch(lien.url + "action/byuser/" + idUser);
             const resbis = await response.json();
-            await setText(resbis);
+            await setListDesDepense(resbis);
             setMontantTotal(resbis.map(val => val.montant).reduce(function (a, b) {
                 return a + b;
             }, 0))
             return resbis;
-        }, [setText]);
+        }, [setListDesDepense]);
 
 
         const getData = async (e) => {
@@ -239,7 +249,7 @@ export function Budget(props) {
                         categorie: actionCategorie,
                         description: actionDescription,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        dateTransaction: datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })
+                        dateTransaction: datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -249,7 +259,7 @@ export function Budget(props) {
             const resbis = await response;
             await fetchAPI();
             await fetchAPICat2();
-            await setMessageAjout("Ajout de "+montant+" categorie "+actionCategorie+" description "+actionDescription)
+            await setMessageAjout("Ajout de " + montant + " categorie " + actionCategorie + " description " + actionDescription)
 
         });
         ////////////////////update////////////
@@ -263,7 +273,7 @@ export function Budget(props) {
                         description: actionDescription,
                         montant: montant,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        dateTransaction: datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })
+                        dateTransaction: datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -332,172 +342,218 @@ export function Budget(props) {
             setValue("");
 
         };
+        ///////////////////
 
 
         /////////////////////////
         return (
             <div>
-                <div className="containerButton">
-                <div className="containerButton">
-                    <button onClick={() => {
-                        if (budgetCSS === "visible") {
-
-                            setBudgetCSS("hidden")
-                        } else {
-                            setBudgetCSS("visible");
-                        }
-                    }}>Ajouter un budget
-                        <RiMoneyEuroCircleFill style={{fontSize:"5em", color:'blueviolet'}}/>
-                    </button>
-                    <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
-                    <p className={budgetCSS}>
-                    </p>
-
-                    <ProgressBar className={budgetCSS} completed={calcul() / 100}
-                    />
-                </div>
-                <div>
-                    <div className="containerButton">
-
-                        <div>
-                            <div className="cache">
-                                <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
-                            </div>
-                            <div className="containerButton">
-                                <button onClick={(e) => {
-                                    e.preventDefault();
-                                    if (categorieCSS === "visible") {
-
-                                        setCategorieCSS("hidden")
-                                    } else {
-                                        setCategorieCSS("visible");
-                                    }
-                                }}>Ajouter une categorie
-                                    <BiCategory style={{fontSize:'5em',color:'blueviolet'}}/>
-                                </button>
-                                <p className={categorieCSS}>{actionCategorie}</p>
-                                <div className={categorieCSS}>
-                                    {textCat.map((option, index) => {
-                                        return <h1 className="but1" onClick={() => {
-                                            setIdCat(option)
-                                        }}
-                                                   key={option.id}>
-                                            {option.id + " " + option.categorie}
-
-
-                                        </h1>
-                                    })}
-                                </div>
-                                <p className="error">{actionCategorieError}</p>
-                            </div>
-                        </div>
-                        <div className="containerButton">
-
-                            <button onClick={(e) => {
-                                e.preventDefault();
-                                if (descriptionCSS === "visible") {
-
-                                    setDescriptionCSS("hidden")
-                                } else {
-                                    setDescriptionCSS("visible");
-                                }
-                            }}>Ajouter une description
-                                <MdOutlineDescription style={{fontSize:'5em',color:'blueviolet'}}/>
-                            </button>
-                            <div className="containerButton">
-                                <input className={descriptionCSS} value={actionDescription}
+                {modal && (
+                    <div className="modal">
+                        <div onClick={toggleDescription} className="overlay"></div>
+                        <div className="modal-content containerButton">
+                            <h1>Description</h1>
+                            <div>
+                                <input value={actionDescription}
                                        onChange={(e) => setActionDescription(e.target.value)}/>{" "}
                                 <p className="error">{actionDescriptionError}</p>
                             </div>
-                        </div>
-                        <div className="containerCote containerButton">
-                            <button onClick={(e) => {
-                                e.preventDefault();
-                                if (montantCSS === "visible") {
-
-                                    setMontantCSS("hidden")
-                                } else {
-                                    setMontantCSS("visible");
-                                }
-                            }}>Ajouter un montant
-                                <RiPassPendingLine style={{fontSize:'5em',color:'blueviolet'}}/>
-                            </button>
                             <div>
-                                <input className={montantCSS} value={montant}
-                                       onChange={(e) => setMontant(e.target.value)}/>{" "}
-                                <p className={montantCSS + " " + "error"}>{montant}</p>
+                                <button className="close-modal" onClick={toggleDescription}>
+                                    CLOSE
+                                </button>
                             </div>
-                        </div>
-                        <button onClick={(e) => {
-                            e.preventDefault();
-                            if (dateCSS === "visible") {
 
-                                setDateCSS("hidden")
+                        </div>
+                    </div>
+                )}
+
+
+                <div className="containerButton">
+                    <div className="containerButton">
+                        <button onClick={() => {
+                            if (budgetCSS === "visible") {
+
+                                setBudgetCSS("hidden")
                             } else {
-                                setDateCSS("visible");
+                                setBudgetCSS("visible");
                             }
-                        }}>Ajouter une date
-                            <CiCalendarDate style={{fontSize:'5em',color:'blueviolet'}}/>
+                        }}>Ajouter un budget
+                            <RiMoneyEuroCircleFill style={{fontSize: "5em", color: 'blueviolet'}}/>
                         </button>
-                        <div className="containerCote">
+                        <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
+                        <p className={budgetCSS}>
+                        </p>
+
+                        <ProgressBar className={budgetCSS} completed={calcul() / 100}
+                        />
+                    </div>
+                    <div>
+                        <div className="containerButton">
+
+                            <div>
+                                <div className="cache">
+                                    <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
+                                </div>
+                                <div className="containerButton">
+                                    <button onClick={(e) => {
+                                        e.preventDefault();
+                                        if (categorieCSS === "visible") {
+
+                                            setCategorieCSS("hidden")
+                                        } else {
+                                            setCategorieCSS("visible");
+                                        }
+                                    }}>Ajouter une categorie
+                                        <BiCategory style={{fontSize: '5em', color: 'blueviolet'}}/>
+                                    </button>
+                                    <p className={categorieCSS}>{actionCategorie}</p>
+                                    <div className={categorieCSS}>
+                                        {textCat.map((option, index) => {
+                                            return <h1 className="but1" onClick={() => {
+                                                setIdCat(option)
+                                            }}
+                                                       key={option.id}>
+                                                {option.id + " " + option.categorie}
 
 
-                            <div className={dateCSS}>
-                                <div className={dateCSS}>{datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })}</div>
-                                <Calendar className={dateCSS} onChange={onChangeDatePick} value={datePick.toLocaleString("zh-CN",{ timeZone: 'Europe/Paris' })}/>
+                                            </h1>
+                                        })}
+                                    </div>
+                                    <p className="error">{actionCategorieError}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="containerCote">
+                            <div className="containerButton">
+                                <button onClick={toggleDescription}>
+                                    Ajouter une description
+                                    <MdOutlineDescription style={{fontSize:'5em',color:'blueviolet'}}/>
+
+                                </button>
+
+
+                            </div>
+
+                            <div className="containerCote containerButton">
+                                <button onClick={(e) => {
+                                    e.preventDefault();
+                                    if (montantCSS === "visible") {
+
+                                        setMontantCSS("hidden")
+                                    } else {
+                                        setMontantCSS("visible");
+                                    }
+                                }}>Ajouter un montant
+                                    <RiPassPendingLine style={{fontSize: '5em', color: 'blueviolet'}}/>
+                                </button>
+                                <div>
+                                    <input className={montantCSS} value={montant}
+                                           onChange={(e) => setMontant(e.target.value)}/>{" "}
+                                    <p className={montantCSS + " " + "error"}>{montant}</p>
+                                </div>
+                            </div>
                             <button onClick={(e) => {
                                 e.preventDefault();
-                                if (buttonCSS === "visible") {
+                                if (dateCSS === "visible") {
 
-                                    setbuttonCSS("hidden")
+                                    setDateCSS("hidden")
                                 } else {
-                                    setbuttonCSS("visible");
+                                    setDateCSS("visible");
                                 }
-                            }}>Acceder aux bouttons
+                            }}>Ajouter une date
+                                <CiCalendarDate style={{fontSize: '5em', color: 'blueviolet'}}/>
                             </button>
-                            <div className={buttonCSS}>
-                                <button onClick={fetchCreer}>creer <GrAddCircle style={{fontSize:'5em',color:'blueviolet'}}/></button>
-                                <div>{messageAjout}</div>
-                                <button onClick={modifier}>modifier <RxUpdate style={{fontSize:'5em',color:'blueviolet'}}/></button>
+                            <div className="containerCote">
 
-                                <div>
-                                    <button onClick={deleteMontant}><CiCircleRemove style={{fontSize:'5em',color:'blueviolet'}}/>Supprimer</button>
+
+                                <div className={dateCSS}>
+                                    <div
+                                        className={dateCSS}>{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
+                                    <Calendar className={dateCSS} onChange={onChangeDatePick}
+                                              value={datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}/>
                                 </div>
-                                <button onClick={getData}>Download</button>
                             </div>
-                        </div>
-                        <div>
+                            <div className="containerCote">
+                                <button onClick={(e) => {
+                                    e.preventDefault();
+                                    if (buttonCSS === "visible") {
+
+                                        setbuttonCSS("hidden")
+                                    } else {
+                                        setbuttonCSS("visible");
+                                    }
+                                }}>Acceder aux bouttons
+                                </button>
+                                <div className={buttonCSS}>
+                                    <button onClick={fetchCreer}>creer <GrAddCircle
+                                        style={{fontSize: '5em', color: 'blueviolet'}}/></button>
+                                    <div>{messageAjout}</div>
+                                    <button onClick={modifier}>modifier <RxUpdate
+                                        style={{fontSize: '5em', color: 'blueviolet'}}/></button>
+
+                                    <div>
+                                        <button onClick={deleteMontant}><CiCircleRemove
+                                            style={{fontSize: '5em', color: 'blueviolet'}}/>Supprimer
+                                        </button>
+                                    </div>
+                                    <button onClick={getData}>Download</button>
+                                </div>
+                            </div>
+                            <div>
+
+                            </div>
 
                         </div>
 
                     </div>
-
-</div>
-                </div>
-                <div>
-                    <select onChange={async (e) => {await filterByMonth(e.target.value);let month=["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout", "Septembre","Octobre","Novembre","Decembre"];localStorage.setItem("month",""+(month.indexOf(e.target.value)+1)); fetchAPICat2()}}
-                            className='form-select'>
-                        <option >Janvier</option>
-                        <option>Fevrier</option>
-                        <option >Mars</option>
-                        <option >Avril</option>
-                        <option >Mai</option>
-                        <option>Juin</option>
-                        <option >Juillet</option>
-                        <option >Aout</option>
-                        <option >Septembre</option>
-                        <option >Octobre</option>
-                        <option >Novembre</option>
-                        <option >Decembre</option>
-
-
-                    </select>
                 </div>
 
                 <div>
+                    <div className="containerButton">
+                        <label>Filtre par date</label>
+                        <select onChange={async (e) => {
+                            await filterByMonth(e.target.value);
+                            let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
+                            localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
+                            fetchAPICat2()
+                        }}
+                                className='form-select'>
+                            <option>Janvier</option>
+                            <option>Fevrier</option>
+                            <option>Mars</option>
+                            <option>Avril</option>
+                            <option>Mai</option>
+                            <option>Juin</option>
+                            <option>Juillet</option>
+                            <option>Aout</option>
+                            <option>Septembre</option>
+                            <option>Octobre</option>
+                            <option>Novembre</option>
+                            <option>Decembre</option>
+
+
+                        </select>
+                        <label>Filtre de Description</label>
+                        <input value={descriptionFiltre}
+                               onChange={(e) => {
+                                   setDescriptionFiltre(e.target.value)
+                               }}/>
+
+                        <button onClick={() => {
+                            setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
+                        }}>Actualiser la liste
+                        </button>
+
+                        <label>Filtre de Categorie</label>
+                        <input value={categorieFiltre}
+                               onChange={(e) => {
+                                   setCategorieFiltre(e.target.value)
+                               }}/>
+
+                        <button onClick={() => {
+                            setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
+                        }}>Actualiser la liste
+                        </button>
+                    </div>
                     <table>
                         <thead>
                         <tr>
@@ -512,7 +568,7 @@ export function Budget(props) {
                         </thead>
                         <tbody>
 
-                        {textp.map((item, index) => {
+                        {listDesDepense.map((item, index) => {
                             return (
                                 <>
                                     <tr onClick={() => {
