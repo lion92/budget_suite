@@ -44,16 +44,47 @@ export function Budget(props) {
         let [monthNumSave, selectMonthNumSave] = useState(1);
         let [messageAjout, setMessageAjout] = useState("");
         let [categorieFiltre, setCategorieFiltre] = useState("");
-        const [modal, setModal] = useState(false);
+        const [modalDescription, setModalDescription] = useState(false);
+        const [modalCategorie, setModalCategorie] = useState(false);
+        const [modalMontant, setModalMontant] = useState(false);
+        const [modalDate, setModalDate] = useState(false);
         const toggleDescription = () => {
-            setModal(!modal);
+            setModalDescription(!modalDescription);
+        };
+        const toggleDate= () => {
+            setModalDate(!modalDate);
+        };
+        const toggleMontant = () => {
+            setModalMontant(!modalMontant);
+        };
+        const toggleCategorie = () => {
+            setModalCategorie(!modalCategorie);
         };
 
-        if (modal) {
+        if (modalDescription) {
             document.body.classList.add('active-modal')
         } else {
             document.body.classList.remove('active-modal')
         }
+
+        if (modalCategorie) {
+            document.body.classList.add('active-modal')
+        } else {
+            document.body.classList.remove('active-modal')
+        }
+
+        if (modalDate) {
+            document.body.classList.add('active-modal')
+        } else {
+            document.body.classList.remove('active-modal')
+        }
+
+        if (modalMontant) {
+            document.body.classList.add('active-modal')
+        } else {
+            document.body.classList.remove('active-modal')
+        }
+
         const data = {
             labels: textCat2.map(value => value.categorie),
             datasets: [
@@ -348,7 +379,7 @@ export function Budget(props) {
         /////////////////////////
         return (
             <div>
-                {modal && (
+                {modalDescription && (
                     <div className="modal">
                         <div onClick={toggleDescription} className="overlay"></div>
                         <div className="modal-content containerButton">
@@ -359,14 +390,79 @@ export function Budget(props) {
                                 <p className="error">{actionDescriptionError}</p>
                             </div>
                             <div>
-                                <button className="close-modal" onClick={toggleDescription}>
-                                    CLOSE
-                                </button>
+
                             </div>
 
                         </div>
                     </div>
                 )}
+
+                {modalMontant && (
+                    <div className="modal">
+                        <div onClick={toggleMontant} className="overlay"></div>
+                        <div className="modal-content containerButton">
+                            <h1>Montant</h1>
+                            <div>
+                                <input value={montant}
+                                       onChange={(e) => setMontant(e.target.value)}/>{" "}
+                                <p className={montantCSS + " " + "error"}>{montant}</p>
+                            </div>
+                            <div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                )}
+
+                {modalCategorie && (
+                    <div className="modal">
+                        <div onClick={toggleCategorie} className="overlay"></div>
+                        <div className="modal-content containerButton">
+                            <h1>Categorie</h1>
+                            <div>
+                                {textCat.map((option, index) => {
+                                    return <h1 className="but1" onClick={() => {
+                                        setIdCat(option)
+                                    }}
+                                               key={option.id}>
+                                        {option.id + " " + option.categorie}
+
+
+                                    </h1>
+                                })}
+                            </div>
+                            <div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                )}
+
+                {modalDate && (
+                    <div className="modal">
+                        <div onClick={toggleDate} className="overlay"></div>
+                        <div className="modal-content containerButton">
+                            <h1>Date</h1>
+                            <div className="containerCote">
+
+
+                                <div>
+                                    <div
+                                        >{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
+                                    <Calendar onChange={onChangeDatePick}
+                                              value={datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}/>
+                                </div>
+                            </div>
+                            <div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                )}
+
 
 
                 <div className="containerButton">
@@ -396,30 +492,11 @@ export function Budget(props) {
                                     <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                                 </div>
                                 <div className="containerButton">
-                                    <button onClick={(e) => {
-                                        e.preventDefault();
-                                        if (categorieCSS === "visible") {
-
-                                            setCategorieCSS("hidden")
-                                        } else {
-                                            setCategorieCSS("visible");
-                                        }
-                                    }}>Ajouter une categorie
+                                    <button onClick={toggleCategorie}>Ajouter une categorie
                                         <BiCategory style={{fontSize: '5em', color: 'blueviolet'}}/>
                                     </button>
                                     <p className={categorieCSS}>{actionCategorie}</p>
-                                    <div className={categorieCSS}>
-                                        {textCat.map((option, index) => {
-                                            return <h1 className="but1" onClick={() => {
-                                                setIdCat(option)
-                                            }}
-                                                       key={option.id}>
-                                                {option.id + " " + option.categorie}
 
-
-                                            </h1>
-                                        })}
-                                    </div>
                                     <p className="error">{actionCategorieError}</p>
                                 </div>
                             </div>
@@ -434,44 +511,15 @@ export function Budget(props) {
                             </div>
 
                             <div className="containerCote containerButton">
-                                <button onClick={(e) => {
-                                    e.preventDefault();
-                                    if (montantCSS === "visible") {
-
-                                        setMontantCSS("hidden")
-                                    } else {
-                                        setMontantCSS("visible");
-                                    }
-                                }}>Ajouter un montant
+                                <button onClick={toggleMontant}>Ajouter un montant
                                     <RiPassPendingLine style={{fontSize: '5em', color: 'blueviolet'}}/>
                                 </button>
-                                <div>
-                                    <input className={montantCSS} value={montant}
-                                           onChange={(e) => setMontant(e.target.value)}/>{" "}
-                                    <p className={montantCSS + " " + "error"}>{montant}</p>
-                                </div>
-                            </div>
-                            <button onClick={(e) => {
-                                e.preventDefault();
-                                if (dateCSS === "visible") {
 
-                                    setDateCSS("hidden")
-                                } else {
-                                    setDateCSS("visible");
-                                }
-                            }}>Ajouter une date
+                            </div>
+                            <button onClick={toggleDate}>Ajouter une date
                                 <CiCalendarDate style={{fontSize: '5em', color: 'blueviolet'}}/>
                             </button>
-                            <div className="containerCote">
 
-
-                                <div className={dateCSS}>
-                                    <div
-                                        className={dateCSS}>{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
-                                    <Calendar className={dateCSS} onChange={onChangeDatePick}
-                                              value={datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}/>
-                                </div>
-                            </div>
                             <div className="containerCote">
                                 <button onClick={(e) => {
                                     e.preventDefault();

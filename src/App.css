@@ -302,8 +302,8 @@ h2{
 }
 
 .close-modal {
+    margin-top: 10px;
     position: absolute;
-    top: 200px;
+    bottom: -10px;
     right: 30px;
-    padding: 5px 7px;
 }
