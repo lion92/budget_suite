@@ -261,6 +261,16 @@ body {
   transition: all 0.5s ease;
 
 }
+.home-section-hide {
+  position: relative;
+  background: #E4E9F7;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  width: calc(100% - 250px);
+  transition: all 0.5s ease;
+
+}
 .sidebar.open ~ .home-section {
   left: 78px;
   width: calc(100% - 78px);
@@ -619,6 +629,7 @@ body {
     transition: all 0.5s ease;
 
   }
+
   .sidebar .logo-details {
     align-items: center;
   }
@@ -669,6 +680,21 @@ textarea:not([cols]){
 .home-section{
   left: 250px;
 }
+.home-section-hide{
+    position: relative;
+    background: #E4E9F7;
+    min-height: 100vh;
+    top: 0;
+    left: 0;
+
+  width: 100%;
+}
 .hideSidebar{
   display: none;
+  position: relative;
+  background: #E4E9F7;
+  top: 0;
+  left: 0px;
+  margin: 5px;
+  transition: all 0.5s ease;
 }
