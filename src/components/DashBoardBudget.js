@@ -1,7 +1,6 @@
 import React from 'react';
 import './dashboard.scss'
 import MenuComponent from "./MenuComponent";
-import Helloword from "./Helloword";
 import Budget from "./Budget";
 
 const DashBoardBudget = () => {

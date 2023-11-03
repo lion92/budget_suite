@@ -1,8 +1,6 @@
 import React from 'react';
 import './dashboard.scss'
 import Form from "./Form";
-import {NavLink} from "react-router-dom";
-import {Categorie} from "./Categorie";
 import MenuComponent from "./MenuComponent";
 
 const DashBoardTache = () => {

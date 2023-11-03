@@ -1,8 +1,6 @@
 import React from 'react';
 import './dashboard.scss'
 import Connection from "./connection";
-import {Link, NavLink} from "react-router-dom";
-import {Categorie} from "./Categorie";
 import MenuComponent from "./MenuComponent";
 
 const DashBoardLogin = () => {

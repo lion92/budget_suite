@@ -194,7 +194,9 @@ form .message a {
 .containerCote{
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    align-items: center;
+
 }
 button{
     font-size: 15px;
@@ -264,6 +266,7 @@ h2{
     flex-wrap: wrap;
     flex-direction: column;
     background-color: #c6a46a;
+
 }
 
 

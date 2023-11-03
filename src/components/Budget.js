@@ -463,29 +463,78 @@ export function Budget(props) {
                     </div>
                 )}
 
-
-
+                <h1>montantTotal: {montantTotal}</h1>
+                <ProgressBar className={budgetCSS} completed={calcul() / 100}
+                />
                 <div className="containerButton">
-                    <div className="containerButton">
-                        <button onClick={() => {
-                            if (budgetCSS === "visible") {
-
-                                setBudgetCSS("hidden")
-                            } else {
-                                setBudgetCSS("visible");
-                            }
-                        }}>Ajouter un budget
-                            <RiMoneyEuroCircleFill style={{fontSize: "5em", color: 'blueviolet'}}/>
-                        </button>
-                        <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
-                        <p className={budgetCSS}>
-                        </p>
-
-                        <ProgressBar className={budgetCSS} completed={calcul() / 100}
-                        />
-                    </div>
                     <div>
-                        <div className="containerButton">
+
+                    <div>
+
+                            <div>
+                                <label>Filtre par date</label>
+                                <select onChange={async (e) => {
+                                    await filterByMonth(e.target.value);
+                                    let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
+                                    localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
+                                    fetchAPICat2()
+                                }}
+                                        className='form-select'>
+                                    <option>Janvier</option>
+                                    <option>Fevrier</option>
+                                    <option>Mars</option>
+                                    <option>Avril</option>
+                                    <option>Mai</option>
+                                    <option>Juin</option>
+                                    <option>Juillet</option>
+                                    <option>Aout</option>
+                                    <option>Septembre</option>
+                                    <option>Octobre</option>
+                                    <option>Novembre</option>
+                                    <option>Decembre</option>
+
+
+                                </select>
+                                <label>Filtre de Description</label>
+                                <input value={descriptionFiltre}
+                                       onChange={(e) => {
+                                           setDescriptionFiltre(e.target.value)
+                                       }}/>
+
+                                <button onClick={() => {
+                                    setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
+                                }}>Actualiser la liste
+                                </button>
+
+                                <label>Filtre de Categorie</label>
+                                <input value={categorieFiltre}
+                                       onChange={(e) => {
+                                           setCategorieFiltre(e.target.value)
+                                       }}/>
+
+                                <button onClick={() => {
+                                    setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
+                                }}>Actualiser la liste
+                                </button>
+                            </div>
+                        <div className="containerCote">
+                            <div className="containerCote">
+                                <button onClick={() => {
+                                    if (budgetCSS === "visible") {
+
+                                        setBudgetCSS("hidden")
+                                    } else {
+                                        setBudgetCSS("visible");
+                                    }
+                                }}>Ajouter un budget
+                                    <RiMoneyEuroCircleFill style={{fontSize: "5em", color: 'blueviolet'}}/>
+                                </button>
+                                <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
+                                <p className={budgetCSS}>
+                                </p>
+
+
+                            </div>
 
                             <div>
                                 <div className="cache">
@@ -520,7 +569,7 @@ export function Budget(props) {
                                 <CiCalendarDate style={{fontSize: '5em', color: 'blueviolet'}}/>
                             </button>
 
-                            <div className="containerCote">
+                            <div style={{"margin":"10px"}}>
                                 <button onClick={(e) => {
                                     e.preventDefault();
                                     if (buttonCSS === "visible") {
@@ -532,6 +581,7 @@ export function Budget(props) {
                                 }}>Acceder aux bouttons
                                 </button>
                                 <div className={buttonCSS}>
+                                    <div className="containerCote">
                                     <button onClick={fetchCreer}>creer <GrAddCircle
                                         style={{fontSize: '5em', color: 'blueviolet'}}/></button>
                                     <div>{messageAjout}</div>
@@ -545,7 +595,9 @@ export function Budget(props) {
                                     </div>
                                     <button onClick={getData}>Download</button>
                                 </div>
+                                </div>
                             </div>
+                        </div>
                             <div>
 
                             </div>
@@ -554,54 +606,13 @@ export function Budget(props) {
 
                     </div>
                 </div>
-
                 <div>
-                    <div className="containerButton">
-                        <label>Filtre par date</label>
-                        <select onChange={async (e) => {
-                            await filterByMonth(e.target.value);
-                            let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-                            localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
-                            fetchAPICat2()
-                        }}
-                                className='form-select'>
-                            <option>Janvier</option>
-                            <option>Fevrier</option>
-                            <option>Mars</option>
-                            <option>Avril</option>
-                            <option>Mai</option>
-                            <option>Juin</option>
-                            <option>Juillet</option>
-                            <option>Aout</option>
-                            <option>Septembre</option>
-                            <option>Octobre</option>
-                            <option>Novembre</option>
-                            <option>Decembre</option>
+                    <GraphParDate data={dataParDate}></GraphParDate>
+                    <Graph data={data}></Graph>
 
+                </div>
+                <div>
 
-                        </select>
-                        <label>Filtre de Description</label>
-                        <input value={descriptionFiltre}
-                               onChange={(e) => {
-                                   setDescriptionFiltre(e.target.value)
-                               }}/>
-
-                        <button onClick={() => {
-                            setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
-                        }}>Actualiser la liste
-                        </button>
-
-                        <label>Filtre de Categorie</label>
-                        <input value={categorieFiltre}
-                               onChange={(e) => {
-                                   setCategorieFiltre(e.target.value)
-                               }}/>
-
-                        <button onClick={() => {
-                            setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
-                        }}>Actualiser la liste
-                        </button>
-                    </div>
                     <table>
                         <thead>
                         <tr>
@@ -647,10 +658,7 @@ export function Budget(props) {
 
 
                 </div>
-                <div>
-                    <Graph data={data}></Graph>
-                    <GraphParDate data={dataParDate}></GraphParDate>
-                </div>
+
             </div>
 
         );
