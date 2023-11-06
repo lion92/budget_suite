@@ -385,7 +385,7 @@ export function Budget(props) {
                         <div className="modal-content containerButton">
                             <h1>Description</h1>
                             <div>
-                                <input value={actionDescription}
+                                <input placeholder="Description" value={actionDescription}
                                        onChange={(e) => setActionDescription(e.target.value)}/>{" "}
                                 <p className="error">{actionDescriptionError}</p>
                             </div>
@@ -471,7 +471,8 @@ export function Budget(props) {
 
                     <div>
 
-                            <div>
+                            <div className="containerCote">
+                                <div className="containerButton">
                                 <label>Filtre par date</label>
                                 <select onChange={async (e) => {
                                     await filterByMonth(e.target.value);
@@ -495,31 +496,35 @@ export function Budget(props) {
 
 
                                 </select>
+                                </div>
+                                <div className="containerButton">
                                 <label>Filtre de Description</label>
-                                <input value={descriptionFiltre}
+                                <input placeholder="Description" value={descriptionFiltre}
                                        onChange={(e) => {
                                            setDescriptionFiltre(e.target.value)
                                        }}/>
 
                                 <button onClick={() => {
                                     setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
-                                }}>Actualiser la liste
+                                }}>Actualiser
                                 </button>
-
+                                </div>
+                                <div>
                                 <label>Filtre de Categorie</label>
-                                <input value={categorieFiltre}
+                                <input placeholder="Categorie" value={categorieFiltre}
                                        onChange={(e) => {
                                            setCategorieFiltre(e.target.value)
                                        }}/>
 
                                 <button onClick={() => {
                                     setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
-                                }}>Actualiser la liste
+                                }}>Actualiser
                                 </button>
+                                </div>
                             </div>
                         <div className="containerCote">
                             <div className="containerCote">
-                                <button onClick={() => {
+                                <button className="butGenerique" onClick={() => {
                                     if (budgetCSS === "visible") {
 
                                         setBudgetCSS("hidden")
@@ -541,7 +546,7 @@ export function Budget(props) {
                                     <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                                 </div>
                                 <div className="containerButton">
-                                    <button onClick={toggleCategorie}>Ajouter une categorie
+                                    <button className="butGenerique"onClick={toggleCategorie}>Ajouter une categorie
                                         <BiCategory style={{fontSize: '5em', color: 'blueviolet'}}/>
                                     </button>
                                     <p className={categorieCSS}>{actionCategorie}</p>
@@ -550,7 +555,7 @@ export function Budget(props) {
                                 </div>
                             </div>
                             <div className="containerButton">
-                                <button onClick={toggleDescription}>
+                                <button className="butGenerique" onClick={toggleDescription}>
                                     Ajouter une description
                                     <MdOutlineDescription style={{fontSize:'5em',color:'blueviolet'}}/>
 
@@ -560,17 +565,17 @@ export function Budget(props) {
                             </div>
 
                             <div className="containerCote containerButton">
-                                <button onClick={toggleMontant}>Ajouter un montant
+                                <button className="butGenerique" onClick={toggleMontant}>Ajouter un montant
                                     <RiPassPendingLine style={{fontSize: '5em', color: 'blueviolet'}}/>
                                 </button>
 
                             </div>
-                            <button onClick={toggleDate}>Ajouter une date
+                            <button className="butGenerique" onClick={toggleDate}>Ajouter une date
                                 <CiCalendarDate style={{fontSize: '5em', color: 'blueviolet'}}/>
                             </button>
 
                             <div style={{"margin":"10px"}}>
-                                <button onClick={(e) => {
+                                <button className="butGenerique" onClick={(e) => {
                                     e.preventDefault();
                                     if (buttonCSS === "visible") {
 
@@ -582,18 +587,18 @@ export function Budget(props) {
                                 </button>
                                 <div className={buttonCSS}>
                                     <div className="containerCote">
-                                    <button onClick={fetchCreer}>creer <GrAddCircle
+                                    <button className="butGenerique" onClick={fetchCreer}>creer <GrAddCircle
                                         style={{fontSize: '5em', color: 'blueviolet'}}/></button>
                                     <div>{messageAjout}</div>
-                                    <button onClick={modifier}>modifier <RxUpdate
+                                    <button className="butGenerique" onClick={modifier}>modifier <RxUpdate
                                         style={{fontSize: '5em', color: 'blueviolet'}}/></button>
 
                                     <div>
-                                        <button onClick={deleteMontant}><CiCircleRemove
+                                        <button className="butGenerique" onClick={deleteMontant}><CiCircleRemove
                                             style={{fontSize: '5em', color: 'blueviolet'}}/>Supprimer
                                         </button>
                                     </div>
-                                    <button onClick={getData}>Download</button>
+                                    <button className="butGenerique" onClick={getData}>Download</button>
                                 </div>
                                 </div>
                             </div>

@@ -4,7 +4,7 @@ import lien from './lien'
 import {Link} from "react-router-dom";
 
 export default function Form(props) {
-    let [valueInput, setValue] = useState("");
+    let [titre, setValue] = useState("");
     let [messageErrorDescription, setmessageErrorDescription] = useState("");
     let [messageErrorTitre, setMessageerrorTitre] = useState("");
     let [valueInputTitre, setTitre] = useState("");
@@ -29,15 +29,15 @@ export default function Form(props) {
     ////////////////////////Rechercher/////////////
     let recherche = async (e) => {
         e.preventDefault();
-        if (valueInput === "") {
+        if (titre === "") {
             console.log("test0");
             await fetchAPI();
         } else {
             let f = await fetchAPI();
             await console.log(f);
-            await valueInput;
+            await titre;
             let tab = await f.filter((elemt) =>
-                elemt.title === valueInput
+                elemt.title === titre
                 || elemt.description === valueInputDescription
             );
             await setText(tab);
@@ -103,7 +103,7 @@ export default function Form(props) {
             {
                 method: "POST",
                 body: JSON.stringify({
-                    title: valueInput,
+                    title: titre,
                     description: valueInputDescription,
                     user: userid2
                 }),
@@ -126,7 +126,7 @@ export default function Form(props) {
             {
                 method: "PUT",
                 body: JSON.stringify({
-                    title: valueInput,
+                    title: titre,
                     description: valueInputDescription,
                     user: id
                 }),
@@ -143,7 +143,7 @@ export default function Form(props) {
         let a = e.target.value;
         console.log(a);
 
-        if (valueInput.length > 20) {
+        if (titre.length > 20) {
 
             setMessageerrorTitre("La valeur du titre ne doit pas dépasser 20 caracteres")
         } else {
@@ -189,15 +189,15 @@ export default function Form(props) {
                     <div className="divCentrer">
                         <div>
                             <label>Titre</label>
-                            <input value={valueInput} onChange={(e) => Valuechange(e)}/>{" "}
+                            <input placeholder="Titre" value={titre} onChange={(e) => Valuechange(e)}/>{" "}
                             <p className="error">{messageErrorTitre}</p>
                         </div>
                         <div>
                             <label>Description</label>
-                            <textarea value={valueInputDescription} onChange={(e) => valueChangeDescription(e)}/>{" "}
+                            <textarea placeholder="Description" value={valueInputDescription} onChange={(e) => valueChangeDescription(e)}/>{" "}
                             <p className="error">{messageErrorDescription}</p>
                         </div>
-                        <div className="divCentrer">
+                        <div className="containerCote">
                             <button onClick={modifier}>modifier</button>
                             <button onClick={fetchCreer}>creer</button>
 
@@ -205,7 +205,7 @@ export default function Form(props) {
 
                     </div>
                 </div>
-                {!load ? <div className="container2">
+                {!load ? <div className="containerCote">
 
 
 

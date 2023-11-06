@@ -4,7 +4,7 @@ import MenuComponent from "./MenuComponent";
 import Budget from "./Budget";
 
 const DashBoardBudget = () => {
-    let titre = "Budegt"
+    let titre = "Budget"
     let contenue = <Budget></Budget>
     return (
         <>

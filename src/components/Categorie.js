@@ -173,13 +173,8 @@ export function Categorie(props) {
                         </div>
 
                         <div>
-                            <label>Description</label>
-                            <input value={categorieDescription}
-                                   onChange={(e) => setCategorieDescription(e.target.value)}/>{" "}
-                        </div>
-                        <div>
                             <label>Categorie</label>
-                            <input value={categorie} onChange={(e) => setCategorie(e.target.value)}/>{" "}
+                            <input placeholder="Categorie" value={categorie} onChange={(e) => setCategorie(e.target.value)}/>{" "}
                         </div>
                         <div className="containerGraph">
                             <button onClick={modifier}>modifier</button>
