@@ -16,7 +16,7 @@ const Inscription = () => {
 
     function validateEmail(mail) {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-           setEmailError("")
+            setEmailError("")
             return (true)
         }
         setEmailError("You have entered an invalid email address!")
@@ -34,11 +34,11 @@ const Inscription = () => {
             return
         }
 
-        if (age===""||isNaN(age)) {
+        if (age === "" || isNaN(age)) {
             setAgeError("Age doit être un nombre")
             return
         }
-        if(!validateEmail(email)){
+        if (!validateEmail(email)) {
             return
         }
 
@@ -48,7 +48,7 @@ const Inscription = () => {
         }
 
         const response = await fetch(
-            lien.url+"connection/signup",
+            lien.url + "connection/signup",
             {
                 method: "POST",
                 body: JSON.stringify(
@@ -64,10 +64,9 @@ const Inscription = () => {
                 },
             }
         );
-        if(response.ok){
+        if (response.ok) {
             setInscriptionError("Inscription ok")
-        }else
-        {
+        } else {
             setPasswordError("une erreur s'est produite");
         }
     });
@@ -139,7 +138,7 @@ const Inscription = () => {
                 </div>
                 <p className="error">{inscriptionError}</p>
                 <button onClick={fetchInscription}>SIGNUP</button>
-                </div>
+            </div>
         </div>
     );
 };

@@ -15,7 +15,6 @@ export default function Form(props) {
     const [load, setLoad] = useState(false);
 
 
-
     let attendre = () => {
         setLoad(true);
         setTimeout(() => {
@@ -47,8 +46,8 @@ export default function Form(props) {
     ////////////////////////////////////////////
     ///////////////////fectchApi/////////////////////////
     const fetchAPI = useCallback(async () => {
-        let idUser=parseInt("" + localStorage.getItem("utilisateur"))
-        const response = await fetch(lien.url+"todos/byuser/"+idUser);
+        let idUser = parseInt("" + localStorage.getItem("utilisateur"))
+        const response = await fetch(lien.url + "todos/byuser/" + idUser);
         const resbis = await response.json();
         await setText(resbis);
         return resbis;
@@ -81,7 +80,7 @@ export default function Form(props) {
     let fetchdelete = useCallback(async (data) => {
         let idTodo = parseInt(data, 10)
         const response = await fetch(
-            lien.url+"todos/" + idTodo,
+            lien.url + "todos/" + idTodo,
             {
                 method: "DELETE",
                 headers: {
@@ -99,7 +98,7 @@ export default function Form(props) {
         let userid2 = parseInt(userid)
         e.preventDefault();
         const response = await fetch(
-            lien.url+"todos",
+            lien.url + "todos",
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -122,7 +121,7 @@ export default function Form(props) {
         await console.log(userid);
         let id = parseInt(userid);
         const response = await fetch(
-            lien.url+"todos/" + idVal,
+            lien.url + "todos/" + idVal,
             {
                 method: "PUT",
                 body: JSON.stringify({
@@ -179,7 +178,12 @@ export default function Form(props) {
     return (
 
         <div>
-            <Link style={{width:'20px', margin:'0'}} onClick={() =>  {localStorage.removeItem('jwt'); localStorage.removeItem("utilisateur");}}to="/"><button style={{color:'red'}}>Deconnexion</button></Link>
+            <Link style={{width: '20px', margin: '0'}} onClick={() => {
+                localStorage.removeItem('jwt');
+                localStorage.removeItem("utilisateur");
+            }} to="/">
+                <button style={{color: 'red'}}>Deconnexion</button>
+            </Link>
             <div className="div2">
 
 
@@ -194,7 +198,8 @@ export default function Form(props) {
                         </div>
                         <div>
                             <label>Description</label>
-                            <textarea placeholder="Description" value={valueInputDescription} onChange={(e) => valueChangeDescription(e)}/>{" "}
+                            <textarea placeholder="Description" value={valueInputDescription}
+                                      onChange={(e) => valueChangeDescription(e)}/>{" "}
                             <p className="error">{messageErrorDescription}</p>
                         </div>
                         <div className="containerCote">
@@ -206,7 +211,6 @@ export default function Form(props) {
                     </div>
                 </div>
                 {!load ? <div className="containerCote">
-
 
 
                         {textp.map((item, index) => {
@@ -227,7 +231,7 @@ export default function Form(props) {
                     : <h1>Chargement...</h1>}
 
             </div>
-            </div>
+        </div>
 
     );
 }

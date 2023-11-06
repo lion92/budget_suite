@@ -19,7 +19,9 @@
     font-size: 1em;
 
 }
-.but1{ background-color: #3a3f3a;
+
+.but1 {
+    background-color: #3a3f3a;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -28,10 +30,13 @@
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
-    cursor: pointer;}
-.but1:hover{
+    cursor: pointer;
+}
+
+.but1:hover {
     background-color: #cca058;
 }
+
 a {
     padding: 0.2em;
     font-weight: normal;
@@ -41,7 +46,7 @@ a {
 }
 
 
-button{
+button {
 
     color: #e51919;
     border-color: #3a3f42;
@@ -57,24 +62,29 @@ button:before, button:after {
     opacity: 0.4;
     transition: 0.6s;
 }
-p, h1, span, label{
+
+p, h1, span, label {
     font-size: 2em;
     padding: 0;
     margin: 0;
     color: #140325;
     font-weight: normal;
 }
-a{
+
+a {
     font-size: 1em;
 }
-#idLabel{
- display: none;
+
+#idLabel {
+    display: none;
 }
-.btn{
+
+.btn {
     color: white;
     background-color: #634b3f;
 }
-.btn:hover{
+
+.btn:hover {
 
     background-color: #777f5b;
 }
@@ -91,36 +101,41 @@ nav.menu {
     line-height: 45px;
 
 }
+
 .menu > ul li a, .xs-.menu li a {
     text-decoration: none;
     color: #fff;
     padding: 0px 24px;
 }
+
 .menu > ul li a:hover {
-    background:#444;
+    background: #444;
     color: #fff;
 }
 
-.displaynone{
+.displaynone {
     display: none;
 }
+
 .mega-.menu {
     background: none repeat scroll 0 0 #888;
     left: 0;
     margin-top: 3px;
     position: absolute;
     width: 100%;
-    padding:15px;
-    display:none;
+    padding: 15px;
+    display: none;
     transition-duration: 0.9s;
 
 }
+
 .menutoggle i {
     color: #fff;
     font-size: 33px;
     margin: 0;
     padding: 0;
 }
+
 form {
     position: relative;
     background: #786d6d;
@@ -130,6 +145,7 @@ form {
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 form input, form div input {
     font-family: "Roboto", sans-serif;
     outline: 0;
@@ -139,6 +155,7 @@ form input, form div input {
     padding: 15px;
     box-sizing: border-box;
 }
+
 form button, form div button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
@@ -151,21 +168,24 @@ form button, form div button {
     font-size: 14px;
     cursor: pointer;
 }
-form button:hover,form button:active,form button:focus {
+
+form button:hover, form button:active, form button:focus {
     background: #4aa6be;
 }
+
 form .message {
     margin: 15px 0 0;
     color: #b3b3b3;
     font-size: 12px;
 }
+
 form .message a {
     color: #53828e;
     text-decoration: none;
 }
 
 
-.cache{
+.cache {
     display: none;
 }
 
@@ -182,13 +202,16 @@ form .message a {
     font-size: 20px;
     color: green;
 }
-.hidden{
+
+.hidden {
     display: none;
 }
-.visible{
+
+.visible {
     display: block;
 }
-.containerCote{
+
+.containerCote {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -196,7 +219,7 @@ form .message a {
 
 }
 
-.container2{
+.container2 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -206,7 +229,8 @@ form .message a {
 
 
 }
-.card{
+
+.card {
     border: solid black;
     margin: 10px;
     padding: 10px;
@@ -221,6 +245,7 @@ form .message a {
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 }
+
 .parent {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -229,27 +254,38 @@ form .message a {
     grid-row-gap: 0px;
 }
 
-.div1 { grid-area: 1 / 1 / 1 / 3; }
-.div2 { grid-area: 1 / 3 / 6 / 6; }
-*{
+.div1 {
+    grid-area: 1 / 1 / 1 / 3;
+}
+
+.div2 {
+    grid-area: 1 / 3 / 6 / 6;
+}
+
+* {
     font-size: 1em;
 }
-h2{
+
+h2 {
     color: white;
 }
- td, th, tr{
-     color: white;
-     background-color: black;
-     font-size: 0.9em;
- }
- .card{
-     padding: 15px;
-     background-color: #7c7373;
-     width: 100%;
- }
- button:hover{
-     background-color: #ece5c1;
- }
+
+td, th, tr {
+    color: white;
+    background-color: black;
+    font-size: 0.9em;
+}
+
+.card {
+    padding: 15px;
+    background-color: #7c7373;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #ece5c1;
+}
+
 .containerButton {
     display: flex;
     list-style: none;
@@ -258,10 +294,9 @@ h2{
 
     flex-wrap: wrap;
     flex-direction: column;
-    background-color: #c6a46a;
+    background-color: #bd9bce;
 
 }
-
 
 
 .btn-modal {
@@ -282,8 +317,9 @@ h2{
 }
 
 .overlay {
-    background: rgba(49,49,49,0.8);
+    background: rgba(49, 49, 49, 0.8);
 }
+
 .modal-content {
     position: absolute;
     top: 40%;
@@ -303,13 +339,16 @@ h2{
     bottom: -10px;
     right: 30px;
 }
-li:hover{
+
+li:hover {
     background-color: #b195df;
 }
-button{
+
+button {
     height: 1.5em;
     color: #f1f1f1;
 }
-span{
+
+span {
     color: #f1f1f1;
 }

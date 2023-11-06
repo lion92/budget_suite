@@ -78,7 +78,7 @@ export default function MenuComponent(props) {
                 </div>
 
                 <h1>{props.title}</h1>
-                <button onClick={handlemenu}>Afficher/cacher le menu</button>
+                <button onClick={handlemenu}>Menu</button>
                 {props.contenue}
 
             </section>

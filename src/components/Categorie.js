@@ -60,7 +60,7 @@ export function Categorie(props) {
         let fetchdelete = useCallback(async (data) => {
             let idTodo = parseInt(data, 10)
             const response = await fetch(
-                lien.url+"categorie/" + idTodo,
+                lien.url + "categorie/" + idTodo,
                 {
                     method: "DELETE",
                     headers: {
@@ -73,8 +73,8 @@ export function Categorie(props) {
             const resbis = await response;
         });
         const fetchAPI = useCallback(async () => {
-            let idUser=parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url+"categorie/byuser/"+idUser);
+            let idUser = parseInt("" + localStorage.getItem("utilisateur"))
+            const response = await fetch(lien.url + "categorie/byuser/" + idUser);
             const resbis = await response.json();
             await setCategorieCard(resbis);
 
@@ -84,13 +84,13 @@ export function Categorie(props) {
         let fetchCreer = useCallback(async (e) => {
             e.preventDefault();
             const response = await fetch(
-                lien.url+"categorie",
+                lien.url + "categorie",
                 {
                     method: "POST",
                     body: JSON.stringify({
                         categorie: categorie,
                         description: categorieDescription,
-                        color:colorCategorie,
+                        color: colorCategorie,
                         user: parseInt("" + localStorage.getItem("utilisateur"))
                     }),
                     headers: {
@@ -103,13 +103,13 @@ export function Categorie(props) {
         ////////////////////update////////////
         let fetchAPIupdate = useCallback(async () => {
             const response = await fetch(
-                lien.url+"categorie/" + idVal,
+                lien.url + "categorie/" + idVal,
                 {
                     method: "PUT",
                     body: JSON.stringify({
                         categorie: categorie,
                         description: categorieDescription,
-                        color:colorCategorie,
+                        color: colorCategorie,
                         user: parseInt("" + localStorage.getItem("utilisateur"))
                     }),
                     headers: {
@@ -164,17 +164,21 @@ export function Categorie(props) {
         /////////////////////////
         return (
             <div className="container2">
-                <div>
-                    <div className="div2">
+                <div className="containerButton">
+                    <div style={{"margin": "2px", "padding": "2px"}} className="containerButton">
                         <div>
 
-                            <input type="color" id="favcolor" name="favcolor"  value={colorCategorie} onChange={(e) =>  {setColorCategorie(e.target.value); console.log(e.target.value)}}/>
+                            <input type="color" id="favcolor" name="favcolor" value={colorCategorie} onChange={(e) => {
+                                setColorCategorie(e.target.value);
+                                console.log(e.target.value)
+                            }}/>
 
                         </div>
 
                         <div>
                             <label>Categorie</label>
-                            <input placeholder="Categorie" value={categorie} onChange={(e) => setCategorie(e.target.value)}/>{" "}
+                            <input placeholder="Categorie" value={categorie}
+                                   onChange={(e) => setCategorie(e.target.value)}/>{" "}
                         </div>
                         <div className="containerGraph">
                             <button onClick={modifier}>modifier</button>
@@ -182,10 +186,11 @@ export function Categorie(props) {
                             <button onClick={deleteMontant}>Supprimer</button>
                         </div>
 
-                        <div className="container">
+                        <div style={{"marginTop": "5px"}}
+                             className="containerCote">
 
                             {categorieCard.map((item, index) => {
-                                return (<div  className="container" style={{backgroundColor:item.color}}>
+                                return (<div className="container" style={{backgroundColor: item.color, margin: "5px"}}>
 
                                         <Item
                                             del={del}
@@ -196,9 +201,6 @@ export function Categorie(props) {
                                             description={item.categorie}
                                             id={item.id}
                                         ></Item>
-
-
-
 
 
                                     </div>

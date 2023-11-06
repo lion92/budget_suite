@@ -11,7 +11,7 @@ import DashBoardInscription from "./components/DashInscription";
 import DashBoardHello from "./components/DashBoardHello";
 
 
-const Root=()=>(
+const Root = () => (
     <Router>
         <Switch>
             <Route exact path="/" component={DashBoardHello}/>

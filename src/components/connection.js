@@ -23,20 +23,20 @@ const Connection = () => {
     }
 
     let fetchUerToken = useCallback(async (e) => {
-        let str=""+localStorage.getItem('jwt')
-        let response =null;
+        let str = "" + localStorage.getItem('jwt')
+        let response = null;
 
-            response=await fetch(
-                lien.url+"connection/user",
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        jwt:str
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
+        response = await fetch(
+            lien.url + "connection/user",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    jwt: str
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
 
 
         await response?.json().then(data => {
@@ -54,16 +54,14 @@ const Connection = () => {
     });
 
 
-
-
     let fetchConnection = useCallback(async (e) => {
         e.preventDefault();
-        let response =null;
+        let response = null;
         if (password.length < 3) {
             setPasswordError("impossible mot de passe trop court minimum 3 caractere")
         } else {
-             response=await fetch(
-                lien.url+"connection/login",
+            response = await fetch(
+                lien.url + "connection/login",
                 {
                     method: "POST",
                     body: JSON.stringify({
@@ -101,33 +99,33 @@ const Connection = () => {
                     <div>
 
                         <div className="container2">
-                        {""+probleme}
-                        <div>{messageLog}</div>
-                        <div id="iconLogin"/>
-                        <input id='email' value={email} placeholder={'email'} onChange={e => {
-                            setEmail(e.target.value);
-                            if (ValidateEmail(email)) {
-                                setEmailError("")
-                            }
-                        }}
-                               type={'text'}/>
-                        <p className="error">{mailError}</p>
-                        <input id='password' value={password} placeholder={'password'}
-                               onChange={e => {
-                                   if (e.target.value.length < 3) {
-                                       setPassword(e.target.value);
-                                       setPasswordError("Le mot de passe doit être d'au moins 3 caractère")
-                                   } else {
-                                       setPasswordError("")
-                                       setPassword(e.target.value)
-                                   }
-                               }} type={'text'}/>
+                            {"" + probleme}
+                            <div>{messageLog}</div>
+                            <div id="iconLogin"/>
+                            <input id='email' value={email} placeholder={'email'} onChange={e => {
+                                setEmail(e.target.value);
+                                if (ValidateEmail(email)) {
+                                    setEmailError("")
+                                }
+                            }}
+                                   type={'text'}/>
+                            <p className="error">{mailError}</p>
+                            <input id='password' value={password} placeholder={'password'}
+                                   onChange={e => {
+                                       if (e.target.value.length < 3) {
+                                           setPassword(e.target.value);
+                                           setPasswordError("Le mot de passe doit être d'au moins 3 caractère")
+                                       } else {
+                                           setPasswordError("")
+                                           setPassword(e.target.value)
+                                       }
+                                   }} type={'text'}/>
 
-                        <p className="error">{passwordError}</p>
-                        <a id="mdpOublie" href="">Mot de passe oublié</a>
-                        <button onClick={fetchConnection} id='btnLogin'>LOGIN</button>
-                        <h1>{(probleme !== 'connecte' ? 'incorrect' : 'connecte')}</h1>
-                    </div>
+                            <p className="error">{passwordError}</p>
+                            <a id="mdpOublie" href="">Mot de passe oublié</a>
+                            <button onClick={fetchConnection} id='btnLogin'>LOGIN</button>
+                            <h1>{(probleme !== 'connecte' ? 'incorrect' : 'connecte')}</h1>
+                        </div>
                     </div>
                 </>
 

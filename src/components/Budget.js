@@ -51,7 +51,7 @@ export function Budget(props) {
         const toggleDescription = () => {
             setModalDescription(!modalDescription);
         };
-        const toggleDate= () => {
+        const toggleDate = () => {
             setModalDate(!modalDate);
         };
         const toggleMontant = () => {
@@ -450,7 +450,7 @@ export function Budget(props) {
 
                                 <div>
                                     <div
-                                        >{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
+                                    >{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
                                     <Calendar onChange={onChangeDatePick}
                                               value={datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}/>
                                 </div>
@@ -464,117 +464,121 @@ export function Budget(props) {
                 )}
 
                 <h1>montantTotal: {montantTotal}</h1>
+                <h1>Nombre de dépense: {"" + listDesDepense?.length}</h1>
                 <ProgressBar className={budgetCSS} completed={calcul() / 100}
                 />
                 <div className="containerButton">
                     <div>
 
-                    <div>
+                        <div>
 
                             <div className="containerCote">
                                 <div className="containerButton">
-                                <label>Filtre par date</label>
-                                <select onChange={async (e) => {
-                                    await filterByMonth(e.target.value);
-                                    let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-                                    localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
-                                    fetchAPICat2()
-                                }}
-                                        className='form-select'>
-                                    <option>Janvier</option>
-                                    <option>Fevrier</option>
-                                    <option>Mars</option>
-                                    <option>Avril</option>
-                                    <option>Mai</option>
-                                    <option>Juin</option>
-                                    <option>Juillet</option>
-                                    <option>Aout</option>
-                                    <option>Septembre</option>
-                                    <option>Octobre</option>
-                                    <option>Novembre</option>
-                                    <option>Decembre</option>
+                                    <label>Filtre par date</label>
+                                    <select onChange={async (e) => {
+                                        await filterByMonth(e.target.value);
+                                        let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
+                                        localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
+                                        fetchAPICat2()
+                                    }}
+                                            className='form-select'>
+                                        <option>Janvier</option>
+                                        <option>Fevrier</option>
+                                        <option>Mars</option>
+                                        <option>Avril</option>
+                                        <option>Mai</option>
+                                        <option>Juin</option>
+                                        <option>Juillet</option>
+                                        <option>Aout</option>
+                                        <option>Septembre</option>
+                                        <option>Octobre</option>
+                                        <option>Novembre</option>
+                                        <option>Decembre</option>
 
 
-                                </select>
+                                    </select>
                                 </div>
                                 <div className="containerButton">
-                                <label>Filtre de Description</label>
-                                <input placeholder="Description" value={descriptionFiltre}
-                                       onChange={(e) => {
-                                           setDescriptionFiltre(e.target.value)
-                                       }}/>
+                                    <label>Filtre de Description</label>
+                                    <input placeholder="Description" value={descriptionFiltre}
+                                           onChange={(e) => {
+                                               setDescriptionFiltre(e.target.value)
+                                           }}/>
 
-                                <button onClick={() => {
-                                    setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
-                                }}>Actualiser
-                                </button>
+                                    <button onClick={() => {
+                                        setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
+                                    }}>Actualiser
+                                    </button>
                                 </div>
                                 <div>
-                                <label>Filtre de Categorie</label>
-                                <input placeholder="Categorie" value={categorieFiltre}
-                                       onChange={(e) => {
-                                           setCategorieFiltre(e.target.value)
-                                       }}/>
+                                    <label>Filtre de Categorie</label>
+                                    <input placeholder="Categorie" value={categorieFiltre}
+                                           onChange={(e) => {
+                                               setCategorieFiltre(e.target.value)
+                                           }}/>
 
-                                <button onClick={() => {
-                                    setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
-                                }}>Actualiser
-                                </button>
+                                    <button onClick={() => {
+                                        setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
+                                    }}>Actualiser
+                                    </button>
                                 </div>
                             </div>
-                        <div className="containerCote">
                             <div className="containerCote">
-                                <button className="butGenerique" onClick={() => {
-                                    if (budgetCSS === "visible") {
+                                <div className="containerCote">
+                                    <button className="butGenerique" onClick={() => {
+                                        if (budgetCSS === "visible") {
 
-                                        setBudgetCSS("hidden")
-                                    } else {
-                                        setBudgetCSS("visible");
-                                    }
-                                }}>Ajouter un budget
-                                    <RiMoneyEuroCircleFill style={{fontSize: "5em", color: 'blueviolet'}}/>
-                                </button>
-                                <input className={budgetCSS} value={budget} onChange={(e) => setBudget(e.target.value)}/>
-                                <p className={budgetCSS}>
-                                </p>
+                                            setBudgetCSS("hidden")
+                                        } else {
+                                            setBudgetCSS("visible");
+                                        }
+                                    }}>Ajouter un budget
+                                        <RiMoneyEuroCircleFill style={{fontSize: "5em", color: 'blueviolet'}}/>
+                                    </button>
+                                    <input className={budgetCSS} value={budget}
+                                           onChange={(e) => setBudget(e.target.value)}/>
+                                    <p className={budgetCSS}>
+                                    </p>
 
 
-                            </div>
+                                </div>
 
-                            <div>
-                                <div className="cache">
-                                    <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
+                                <div>
+                                    <div className="cache">
+                                        <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
+                                    </div>
+                                    <div className="containerButton">
+                                        <button className="butGenerique" onClick={toggleCategorie}>Ajouter une categorie
+                                            <BiCategory style={{fontSize: '5em', color: 'blueviolet'}}/>
+                                        </button>
+                                        <p className={categorieCSS}>{actionCategorie}</p>
+
+                                        <p className="error">{actionCategorieError}</p>
+                                    </div>
                                 </div>
                                 <div className="containerButton">
-                                    <button className="butGenerique"onClick={toggleCategorie}>Ajouter une categorie
-                                        <BiCategory style={{fontSize: '5em', color: 'blueviolet'}}/>
+                                    <button className="butGenerique" onClick={toggleDescription}>
+                                        Ajouter une description
+                                        <MdOutlineDescription style={{fontSize: '5em', color: 'blueviolet'}}/>
+
                                     </button>
-                                    <p className={categorieCSS}>{actionCategorie}</p>
 
-                                    <p className="error">{actionCategorieError}</p>
+
                                 </div>
-                            </div>
-                            <div className="containerButton">
-                                <button className="butGenerique" onClick={toggleDescription}>
-                                    Ajouter une description
-                                    <MdOutlineDescription style={{fontSize:'5em',color:'blueviolet'}}/>
 
+                                <div className="containerCote containerButton">
+                                    <button className="butGenerique" onClick={toggleMontant}>Ajouter un montant
+                                        <RiPassPendingLine style={{fontSize: '5em', color: 'blueviolet'}}/>
+                                    </button>
+
+                                </div>
+                                <button className="butGenerique" onClick={toggleDate}>Ajouter une date
+                                    <CiCalendarDate style={{fontSize: '5em', color: 'blueviolet'}}/>
                                 </button>
 
 
                             </div>
-
-                            <div className="containerCote containerButton">
-                                <button className="butGenerique" onClick={toggleMontant}>Ajouter un montant
-                                    <RiPassPendingLine style={{fontSize: '5em', color: 'blueviolet'}}/>
-                                </button>
-
-                            </div>
-                            <button className="butGenerique" onClick={toggleDate}>Ajouter une date
-                                <CiCalendarDate style={{fontSize: '5em', color: 'blueviolet'}}/>
-                            </button>
-
-                            <div style={{"margin":"10px"}}>
+                            <div style={{"margin": "10px"}}>
                                 <button className="butGenerique" onClick={(e) => {
                                     e.preventDefault();
                                     if (buttonCSS === "visible") {
@@ -587,24 +591,20 @@ export function Budget(props) {
                                 </button>
                                 <div className={buttonCSS}>
                                     <div className="containerCote">
-                                    <button className="butGenerique" onClick={fetchCreer}>creer <GrAddCircle
-                                        style={{fontSize: '5em', color: 'blueviolet'}}/></button>
-                                    <div>{messageAjout}</div>
-                                    <button className="butGenerique" onClick={modifier}>modifier <RxUpdate
-                                        style={{fontSize: '5em', color: 'blueviolet'}}/></button>
+                                        <button className="butGenerique" onClick={fetchCreer}>creer <GrAddCircle
+                                            style={{fontSize: '5em', color: 'blueviolet'}}/></button>
+                                        <div>{messageAjout}</div>
+                                        <button className="butGenerique" onClick={modifier}>modifier <RxUpdate
+                                            style={{fontSize: '5em', color: 'blueviolet'}}/></button>
 
-                                    <div>
-                                        <button className="butGenerique" onClick={deleteMontant}><CiCircleRemove
-                                            style={{fontSize: '5em', color: 'blueviolet'}}/>Supprimer
-                                        </button>
+                                        <div>
+                                            <button className="butGenerique" onClick={deleteMontant}><CiCircleRemove
+                                                style={{fontSize: '5em', color: 'blueviolet'}}/>Supprimer
+                                            </button>
+                                        </div>
+                                        <button className="butGenerique" onClick={getData}>Download</button>
                                     </div>
-                                    <button className="butGenerique" onClick={getData}>Download</button>
                                 </div>
-                                </div>
-                            </div>
-                        </div>
-                            <div>
-
                             </div>
 
                         </div>
@@ -657,6 +657,7 @@ export function Budget(props) {
                         <tr>
                             <th scope="row" colSpan="2"></th>
                             <td colSpan="2">montantTotal{montantTotal}</td>
+                            <td colSpan="2">Nombre de dépense{"" + listDesDepense?.length}</td>
                         </tr>
                         </tfoot>
                     </table>

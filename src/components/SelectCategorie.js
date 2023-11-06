@@ -11,8 +11,8 @@ export default function SelectCategorie(props) {
     }, []);
 
     const fetchAPI = useCallback(async () => {
-        let idUser=parseInt("" + localStorage.getItem("utilisateur"))
-        const response = await fetch(lien.url+"categorie/byuser/"+idUser);
+        let idUser = parseInt("" + localStorage.getItem("utilisateur"))
+        const response = await fetch(lien.url + "categorie/byuser/" + idUser);
         const resbis = await response.json();
         await setText(resbis);
 
@@ -29,7 +29,7 @@ export default function SelectCategorie(props) {
                         fetchAPI();
                         props.categorie(props.id);
                     }} key={option.id}>
-                        {option.id +" "+option.categorie}
+                        {option.id + " " + option.categorie}
 
                     </option>
                 })}

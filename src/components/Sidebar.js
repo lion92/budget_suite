@@ -2,9 +2,7 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 
 
-Sidebar.propTypes = {
-
-};
+Sidebar.propTypes = {};
 
 function Sidebar(props) {
 

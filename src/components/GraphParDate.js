@@ -6,8 +6,7 @@ export default function GraphParDate(props) {
         <div className="divCentrer">
 
 
-                <Bar data={props.data}/>
-
+            <Bar data={props.data}/>
 
 
         </div>
