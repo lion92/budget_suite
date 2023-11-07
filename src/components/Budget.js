@@ -505,8 +505,11 @@ export function Budget(props) {
                                                setDescriptionFiltre(e.target.value)
                                            }}/>
 
-                                    <button onClick={() => {
-                                        setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
+                                    <button onClick={async() => {
+                                        await setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
+                                            await setMontantTotal(listDesDepense.filter(value => value.description.includes(descriptionFiltre)).map(value => value.montant).reduce(function (a, b) {
+                                            return a + b;
+                                        }, 0))
                                     }}>Actualiser
                                     </button>
                                 </div>
@@ -517,8 +520,11 @@ export function Budget(props) {
                                                setCategorieFiltre(e.target.value)
                                            }}/>
 
-                                    <button onClick={() => {
-                                        setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
+                                    <button onClick={async() => {
+                                        await setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
+                                        await setMontantTotal(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)).map(value => value.montant).reduce(function (a, b) {
+                                            return a + b;
+                                        }, 0))
                                     }}>Actualiser
                                     </button>
                                 </div>
