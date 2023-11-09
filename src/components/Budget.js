@@ -31,6 +31,7 @@ export function Budget(props) {
         let [textCat, setTextCat] = useState([]);
         let [montantTotal, setMontantTotal] = useState(0);
         let [textCat2, setTextCat2] = useState([]);
+        let [textTout, setTextTout] = useState([]);
         const [load, setLoad] = useState(false);
         const [datePick, onChangeDatePick] = useState(new Date());
         const [montantCSS, setMontantCSS] = useState("hidden");
@@ -48,6 +49,7 @@ export function Budget(props) {
         const [modalCategorie, setModalCategorie] = useState(false);
         const [modalMontant, setModalMontant] = useState(false);
         const [modalDate, setModalDate] = useState(false);
+        const[catAll,setCatAll]=useState([]);
         const toggleDescription = () => {
             setModalDescription(!modalDescription);
         };
@@ -97,6 +99,46 @@ export function Budget(props) {
                 }
             ]
         };
+
+        const dataTous = {
+            labels:catAll.map(value => "se referencer à la couleur des categorie"),
+            datasets: [
+                {
+                    label: 'Montant par catégorie juillet',
+                    data: textTout?.length>0?textTout[0].map(value => value.montant):[],
+                    backgroundColor: textTout?.length>0?textTout[0].map(value => value.color):[],
+                    borderColor: 'black',
+
+                },   {
+                    label: 'Montant par catégorie aout',
+                    data: textTout?.length>0?textTout[1].map(value => value.montant):[],
+                    backgroundColor: textTout?.length>0?textTout[1].map(value => value.color):[],
+                    borderColor: 'black',
+
+                },{
+                    label: 'Montant par catégorie septembre',
+                    data: textTout?.length>0?textTout[2].map(value => value.montant):[],
+                    backgroundColor: textTout?.length>0?textTout[2].map(value => value.color):[],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie octobre',
+                    data: textTout?.length>0?textTout[3].map(value => value.montant):[],
+                    backgroundColor: textTout?.length>0?textTout[3].map(value => value.color):[],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie novembre',
+                    data: textTout?.length>0?textTout[4].map(value => value.montant):[],
+                    backgroundColor: textTout?.length>0?textTout[4].map(value => value.color):[],
+                    borderColor: 'black',
+
+                }
+
+            ]
+        };
         const dataParDate = {
             type: 'line',
             scales: {
@@ -130,6 +172,42 @@ export function Budget(props) {
             }]
         };
 
+        const fetchAPICat3 = useCallback(async () => {
+            let tousMois = [];
+            let idUser = parseInt("" + localStorage.getItem("utilisateur"))
+            const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7)
+            let resbisJuillet = await response7.json();
+
+
+
+            const response8 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 8)
+            let resbisAout = await response8.json();
+
+
+            const response9 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 9)
+            let resbisSeptembre = await response9.json();
+
+            const response10 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 10)
+            let resbisOctobre = await response10.json();
+
+            const response11 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 11)
+            let resbisNovembre = await response11.json();
+
+            tousMois.push(resbisJuillet);
+            tousMois.push(resbisAout);
+            tousMois.push(resbisSeptembre);
+            tousMois.push(resbisOctobre);
+            tousMois.push(resbisNovembre);
+
+
+
+            await console.log(tousMois)
+            await setTextTout(tousMois);
+
+
+            return tousMois;
+        }, [setTextCat2]);
+
 
         const fetchAPICat2 = useCallback(async () => {
             let str = localStorage.getItem("month")
@@ -141,20 +219,10 @@ export function Budget(props) {
             return resbis;
         }, [setTextCat2]);
 
-        const fetchAPICat = useCallback(async () => {
-            let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url + "categorie/byuser/" + idUser);
-            const resbis = await response.json();
-            await setTextCat(resbis);
 
-            return resbis;
-        }, [setListDesDepense]);
 
-        let idCategorie = (data) => {
-            let str = "" + data
-            str = str.split(" ")[0];
-            setActionCategorie(str);
-        };
+
+
         let attendre = () => {
             setLoad(true);
             setTimeout(() => {
@@ -162,11 +230,13 @@ export function Budget(props) {
             }, 2000);
             console.log(load);
         };
-        useEffect(() => {
+        useEffect(async () => {
             attendre();
-            fetchAPI();
-            fetchAPICat();
-            fetchAPICat2();
+            await fetchAPIToutCategorie();
+           await fetchAPI();
+           await fetchAPICat3();
+
+          await  fetchAPICat2();
         }, []);
         ////////////////////////Rechercher/////////////
         let recherche = async (e) => {
@@ -200,7 +270,14 @@ export function Budget(props) {
                 return a + b;
             }, 0))
         }
+        const fetchAPIToutCategorie = useCallback(async () => {
+            let idUser = parseInt("" + localStorage.getItem("utilisateur"))
+            const response = await fetch(lien.url + "categorie/byuser/" + idUser);
+            const resbis = await response.json();
+            await setCatAll(resbis);
 
+            return resbis;
+        }, [setCatAll]);
         ////////////////////////////////////////////
         ///////////////////fectchApi/////////////////////////
         const fetchAPI = useCallback(async () => {
@@ -474,6 +551,7 @@ export function Budget(props) {
 
                             <div className="containerCote">
                                 <div className="containerButton">
+                                    <button onClick={() => fetchAPICat3()}>Tous les mois par categories</button>
                                     <label>Filtre par date</label>
                                     <select onChange={async (e) => {
                                         await filterByMonth(e.target.value);
@@ -505,9 +583,9 @@ export function Budget(props) {
                                                setDescriptionFiltre(e.target.value)
                                            }}/>
 
-                                    <button onClick={async() => {
+                                    <button onClick={async () => {
                                         await setListDesDepense(listDesDepense.filter(value => value.description.includes(descriptionFiltre)))
-                                            await setMontantTotal(listDesDepense.filter(value => value.description.includes(descriptionFiltre)).map(value => value.montant).reduce(function (a, b) {
+                                        await setMontantTotal(listDesDepense.filter(value => value.description.includes(descriptionFiltre)).map(value => value.montant).reduce(function (a, b) {
                                             return a + b;
                                         }, 0))
                                     }}>Actualiser
@@ -520,7 +598,7 @@ export function Budget(props) {
                                                setCategorieFiltre(e.target.value)
                                            }}/>
 
-                                    <button onClick={async() => {
+                                    <button onClick={async () => {
                                         await setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
                                         await setMontantTotal(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)).map(value => value.montant).reduce(function (a, b) {
                                             return a + b;
@@ -620,6 +698,8 @@ export function Budget(props) {
                 <div>
                     <GraphParDate data={dataParDate}></GraphParDate>
                     <Graph data={data}></Graph>
+                    <h1>Tous les mois</h1>
+                    <Graph data={dataTous}></Graph>
 
                 </div>
                 <div>
