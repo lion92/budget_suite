@@ -5,7 +5,7 @@ export default function Item(props) {
     const [iditem, setItemid] = useState(-1);
     return (
         <>
-            <div className="card" style={{width: '20em'}} onClick={() => {
+            <div className="card" style={{width: "200px", height:"300px"}} onClick={() => {
                 props.updatefunc(props.id);
                 props.changeDec(props.description);
                 props.changetext(props.title)
