@@ -5,9 +5,7 @@ export default function Graph(props) {
     return (
         <div className="divCentrer">
             <Pie style={{width: '100%'}} data={props.data}
-
             />
-            <Bar data={props.data}></Bar>
 
         </div>
     );

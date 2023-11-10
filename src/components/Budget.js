@@ -10,6 +10,7 @@ import {CiCalendarDate, CiCircleRemove} from "react-icons/ci";
 import {GrAddCircle} from "react-icons/gr";
 import {RxUpdate} from "react-icons/rx";
 import {MdOutlineDescription} from "react-icons/md";
+import BarGraph from "./BarGraph";
 
 
 export function Budget(props) {
@@ -696,10 +697,16 @@ export function Budget(props) {
                     </div>
                 </div>
                 <div>
+                    <h1>Toutes les dépenses du tableau</h1>
                     <GraphParDate data={dataParDate}></GraphParDate>
+
+                    <h1>Dépense par mois</h1>
                     <Graph data={data}></Graph>
+                    <h1>Dépense par mois</h1>
+                    <BarGraph data={data}></BarGraph>
                     <h1>Tous les mois</h1>
                     <Graph data={dataTous}></Graph>
+
 
                 </div>
                 <div>
