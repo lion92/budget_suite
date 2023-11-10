@@ -47,6 +47,9 @@ export default function MenuComponent(props) {
                     <NavLink to={"/budget"}>
                         <li>Budget</li>
                     </NavLink>
+                    <NavLink to={"/enveloppe"}>
+                        <li>Enveloppe</li>
+                    </NavLink>
                 </ul>
             </div>
             <section className={content}>

@@ -1,0 +1,89 @@
+$babyblue: #acecf7;
+$env: (#ebd2b4, #f1dfca, #f5e8d9);
+
+
+#enveloppe {
+  position: absolute;
+  left: 50%;
+  top:50%;
+  height: 200px;
+  width: 300px;
+  background-color: nth($env, 3);
+  border-top: 2px solid rgba(128, 128, 128, 0.5);
+}
+
+#lid-top {
+  position: absolute;
+  height: 130px;
+  width: 300px;
+  bottom: 202px;
+  background-color: nth($env, 2);
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+
+#letter {
+  position: absolute;
+  left: 15px;
+  bottom: 30px;
+  height: 200px;
+  width: 270px;
+  background-color: white;
+  border: 2px solid rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+  // animation: letter 4s ease-in-out infinite;
+
+  .line {
+    width: 80%;
+    height: 2px;
+    margin: 20px auto;
+    background-color: rgba(128, 128, 128, 0.5);
+  }
+
+  .head {
+    width: 40%;
+  }
+}
+
+#lid-right, #lid-right-shadow {
+  position: absolute;
+  height: 200px;
+  width: 300px;
+  background-color: nth($env, 2);
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+}
+
+#lid-right-shadow {
+  height: 203px;
+  width: 303px;
+  right: 0;
+  bottom: 0;
+  background-color: grey;
+  opacity: 0.5;
+}
+
+#lid-left, #lid-left-shadow {
+  position: absolute;
+  height: 200px;
+  width: 300px;
+  background-color: nth($env, 1);
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+}
+
+#lid-left-shadow {
+  height: 203px;
+  width: 303px;
+  left: 0;
+  bottom: 0;
+  background-color: grey;
+  opacity: 0.5;
+}
+
+@keyframes letter {
+  0% {
+    bottom: 30px;
+  } 50% {
+      bottom: 10px;
+    } 100% {
+        bottom: 30px;
+      }
+}

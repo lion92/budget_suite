@@ -499,7 +499,7 @@ export function Budget(props) {
                         <div className="modal-content containerButton">
                             <h1>Categorie</h1>
                             <div>
-                                {textCat.map((option, index) => {
+                                {catAll.map((option, index) => {
                                     return <h1 className="but1" onClick={() => {
                                         setIdCat(option)
                                     }}
