@@ -223,7 +223,6 @@ export function Categorie(props) {
                         <div className="containerGraph">
                             <button onClick={modifier}>modifier</button>
                             <button onClick={fetchCreer}>creer</button>
-                            <button onClick={deleteMontant}>Supprimer</button>
                         </div>
 
                         <div style={{"marginTop": "5px"}}
