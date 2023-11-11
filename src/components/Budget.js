@@ -51,7 +51,7 @@ export function Budget(props) {
         const [modalMontant, setModalMontant] = useState(false);
         const [modalDate, setModalDate] = useState(false);
         const [year, setYear] = useState("2023");
-        const[catAll,setCatAll]=useState([]);
+        const [catAll, setCatAll] = useState([]);
         const toggleDescription = () => {
             setModalDescription(!modalDescription);
         };
@@ -90,18 +90,18 @@ export function Budget(props) {
         }
 
         const data = {
-            labels: textCat2?.length>0?textCat2.map(value => value.categorie):[],
+            labels: textCat2?.length > 0 ? textCat2.map(value => value.categorie) : [],
             datasets: [
                 {
                     label: 'Montant par catégorie',
-                    data: textCat2?.length>0?textCat2.map(value => value.montant):[],
-                    backgroundColor:textCat2?.length>0 ?textCat2.map(value => value.color):[],
+                    data: textCat2?.length > 0 ? textCat2.map(value => value.montant) : [],
+                    backgroundColor: textCat2?.length > 0 ? textCat2.map(value => value.color) : [],
                     borderColor: 'black',
 
-                },  {
+                }, {
                     label: 'Budget debut mois',
-                    data: textCat2?.length>0?textCat2.map(value => value.budgetDebutMois):[],
-                    backgroundColor:textCat2?.length>0 ?textCat2.map(value => value.color):[],
+                    data: textCat2?.length > 0 ? textCat2.map(value => value.budgetDebutMois) : [],
+                    backgroundColor: textCat2?.length > 0 ? textCat2.map(value => value.color) : [],
                     borderColor: 'black',
 
                 }
@@ -109,38 +109,38 @@ export function Budget(props) {
         };
 
         const dataTous = {
-            labels:catAll.map(value => "se referencer à la couleur des categorie"),
+            labels: catAll.map(value => "voir la legende des couleurs"),
             datasets: [
                 {
                     label: 'Montant par catégorie juillet',
-                    data: textTout?.length>0?textTout[0].map(value => value.montant):[],
-                    backgroundColor: textTout?.length>0?textTout[0].map(value => value.color):[],
+                    data: textTout?.length > 0 ? textTout[0].map(value => value.montant) : [],
+                    backgroundColor: textTout?.length > 0 ? textTout[0].map(value => value.color) : [],
                     borderColor: 'black',
 
-                },   {
+                }, {
                     label: 'Montant par catégorie aout',
-                    data: textTout?.length>0?textTout[1].map(value => value.montant):[],
-                    backgroundColor: textTout?.length>0?textTout[1].map(value => value.color):[],
+                    data: textTout?.length > 0 ? textTout[1].map(value => value.montant) : [],
+                    backgroundColor: textTout?.length > 0 ? textTout[1].map(value => value.color) : [],
                     borderColor: 'black',
 
-                },{
+                }, {
                     label: 'Montant par catégorie septembre',
-                    data: textTout?.length>0?textTout[2].map(value => value.montant):[],
-                    backgroundColor: textTout?.length>0?textTout[2].map(value => value.color):[],
+                    data: textTout?.length > 0 ? textTout[2].map(value => value.montant) : [],
+                    backgroundColor: textTout?.length > 0 ? textTout[2].map(value => value.color) : [],
                     borderColor: 'black',
 
                 },
                 {
                     label: 'Montant par catégorie octobre',
-                    data: textTout?.length>0?textTout[3].map(value => value.montant):[],
-                    backgroundColor: textTout?.length>0?textTout[3].map(value => value.color):[],
+                    data: textTout?.length > 0 ? textTout[3].map(value => value.montant) : [],
+                    backgroundColor: textTout?.length > 0 ? textTout[3].map(value => value.color) : [],
                     borderColor: 'black',
 
                 },
                 {
                     label: 'Montant par catégorie novembre',
-                    data: textTout?.length>0?textTout[4].map(value => value.montant):[],
-                    backgroundColor: textTout?.length>0?textTout[4].map(value => value.color):[],
+                    data: textTout?.length > 0 ? textTout[4].map(value => value.montant) : [],
+                    backgroundColor: textTout?.length > 0 ? textTout[4].map(value => value.color) : [],
                     borderColor: 'black',
 
                 }
@@ -184,25 +184,24 @@ export function Budget(props) {
             let tousMois = [];
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
             let getyear = parseInt("" + localStorage.getItem("year"))
-            if(isNaN(year)){
-               return
+            if (isNaN(year)) {
+                return
             }
-            const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7+"/"+getyear)
+            const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7 + "/" + getyear)
             let resbisJuillet = await response7.json();
 
 
-
-            const response8 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 8+"/"+getyear)
+            const response8 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 8 + "/" + getyear)
             let resbisAout = await response8.json();
 
 
-            const response9 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 9+"/"+getyear)
+            const response9 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 9 + "/" + getyear)
             let resbisSeptembre = await response9.json();
 
-            const response10 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 10+"/"+getyear)
+            const response10 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 10 + "/" + getyear)
             let resbisOctobre = await response10.json();
 
-            const response11 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 11+"/"+getyear)
+            const response11 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 11 + "/" + getyear)
             let resbisNovembre = await response11.json();
 
             tousMois.push(resbisJuillet);
@@ -210,7 +209,6 @@ export function Budget(props) {
             tousMois.push(resbisSeptembre);
             tousMois.push(resbisOctobre);
             tousMois.push(resbisNovembre);
-
 
 
             await console.log(tousMois)
@@ -223,20 +221,17 @@ export function Budget(props) {
 
         const fetchAPICat2 = useCallback(async () => {
             let getyear = parseInt("" + localStorage.getItem("year"))
-            if(isNaN(year)){
+            if (isNaN(year)) {
                 return
             }
             let str = localStorage.getItem("month")
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str+"/"+getyear)
+            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str + "/" + getyear)
             const resbis = await response.json();
             await setTextCat2(resbis);
 
             return resbis;
         }, [setTextCat2]);
-
-
-
 
 
         let attendre = () => {
@@ -250,10 +245,10 @@ export function Budget(props) {
             attendre();
             await localStorage.setItem("year", 2023);
             await fetchAPIToutCategorie();
-           await fetchAPI();
+            await fetchAPI();
             fetchAPICat3();
 
-          await  fetchAPICat2();
+            await fetchAPICat2();
         }, []);
         ////////////////////////Rechercher/////////////
         let recherche = async (e) => {
@@ -287,6 +282,7 @@ export function Budget(props) {
                 return a + b;
             }, 0))
         }
+
         const fetchAPIToutCategorie = useCallback(async () => {
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
             const response = await fetch(lien.url + "categorie/byuser/" + idUser);
@@ -568,7 +564,7 @@ export function Budget(props) {
 
                             <div className="containerCote">
                                 <div className="containerButton">
-                                    <div> <label>Filtre de Categorie</label>
+                                    <div><label>Filtre de Categorie</label>
                                         <input placeholder="Annee" value={year}
                                                onChange={(e) => {
                                                    setYear(e.target.value)
@@ -576,7 +572,11 @@ export function Budget(props) {
                                             year
                                         }</div>
 
-                                    <button onClick={async () => {await localStorage.setItem("year",year); fetchAPICat3()}}>Tous les mois par categories</button>
+                                    <button onClick={async () => {
+                                        await localStorage.setItem("year", year);
+                                        fetchAPICat3()
+                                    }}>Tous les mois par categories
+                                    </button>
                                     <label>Filtre par date</label>
                                     <select onChange={async (e) => {
                                         await filterByMonth(e.target.value);
@@ -730,6 +730,18 @@ export function Budget(props) {
                     <BarGraph data={data}></BarGraph>
                     <h1>Tous les mois</h1>
                     <Graph data={dataTous}></Graph>
+                    <div className="containerCote">
+                        {catAll.map(value => {
+                            return <>
+                                <h1>{value.categorie}</h1>
+                                <input type="color" id="favcolor" name="favcolor" value={value.color}/>
+                            </>
+                        })
+                        }
+
+
+                    </div>
+
 
 
                 </div>
