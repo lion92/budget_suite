@@ -11,6 +11,7 @@ import {GrAddCircle} from "react-icons/gr";
 import {RxUpdate} from "react-icons/rx";
 import {MdOutlineDescription} from "react-icons/md";
 import BarGraph from "./BarGraph";
+import {HiBattery100} from "react-icons/hi2";
 
 
 export function Budget(props) {
@@ -725,6 +726,20 @@ export function Budget(props) {
                     <GraphParDate data={dataParDate}></GraphParDate>
 
                     <h1>Dépense par mois</h1>
+                    <h1>Systeme des budget par catégorie</h1>
+                    <div className="containerCote">
+                    {textCat2?.length > 0?textCat2.map(value => {
+                        return <>
+                            <div style={{color:'black'}}>
+                            <h2 style={{color:'blue', marginBottom:'5px'}}>{value.categorie}</h2>
+                            <input type="color" id="favcolor" name="favcolor" value={value.color}/>
+                                <h2 style={{color:'black'}}>Debut mois: {value.budgetDebutMois}</h2>
+                                <h2 style={{color:'black'}}>En cours: {value.montant}</h2>
+
+                           <h2 style={{color:'black'}}>Montant restant: {value.budgetDebutMois-value.montant}</h2>
+                            </div>
+                        </>
+                    }):[]} </div>
                     <Graph data={data}></Graph>
                     <h1>Dépense par mois</h1>
                     <BarGraph data={data}></BarGraph>
