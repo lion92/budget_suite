@@ -98,6 +98,12 @@ export function Budget(props) {
                     backgroundColor:textCat2?.length>0 ?textCat2.map(value => value.color):[],
                     borderColor: 'black',
 
+                },  {
+                    label: 'Budget debut mois',
+                    data: textCat2?.length>0?textCat2.map(value => value.budgetDebutMois):[],
+                    backgroundColor:textCat2?.length>0 ?textCat2.map(value => value.color):[],
+                    borderColor: 'black',
+
                 }
             ]
         };
@@ -178,6 +184,9 @@ export function Budget(props) {
             let tousMois = [];
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
             let getyear = parseInt("" + localStorage.getItem("year"))
+            if(isNaN(year)){
+               return
+            }
             const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7+"/"+getyear)
             let resbisJuillet = await response7.json();
 
@@ -214,6 +223,9 @@ export function Budget(props) {
 
         const fetchAPICat2 = useCallback(async () => {
             let getyear = parseInt("" + localStorage.getItem("year"))
+            if(isNaN(year)){
+                return
+            }
             let str = localStorage.getItem("month")
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
             const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str+"/"+getyear)
@@ -236,8 +248,10 @@ export function Budget(props) {
         };
         useEffect(async () => {
             attendre();
+            await localStorage.setItem("year", 2023);
             await fetchAPIToutCategorie();
            await fetchAPI();
+            fetchAPICat3();
 
           await  fetchAPICat2();
         }, []);
