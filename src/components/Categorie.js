@@ -52,6 +52,9 @@ export function Categorie(props) {
         let changeBudgetDebutMois = (data) => {
             setbudgetDebutMois(data);
         };
+        let changecategorie = (data) => {
+            setCategorie(data);
+        };
 
         //////////////////////////appel api en debut
         useEffect(() => {
@@ -233,6 +236,7 @@ export function Categorie(props) {
 
                                         <ItemCategorie
                                             del={del}
+                                            changecategorie={changecategorie}
                                             changeDec={textebisDesc}
                                             changeTitle={title}
                                             idFunc={idchange}

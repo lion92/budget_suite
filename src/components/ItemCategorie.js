@@ -10,6 +10,7 @@ export default function ItemCategorie(props) {
                 props.changeTitle(props.title)
                 props.changeAnnee(props.annee)
                 props.changeMonth(props.month)
+                props.changecategorie(props.categorie)
                 props.changeBudgetDebutMois(props.budgetDebutMois)
             }}>
                 <h1 style={{color: 'black'}}>{props.title}</h1>
