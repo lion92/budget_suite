@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Item from "./Item";
 import lien from './lien'
+import ItemCategorie from "./ItemCategorie";
 
 export function Categorie(props) {
 
@@ -14,6 +15,10 @@ export function Categorie(props) {
         let [idVal, setId] = useState(-1);
         let [categorieCard, setCategorieCard] = useState([]);
         let [colorCategorie, setColorCategorie] = useState("red");
+        let [month, setMonth] = useState("");
+        let [annee, setAnnee] = useState("");
+        let [budgetDebutMois, setbudgetDebutMois] = useState(0);
+
         const [load, setLoad] = useState(false);
 
 
@@ -37,6 +42,17 @@ export function Categorie(props) {
         let idchange = (data) => {
             setId(data);
         };
+        let changeAnnee = (data) => {
+            setAnnee(data);
+        };
+        let changeMonth = (data) => {
+            setMonth(data);
+        };
+
+        let changeBudgetDebutMois = (data) => {
+            setbudgetDebutMois(data);
+        };
+
         //////////////////////////appel api en debut
         useEffect(() => {
             fetchAPI();
@@ -48,7 +64,7 @@ export function Categorie(props) {
             fetchdelete(data);
         };
         ///////////////////////////////////////////////////////////remonter le texte
-        let textebis = (data) => {
+        let title = (data) => {
             setCategorieDescription(data);
         };
         ///////////////////////////////////////////////////////////remonter le texte
@@ -91,7 +107,10 @@ export function Categorie(props) {
                         categorie: categorie,
                         description: categorieDescription,
                         color: colorCategorie,
-                        user: parseInt("" + localStorage.getItem("utilisateur"))
+                        user: parseInt("" + localStorage.getItem("utilisateur")),
+                        month:month,
+                        annee:annee,
+                        budgetDebutMois:budgetDebutMois
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -110,8 +129,12 @@ export function Categorie(props) {
                         categorie: categorie,
                         description: categorieDescription,
                         color: colorCategorie,
-                        user: parseInt("" + localStorage.getItem("utilisateur"))
-                    }),
+                        user: parseInt("" + localStorage.getItem("utilisateur")),
+                        month:month,
+                        annee:annee,
+                        budgetDebutMois:budgetDebutMois
+
+        }),
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -180,6 +203,23 @@ export function Categorie(props) {
                             <input placeholder="Categorie" value={categorie}
                                    onChange={(e) => setCategorie(e.target.value)}/>{" "}
                         </div>
+                        <div>
+                            <label>Month</label>
+                            <p>Ecrire le mois exemple Janvier</p>
+                            <input placeholder="Month" value={month}
+                                   onChange={(e) => setMonth(e.target.value)}/>{" "}
+                        </div>
+                        <div>
+                            <label>Annee</label>
+                            <input placeholder="Annee" value={annee}
+                                   onChange={(e) => setAnnee(e.target.value)}/>{" "}
+                        </div>
+                        <div>
+                            <label>budget Debut Mois</label>
+                            <input placeholder="budget Debut Mois" value={budgetDebutMois}
+                                   onChange={(e) => setbudgetDebutMois(e.target.value)}/>{" "}
+                        </div>
+
                         <div className="containerGraph">
                             <button onClick={modifier}>modifier</button>
                             <button onClick={fetchCreer}>creer</button>
@@ -192,15 +232,20 @@ export function Categorie(props) {
                             {categorieCard.map((item, index) => {
                                 return (<div className="container" style={{backgroundColor: item.color, margin: "5px"}}>
 
-                                        <Item
+                                        <ItemCategorie
                                             del={del}
                                             changeDec={textebisDesc}
-                                            changetext={textebis}
-                                            updatefunc={idchange}
-                                            title={item.description}
-                                            description={item.categorie}
+                                            changeTitle={title}
+                                            idFunc={idchange}
+                                            changeMonth={ changeMonth}
+                                            changeBudgetDebutMois={changeBudgetDebutMois}
+                                            changeAnnee={changeAnnee}
+                                            categorie={item.categorie}
+                                            annee={item.annee}
+                                            month={item.month}
+                                            budgetDebutMois={item.budgetDebutMois}
                                             id={item.id}
-                                        ></Item>
+                                        ></ItemCategorie>
 
 
                                     </div>
