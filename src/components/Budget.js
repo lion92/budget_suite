@@ -50,6 +50,7 @@ export function Budget(props) {
         const [modalCategorie, setModalCategorie] = useState(false);
         const [modalMontant, setModalMontant] = useState(false);
         const [modalDate, setModalDate] = useState(false);
+        const [year, setYear] = useState("2023");
         const[catAll,setCatAll]=useState([]);
         const toggleDescription = () => {
             setModalDescription(!modalDescription);
@@ -89,12 +90,12 @@ export function Budget(props) {
         }
 
         const data = {
-            labels: textCat2.map(value => value.categorie),
+            labels: textCat2?.length>0?textCat2.map(value => value.categorie):[],
             datasets: [
                 {
                     label: 'Montant par catégorie',
-                    data: textCat2.map(value => value.montant),
-                    backgroundColor: textCat2.map(value => value.color),
+                    data: textCat2?.length>0?textCat2.map(value => value.montant):[],
+                    backgroundColor:textCat2?.length>0 ?textCat2.map(value => value.color):[],
                     borderColor: 'black',
 
                 }
@@ -176,22 +177,23 @@ export function Budget(props) {
         const fetchAPICat3 = useCallback(async () => {
             let tousMois = [];
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7)
+            let getyear = parseInt("" + localStorage.getItem("year"))
+            const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7+"/"+getyear)
             let resbisJuillet = await response7.json();
 
 
 
-            const response8 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 8)
+            const response8 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 8+"/"+getyear)
             let resbisAout = await response8.json();
 
 
-            const response9 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 9)
+            const response9 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 9+"/"+getyear)
             let resbisSeptembre = await response9.json();
 
-            const response10 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 10)
+            const response10 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 10+"/"+getyear)
             let resbisOctobre = await response10.json();
 
-            const response11 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 11)
+            const response11 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 11+"/"+getyear)
             let resbisNovembre = await response11.json();
 
             tousMois.push(resbisJuillet);
@@ -211,9 +213,10 @@ export function Budget(props) {
 
 
         const fetchAPICat2 = useCallback(async () => {
+            let getyear = parseInt("" + localStorage.getItem("year"))
             let str = localStorage.getItem("month")
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str)
+            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str+"/"+getyear)
             const resbis = await response.json();
             await setTextCat2(resbis);
 
@@ -235,7 +238,6 @@ export function Budget(props) {
             attendre();
             await fetchAPIToutCategorie();
            await fetchAPI();
-           await fetchAPICat3();
 
           await  fetchAPICat2();
         }, []);
@@ -552,7 +554,15 @@ export function Budget(props) {
 
                             <div className="containerCote">
                                 <div className="containerButton">
-                                    <button onClick={() => fetchAPICat3()}>Tous les mois par categories</button>
+                                    <div> <label>Filtre de Categorie</label>
+                                        <input placeholder="Annee" value={year}
+                                               onChange={(e) => {
+                                                   setYear(e.target.value)
+                                               }}/>{
+                                            year
+                                        }</div>
+
+                                    <button onClick={async () => {await localStorage.setItem("year",year); fetchAPICat3()}}>Tous les mois par categories</button>
                                     <label>Filtre par date</label>
                                     <select onChange={async (e) => {
                                         await filterByMonth(e.target.value);
