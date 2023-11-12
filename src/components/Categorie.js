@@ -190,7 +190,7 @@ export function Categorie(props) {
         /////////////////////////
         return (
             <div className="container2">
-                <div className="containerButton">
+                <div className="containerCote">
                     <div style={{"margin": "2px", "padding": "2px"}} className="containerButton">
                         <div>
 
@@ -208,17 +208,16 @@ export function Categorie(props) {
                         </div>
                         <div>
                             <label>Month</label>
-                            <p>Ecrire le mois exemple Janvier</p>
                             <input placeholder="Month" value={month}
                                    onChange={(e) => setMonth(e.target.value)}/>{" "}
                         </div>
                         <div>
                             <label>Annee</label>
-                            <input placeholder="Annee" value={annee}
+                            <input type="number" placeholder="Annee" value={annee}
                                    onChange={(e) => setAnnee(e.target.value)}/>{" "}
                         </div>
                         <div>
-                            <label>budget Debut Mois</label>
+                            <label>Debut Mois</label>
                             <input placeholder="budget Debut Mois" value={budgetDebutMois}
                                    onChange={(e) => setbudgetDebutMois(e.target.value)}/>{" "}
                         </div>
