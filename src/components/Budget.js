@@ -658,6 +658,7 @@ export function Budget(props) {
                 <h1>montantTotal: {montantTotal}</h1>
                 <h1>Nombre de
                     dépense: {"" + listDesDepense.filter(value => value?.dateTransaction?.split("-")[0] == year)?.length}</h1>
+                <button onClick={downloadPDF}>dl pdf</button>
                 <ProgressBar className={budgetCSS} completed={calcul() / 100}
                 />
                 <div className="containerButton">
@@ -829,43 +830,49 @@ export function Budget(props) {
 
                     </div>
                 </div>
-                <div ref={pdfref}>
+                <div>
+                    <div className="containerCote">
+                    {catAll.map(value => {
+                        return <>
+                            <h1>{value.categorie}</h1>
+                            <input type="color" id="favcolor" name="favcolor" value={value.color}/>
+                        </>
+                    })
+                    }
+
+
+                </div>
                     <h1>Toutes les dépenses du tableau</h1>
                     <GraphParDate data={dataParDate}></GraphParDate>
 
                     <h1>Dépense par mois</h1>
                     <h1>Systeme des budget par catégorie</h1>
-                    <div className="containerCote">
-                        {textCat2?.length > 0 ? textCat2.map(value => {
-                            return <>
-                                <div style={{color: 'black'}}>
-                                    <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
-                                    <input type="color" id="favcolor" name="favcolor" value={value.color}/>
-                                    <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
-                                    <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
 
-                                    <h2 style={{color: 'black'}}>Montant
-                                        restant: {value.budgetDebutMois - value.montant}</h2>
-                                </div>
-                            </>
-                        }) : []} </div>
-                    <button onClick={downloadPDF}>dl pdf</button>
+
                     <Graph data={data}></Graph>
                     <h1>Dépense par mois</h1>
-                    <BarGraph data={data}></BarGraph>
+                    <div ref={pdfref}>
+
+                        <BarGraph   data={data}></BarGraph>
+                        <div className="containerCote">
+                            {textCat2?.length > 0 ? textCat2.map(value => {
+                                return <>
+                                    <div style={{color: 'black'}}>
+                                        <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
+                                        <input type="color" id="favcolor" name="favcolor" value={value.color}/>
+                                        <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
+                                        <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
+
+                                        <h2 style={{color: 'black'}}>Montant
+                                            restant: {value.budgetDebutMois - value.montant}</h2>
+                                    </div>
+                                </>
+                            }) : []} </div>
+                    </div>
+
                     <h1>Tous les mois</h1>
                     <Graph data={dataTous}></Graph>
-                    <div className="containerCote">
-                        {catAll.map(value => {
-                            return <>
-                                <h1>{value.categorie}</h1>
-                                <input type="color" id="favcolor" name="favcolor" value={value.color}/>
-                            </>
-                        })
-                        }
 
-
-                    </div>
 
 
                 </div>
