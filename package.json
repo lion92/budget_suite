@@ -10,6 +10,8 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.23.0",
     "chart.js": "^2.9.4",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "node-excel-export": "^1.4.4",
     "react": "^17.0.2",
     "react-calendar": "^4.6.0",

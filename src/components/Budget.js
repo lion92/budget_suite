@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Graph from "./Graph";
 import lien from './lien'
 import Calendar from 'react-calendar';
@@ -11,7 +11,8 @@ import {GrAddCircle} from "react-icons/gr";
 import {RxUpdate} from "react-icons/rx";
 import {MdOutlineDescription} from "react-icons/md";
 import BarGraph from "./BarGraph";
-
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export function Budget(props) {
 
@@ -540,6 +541,32 @@ export function Budget(props) {
         };
         ///////////////////
 
+        const pdfref = useRef();
+
+
+
+    const downloadPDF = () => {
+        const input = pdfref.current;
+        html2canvas(input).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4', true);
+
+            // doc and image dimensions
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const imgWidth = canvas.width;
+            const imgHeight = canvas.height;
+
+            const ratio=Math.min(pdfWidth/imgWidth,pdfHeight/imgHeight)
+            const imgX=(pdfWidth-imgWidth*ratio)/2;
+            const imgY=30
+
+            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth*ratio, imgHeight*ratio);
+            pdf.save('Garph.pdf');
+        });
+
+
+}
 
         /////////////////////////
         return (
@@ -802,7 +829,7 @@ export function Budget(props) {
 
                     </div>
                 </div>
-                <div>
+                <div ref={pdfref}>
                     <h1>Toutes les dépenses du tableau</h1>
                     <GraphParDate data={dataParDate}></GraphParDate>
 
@@ -822,6 +849,7 @@ export function Budget(props) {
                                 </div>
                             </>
                         }) : []} </div>
+                    <button onClick={downloadPDF}>dl pdf</button>
                     <Graph data={data}></Graph>
                     <h1>Dépense par mois</h1>
                     <BarGraph data={data}></BarGraph>

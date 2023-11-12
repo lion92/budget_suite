@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import Item from "./Item";
 import lien from './lien'
 import ItemCategorie from "./ItemCategorie";
 
