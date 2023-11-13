@@ -852,14 +852,14 @@ export function Budget(props) {
                     <Graph data={data}></Graph>
                     <h1>Dépense par mois</h1>
                     <div ref={pdfref}>
-
+                        <h1>{"Numero de mois: "+localStorage.getItem("month")}</h1>
                         <BarGraph   data={data}></BarGraph>
                         <div className="containerCote">
                             {textCat2?.length > 0 ? textCat2.map(value => {
                                 return <>
                                     <div style={{color: 'black'}}>
                                         <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
-                                        <input type="color" id="favcolor" name="favcolor" value={value.color}/>
+                                        <div style={{width:"40px",height:"40px",backgroundColor:""+value.color}}></div>
                                         <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
                                         <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
 

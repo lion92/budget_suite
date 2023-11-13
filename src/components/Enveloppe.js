@@ -1,8 +1,10 @@
 import React from 'react'
 import './enveloppe.scss'
+import HelloBis from "./HelloBis";
 
 function Enveloppe() {
     return <>
+        <HelloBis></HelloBis>
         <h1>projet à venir</h1>
         <div className="containerCote">
             <div id="enveloppe">

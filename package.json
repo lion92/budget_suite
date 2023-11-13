@@ -56,6 +56,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.22.10"
+    "@babel/core": "^7.22.10",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
+    "@types/react-dom": "^18.2.15",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "react-refresh": "^0.14.0"
   }
 }
