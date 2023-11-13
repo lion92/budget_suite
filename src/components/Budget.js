@@ -656,26 +656,43 @@ export function Budget(props) {
                 )}
 
                 <h1>montantTotal: {montantTotal}</h1>
+
                 <h1>Nombre de
                     dépense: {"" + listDesDepense.filter(value => value?.dateTransaction?.split("-")[0] == year)?.length}</h1>
+
+                <div className="containerCote">
+                    {textCat2?.length > 0 ? textCat2.map(value => {
+                        return <>
+                            <div style={{color: 'black'}}>
+                                <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
+                                <div style={{width:"40px",height:"40px",backgroundColor:""+value.color}}></div>
+                                <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
+                                <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
+
+                                <h2 style={{color: 'black'}}>Montant
+                                    restant: {value.budgetDebutMois - value.montant}</h2>
+                            </div>
+                        </>
+                    }) : []} </div>
                 <button onClick={downloadPDF}>dl pdf</button>
                 <ProgressBar className={budgetCSS} completed={calcul() / 100}
                 />
                 <div className="containerButton">
-                    <div>
+                    <div className="containerCote">
 
-                        <div>
+                        <div className="containerButton">
 
                             <div className="containerCote">
                                 <div className="containerButton">
-                                    <div><label>Filtre de Categorie</label>
+                                    <div className="containerButton">
+                                        <label>Filtre de l'année</label>
                                         <input type="number" placeholder="Annee" value={year}
                                                onChange={(e) => {
                                                    setYear(e.target.value)
                                                }}/>{
                                             year
                                         }</div>
-
+                                    <div>
                                     <button onClick={async () => {
                                         await localStorage.setItem("year", year);
                                         await setListDesDepense(listDesDepense.filter(value => "" + value.dateTransaction?.split("-")[0] == "" + year))
@@ -687,7 +704,9 @@ export function Budget(props) {
                                         await fetchAPI()
                                     }}>Tous les mois par categories
                                     </button>
-                                    <label>Filtre par date</label>
+                                    </div>
+                                    <div>
+                                    <label>Filtre par mois</label>
                                     <select onChange={async (e) => {
                                         await filterByMonth(e.target.value);
                                         let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
@@ -710,6 +729,7 @@ export function Budget(props) {
 
 
                                     </select>
+                                </div>
                                 </div>
                                 <div className="containerButton">
                                     <label>Filtre de Description</label>
@@ -796,18 +816,18 @@ export function Budget(props) {
                                 </button>
 
 
-                            </div>
-                            <div style={{"margin": "10px"}}>
-                                <button className="butGenerique" onClick={(e) => {
-                                    e.preventDefault();
-                                    if (buttonCSS === "visible") {
+                            </div>   <button className="butGenerique" onClick={(e) => {
+                            e.preventDefault();
+                            if (buttonCSS === "visible") {
 
-                                        setbuttonCSS("hidden")
-                                    } else {
-                                        setbuttonCSS("visible");
-                                    }
-                                }}>Acceder aux bouttons
-                                </button>
+                                setbuttonCSS("hidden")
+                            } else {
+                                setbuttonCSS("visible");
+                            }
+                        }}>Acceder aux bouttons
+                        </button>
+                            <div style={{"margin": "10px"}}>
+
                                 <div className={buttonCSS}>
                                     <div className="containerCote">
                                         <button className="butGenerique" onClick={fetchCreer}>creer <GrAddCircle
@@ -830,18 +850,7 @@ export function Budget(props) {
 
                     </div>
                 </div>
-                <div>
-                    <div className="containerCote">
-                    {catAll.map(value => {
-                        return <>
-                            <h1>{value.categorie}</h1>
-                            <input type="color" id="favcolor" name="favcolor" value={value.color}/>
-                        </>
-                    })
-                    }
 
-
-                </div>
                     <h1>Toutes les dépenses du tableau</h1>
                     <GraphParDate data={dataParDate}></GraphParDate>
 
@@ -854,24 +863,26 @@ export function Budget(props) {
                     <div ref={pdfref}>
                         <h1>{"Numero de mois: "+localStorage.getItem("month")}</h1>
                         <BarGraph   data={data}></BarGraph>
-                        <div className="containerCote">
-                            {textCat2?.length > 0 ? textCat2.map(value => {
-                                return <>
-                                    <div style={{color: 'black'}}>
-                                        <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
-                                        <div style={{width:"40px",height:"40px",backgroundColor:""+value.color}}></div>
-                                        <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
-                                        <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
 
-                                        <h2 style={{color: 'black'}}>Montant
-                                            restant: {value.budgetDebutMois - value.montant}</h2>
-                                    </div>
-                                </>
-                            }) : []} </div>
                     </div>
 
                     <h1>Tous les mois</h1>
-                    <Graph data={dataTous}></Graph>
+                <div>
+                    <div style={{width:'100%', height:'100%'}}><Graph data={dataTous}></Graph></div>
+                    <div className="containerCote">
+                        {catAll.map(value => {
+                            return <div className="containerCote">
+                                <div className="containerCote">
+                                    <h1>{"   "+value.categorie+"   "}</h1>
+                                    <div style={{width:"40px",height:"40px",backgroundColor:""+value.color}}></div>
+                                </div>
+                            </div>
+                        })
+                        }
+
+
+                    </div>
+
 
 
 
