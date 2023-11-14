@@ -13,6 +13,7 @@ import {MdOutlineDescription} from "react-icons/md";
 import BarGraph from "./BarGraph";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import LineChart from "./LineChart";
 
 export function Budget(props) {
 
@@ -108,6 +109,107 @@ export function Budget(props) {
                 }
             ]
         };
+        const options = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top' ,
+                },
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart',
+                },
+            },
+        };
+
+        const dataLine = {
+            labels: catAll.map(value => "voir la legende des couleurs"),
+            datasets: [
+                {
+                    label: 'Montant par catégorie janvier',
+                    data: tousLesMois?.length > 0 ? tousLesMois[0].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[0].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                }, {
+                    label: 'Montant par catégorie fevrier',
+                    data: tousLesMois?.length > 0 ? tousLesMois[1].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[1].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                }, {
+                    label: 'Montant par catégorie mars',
+                    data: tousLesMois?.length > 0 ? tousLesMois[2].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[2].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie avril',
+                    data: tousLesMois?.length > 0 ? tousLesMois[3].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[3].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie mai',
+                    data: tousLesMois?.length > 0 ? tousLesMois[4].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[4].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie juin',
+                    data: tousLesMois?.length > 0 ? tousLesMois[5].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[5].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie juillet',
+                    data: tousLesMois?.length > 0 ? tousLesMois[6].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[6].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie aout',
+                    data: tousLesMois?.length > 0 ? tousLesMois[7].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[7].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie septembre',
+                    data: tousLesMois?.length > 0 ? tousLesMois[8].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[8].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie octobre',
+                    data: tousLesMois?.length > 0 ? tousLesMois[9].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[9].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie novembre',
+                    data: tousLesMois?.length > 0 ? tousLesMois[10].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[10].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+                {
+                    label: 'Montant par catégorie decembre',
+                    data: tousLesMois?.length > 0 ? tousLesMois[11].map(value => value.montant) : [],
+                    backgroundColor: tousLesMois?.length > 0 ? tousLesMois[11].map(value => value.color) : [],
+                    borderColor: 'black',
+
+                },
+
+            ]
+    };
 
         const dataTous = {
             labels: catAll.map(value => "voir la legende des couleurs"),
@@ -663,7 +765,7 @@ export function Budget(props) {
                 <div className="containerCote">
                     {textCat2?.length > 0 ? textCat2.map(value => {
                         return <>
-                            <div style={{color: 'black'}}>
+                            <div style={{color: 'black', padding:"10px"}}>
                                 <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
                                 <div style={{width:"40px",height:"40px",backgroundColor:""+value.color}}></div>
                                 <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
@@ -677,22 +779,22 @@ export function Budget(props) {
                 <button onClick={downloadPDF}>dl pdf</button>
                 <ProgressBar className={budgetCSS} completed={calcul() / 100}
                 />
-                <div className="containerButton">
+                <div style={{ padding:"15px"}}className="containerButton">
                     <div className="containerCote">
 
                         <div className="containerButton">
 
                             <div className="containerCote">
                                 <div className="containerButton">
-                                    <div className="containerButton">
+
                                         <label>Filtre de l'année</label>
                                         <input type="number" placeholder="Annee" value={year}
                                                onChange={(e) => {
                                                    setYear(e.target.value)
                                                }}/>{
                                             year
-                                        }</div>
-                                    <div>
+                                        }
+
                                     <button onClick={async () => {
                                         await localStorage.setItem("year", year);
                                         await setListDesDepense(listDesDepense.filter(value => "" + value.dateTransaction?.split("-")[0] == "" + year))
@@ -704,8 +806,8 @@ export function Budget(props) {
                                         await fetchAPI()
                                     }}>Tous les mois par categories
                                     </button>
-                                    </div>
-                                    <div>
+
+
                                     <label>Filtre par mois</label>
                                     <select onChange={async (e) => {
                                         await filterByMonth(e.target.value);
@@ -729,7 +831,7 @@ export function Budget(props) {
 
 
                                     </select>
-                                </div>
+
                                 </div>
                                 <div className="containerButton">
                                     <label>Filtre de Description</label>
@@ -868,6 +970,7 @@ export function Budget(props) {
 
                     <h1>Tous les mois</h1>
                 <div>
+                    <div style={{width:'100%', height:'100%'}}><BarGraph data={dataLine} options={options}/></div>
                     <div style={{width:'100%', height:'100%'}}><Graph data={dataTous}></Graph></div>
                     <div className="containerCote">
                         {catAll.map(value => {
