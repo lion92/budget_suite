@@ -774,8 +774,21 @@ export function Budget(props) {
                                 <h2 style={{color: 'black'}}>Montant
                                     restant: {value.budgetDebutMois - value.montant}</h2>
                             </div>
+
+
                         </>
                     }) : []} </div>
+                <div style={{margin:"10px"}}><h1>Depense en cours: {textCat2.map(val => val.montant).reduce(function (a, b) {
+                    return (+a + +b);
+                }, 0)}</h1></div>
+                <div style={{margin:"10px"}}><h1>Budget: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
+                    return  (+a + +b);
+                }, 0)}</h1></div>
+                <div style={{margin:"10px"}}><h1>Reste à dépenser: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
+                    return  (+a + +b);
+                }, 0) - textCat2.map(val => val.montant).reduce(function (a, b) {
+                    return  (+a + +b);
+                }, 0)}</h1></div>
                 <button onClick={downloadPDF}>dl pdf</button>
                 <ProgressBar className={budgetCSS} completed={calcul() / 100}
                 />
