@@ -13,7 +13,7 @@ import {MdOutlineDescription} from "react-icons/md";
 import BarGraph from "./BarGraph";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import LineChart from "./LineChart";
+
 
 export function Budget(props) {
 
