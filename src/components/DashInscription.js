@@ -1,7 +1,7 @@
 import React from 'react';
 import './dashboard.scss'
 import MenuComponent from "./MenuComponent";
-import Inscription from "./inscription";
+import Inscription from "./Inscription";
 
 const DashBoardInscription = () => {
     let titre = "Inscription"

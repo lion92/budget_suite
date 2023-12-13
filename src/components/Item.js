@@ -8,7 +8,8 @@ export default function Item(props) {
             <div className="card" style={{width: "200px", height:"300px"}} onClick={() => {
                 props.updatefunc(props.id);
                 props.changeDec(props.description);
-                props.changetext(props.title)
+                props.changetext(props.title);
+                props.changeColor(props.color);
             }}>
                 <h1 style={{color: 'black'}}>{props.title}</h1>
 

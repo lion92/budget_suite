@@ -73,10 +73,10 @@ const Inscription = () => {
 
     return (
 
-        <div>
+        <div className="containerInscription">
             <div className="container2">
                 <div id="iconLogin"/>
-                <div>
+                <div className="containerCote">
                     <input id='nom' value={nom} placeholder={'nom'}
                            onChange={e => {
                                setNom(e.target.value);
@@ -89,7 +89,7 @@ const Inscription = () => {
                            }} type={'text'}/>
                     <p className="error">{nomError}</p>
                 </div>
-                <div>
+                <div className="containerCote">
                     <input id='prenom' value={prenom} placeholder={'prenom'}
                            onChange={e => {
                                setPrenom(e.target.value)
@@ -101,7 +101,7 @@ const Inscription = () => {
                            }} type={'text'}/>
                     <p className="error">{prenomError}</p>
                 </div>
-                <div>
+                <div className="containerCote">
                     <input id='age' value={age} placeholder={'age'}
                            onChange={e => {
                                setAge(e.target.value);
@@ -115,7 +115,7 @@ const Inscription = () => {
                     <p className="error">{ageError}</p>
 
                 </div>
-                <div>
+                <div className="containerCote">
                     <input id='email' value={email} placeholder={'email'} onChange={e => {
                         setEmail(e.target.value)
                         validateEmail(email)
@@ -123,7 +123,7 @@ const Inscription = () => {
                            type={'text'}/>
                     <p className="error">{emailError}</p>
                 </div>
-                <div>
+                <div className="containerCote">
                     <input id='password' value={password} placeholder={'password'}
                            onChange={e => {
                                setPassword(e.target.value)
@@ -137,7 +137,7 @@ const Inscription = () => {
                     <p className="error">{passwordError}</p>
                 </div>
                 <p className="error">{inscriptionError}</p>
-                <button onClick={fetchInscription}>SIGNUP</button>
+                <button onClick={fetchInscription}>Inscription</button>
             </div>
         </div>
     );

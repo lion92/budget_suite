@@ -13,7 +13,7 @@ export function Categorie(props) {
         let [valueInputDescription, setDescription] = useState("");
         let [idVal, setId] = useState(-1);
         let [categorieCard, setCategorieCard] = useState([]);
-        let [colorCategorie, setColorCategorie] = useState("red");
+        let [colorCategorie, setColorCategorie] = useState("black");
         let [month, setMonth] = useState("");
         let [annee, setAnnee] = useState("");
         let [budgetDebutMois, setbudgetDebutMois] = useState(0);
@@ -53,6 +53,9 @@ export function Categorie(props) {
         };
         let changecategorie = (data) => {
             setCategorie(data);
+        };
+        let changeColor = (data) => {
+            setColorCategorie(data);
         };
 
         //////////////////////////appel api en debut
@@ -234,6 +237,8 @@ export function Categorie(props) {
 
                                         <ItemCategorie
                                             del={del}
+                                            color={item.color}
+                                            changeColor={changeColor}
                                             changecategorie={changecategorie}
                                             changeDec={textebisDesc}
                                             changeTitle={title}

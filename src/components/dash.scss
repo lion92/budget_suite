@@ -811,3 +811,18 @@ button:hover {
 .butGenerique {
   height: 8em;
 }
+.containerInscription{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 5em;
+  margin: auto;
+
+
+}
+.error{
+  font-size: 14px;
+  color: red;
+  margin: auto;
+}

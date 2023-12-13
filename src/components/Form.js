@@ -58,6 +58,10 @@ export default function Form(props) {
     let idchange = (data) => {
         setId(data);
     };
+    //change color
+    let changeColor = (data) => {
+
+    };
     //////////////////////////appel api en debut
     useEffect(() => {
         fetchAPI();
@@ -217,6 +221,7 @@ export default function Form(props) {
                             return (
                                 <Item
                                     del={del}
+                                    changeColor={changeColor}
                                     changeDec={textebisDesc}
                                     changetext={textebis}
                                     updatefunc={idchange}
