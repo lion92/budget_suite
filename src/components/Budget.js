@@ -982,28 +982,6 @@ export function Budget(props) {
 
                     </div>
 
-                    <h1>Tous les mois</h1>
-                <div>
-                    <div style={{width:'100%', height:'100%'}}><BarGraph data={dataLine} options={options}/></div>
-                    <div style={{width:'100%', height:'100%'}}><Graph data={dataTous}></Graph></div>
-                    <div className="containerCote">
-                        {catAll.map(value => {
-                            return <div className="containerCote">
-                                <div className="containerCote">
-                                    <h1>{"   "+value.categorie+"   "}</h1>
-                                    <div style={{width:"40px",height:"40px",backgroundColor:""+value.color}}></div>
-                                </div>
-                            </div>
-                        })
-                        }
-
-
-                    </div>
-
-
-
-
-                </div>
                 <div>
 
                     <table>
