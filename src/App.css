@@ -11,7 +11,6 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    justify-content: space-between;
     background: #0c0d0c;
     border-radius: 10px;
     text-decoration: none;
@@ -67,7 +66,6 @@ p, h1, span, label {
     font-size: 2em;
     padding: 0;
     margin: 0;
-    color: #140325;
     font-weight: normal;
 }
 
@@ -292,9 +290,10 @@ button:hover {
     align-items: center;
     justify-content: center;
 
+
     flex-wrap: wrap;
     flex-direction: column;
-    background-color: #bd9bce;
+    background-color: #c8b3d2;
 
 }
 
@@ -351,4 +350,18 @@ button {
 
 span {
     color: #f1f1f1;
+}
+li{
+    color: black;
+}
+span{
+    color: gray;
+}
+p {
+    color: blue;
+    font-family: Roboto, serif
+}
+h1,h2{
+    color: #583975;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }

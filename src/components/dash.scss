@@ -17,7 +17,7 @@ body {
   top: 0;
   height: 100%;
 
-  background: #2a0e4d;
+  background: #9f8db4;
   padding: 6px 14px;
   box-sizing: border-box;
   transition: all 0.5s ease;
@@ -290,7 +290,7 @@ body {
   background: #E4E9F7;
   min-height: 100vh;
   top: 0;
-  left: 250px;
+  left: 240px;
   width: calc(100% - 250px);
   transition: all 0.5s ease;
 
@@ -745,7 +745,7 @@ textarea:not([cols]) {
 }
 
 .home-section {
-  left: 250px;
+  left: 240px;
 }
 
 .home-section-hide {
@@ -825,4 +825,7 @@ button:hover {
   font-size: 14px;
   color: red;
   margin: auto;
+}
+.principaleDiv{
+  height: 70%;
 }

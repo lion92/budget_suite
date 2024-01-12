@@ -756,7 +756,7 @@ export function Budget(props) {
                         </div>
                     </div>
                 )}
-                <div className="containerButton">
+                <div className="containerButton principaleDiv">
 
                     <div className="containerCote">
                         <div className="containerButton">
@@ -769,18 +769,6 @@ export function Budget(props) {
                                    }}/>{
                             year
                         }
-
-                            <button onClick={async () => {
-                                await localStorage.setItem("year", year);
-                                await setListDesDepense(listDesDepense.filter(value => "" + value.dateTransaction?.split("-")[0] == "" + year))
-                                await setMontantTotal(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).map(val => val.montant).reduce(function (a, b) {
-                                    return a + b;
-                                }, 0))
-                                fetchAPICat3()
-                                await fetchAPICat2()
-                                await fetchAPI()
-                            }}>Tous les mois par categories
-                            </button>
 
 
                             <label>Filtre par mois</label>
@@ -808,13 +796,13 @@ export function Budget(props) {
                             </select>
 
                         </div>
-                        <div className="containerButton">
+
+                            <div className="containerButton">
                             <label>Filtre de Description</label>
                             <input placeholder="Description" value={descriptionFiltre}
                                    onChange={(e) => {
                                        setDescriptionFiltre(e.target.value)
                                    }}/>
-
                             <button onClick={async () => {
                                 await setListDesDepense(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).filter(value => value.description.includes(descriptionFiltre)))
                                 await setMontantTotal(listDesDepense.filter(value => value.description.includes(descriptionFiltre)).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
@@ -822,7 +810,8 @@ export function Budget(props) {
                                 }, 0))
                             }}>Actualiser
                             </button>
-                        </div>
+                            </div>
+
                         <div>
                             <label>Filtre de Categorie</label>
                             <input placeholder="Categorie" value={categorieFiltre}
