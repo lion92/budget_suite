@@ -763,8 +763,9 @@ export function Budget(props) {
 
                             <label>Filtre de l'année</label>
                             <input type="number" placeholder="Annee" value={year}
-                                   onChange={(e) => {
-                                       setYear(e.target.value)
+                                   onChange={async (e) => {
+                                      await setYear("" + e.target.value)
+                                       await localStorage.setItem("year", e.target.value)
                                    }}/>{
                             year
                         }
