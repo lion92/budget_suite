@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Form from "./Form";
 import lien from './lien'
+import './dash.scss'
 
 const Connection = () => {
     const [messageLog, setMessageLog] = useState("");
@@ -9,10 +10,28 @@ const Connection = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [probleme, setProbleme] = useState("non connecte");
+    const [catcha, setCatcha] = useState("");
+    const [catchaColler, setCatchaColler] = useState("");
     useEffect(() => {
         fetchUerToken();
     }, []);
 
+    function catchaGenerate() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        function generateString(length) {
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+
+            return result;
+        }
+
+        setCatcha(generateString(7));
+
+    }
 
     function ValidateEmail(mail) {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -123,7 +142,26 @@ const Connection = () => {
 
                             <p className="error">{passwordError}</p>
                             <a id="mdpOublie" href="">Mot de passe oublié</a>
-                            <button onClick={fetchConnection} id='btnLogin'>LOGIN</button>
+                            <button onClick={catchaGenerate}>Captcha</button>
+
+                            <h2 id="blur">{catcha}</h2>
+
+                            <input value={catchaColler} placeholder={'catcha'} onChange={async e => {
+                                setCatchaColler(e.target.value);
+                                console.log(catcha);
+                                console.log(e.target.value)
+                                if ("" + e.target.value != "" + catcha) {
+
+                                    setPasswordError("Le catcha n'est pas correct")
+                                } else {
+                                    setPasswordError("Le catcha est correct")
+
+                                }
+                            }} type={'text'}/>
+
+                            {passwordError == "Le catcha est correct" ? <button onClick={fetchConnection} id='btnLogin'>LOGIN</button> : <p>catcha non valide</p>
+
+                            }
                             <h1>{(probleme !== 'connecte' ? 'incorrect' : 'connecte')}</h1>
                         </div>
                     </div>
