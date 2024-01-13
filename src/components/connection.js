@@ -141,11 +141,11 @@ const Connection = () => {
                                    }} type={'text'}/>
 
                             <p className="error">{passwordError}</p>
-                            <a id="mdpOublie" href="">Mot de passe oublié</a>
+
                             <button onClick={catchaGenerate}>Captcha</button>
 
                             <h2 id="blur">{catcha}</h2>
-
+                            <h2>Saisir le catcha</h2>
                             <input value={catchaColler} placeholder={'catcha'} onChange={async e => {
                                 setCatchaColler(e.target.value);
 
@@ -158,10 +158,10 @@ const Connection = () => {
                                 }
                             }} type={'text'}/>
 
-                            {passwordError == "Le catcha est correct" ? <button onClick={fetchConnection} id='btnLogin'>LOGIN</button> : <p>catcha non valide</p>
+                            {passwordError == "Le catcha est correct" ? <button onClick={fetchConnection} id='btnLogin'>LOGIN</button> :""
 
                             }
-                            <h1>{(probleme !== 'connecte' ? 'incorrect' : 'connecte')}</h1>
+                            <h1>{(probleme !== 'connecte' ? '' : 'connecte')}</h1>
                         </div>
                     </div>
                 </>
