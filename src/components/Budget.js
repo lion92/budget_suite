@@ -742,10 +742,10 @@ export function Budget(props) {
                             <div className="containerCote">
 
 
-                                <div>
+                                <div style={{color:'black'}}>
                                     <div
                                     >{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
-                                    <Calendar onChange={onChangeDatePick}
+                                    <Calendar  onChange={onChangeDatePick}
                                               value={datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}/>
                                 </div>
                             </div>
@@ -877,8 +877,8 @@ export function Budget(props) {
                             </button>
 
                         </div>
-                        <button className="butGenerique" onClick={toggleDate}>Ajouter une date
-                            <CiCalendarDate style={{fontSize: '5em', color: 'blueviolet'}}/>
+                        <button onClick={toggleDate}>Ajouter une date
+                            <CiCalendarDate/>
                         </button>
 
 
