@@ -11,7 +11,7 @@ const Navigation = () => {
                         <li>Bienvenue</li>
                     </NavLink>
                     <NavLink to={"/login"}>
-                        <li>Login</li>
+                        <li>Connexion</li>
                     </NavLink>
                     <NavLink to={"/inscription"}>
                         <li>Inscription</li>
