@@ -148,8 +148,7 @@ const Connection = () => {
 
                             <input value={catchaColler} placeholder={'catcha'} onChange={async e => {
                                 setCatchaColler(e.target.value);
-                                console.log(catcha);
-                                console.log(e.target.value)
+
                                 if ("" + e.target.value != "" + catcha) {
 
                                     setPasswordError("Le catcha n'est pas correct")
