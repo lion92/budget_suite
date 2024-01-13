@@ -35,10 +35,7 @@ const Navigation = () => {
             <h2>Bienvenue dans l'outil de gestion de budget. <br/>Pour utliser l'outil veuillez vous inscrire et vous
                 connecter avec votre mot de passe et email.</h2>
             <p>Bienvenue</p>
-            <Link onClick={() => {
-                localStorage.removeItem('jwt');
-                localStorage.removeItem("utilisateur");
-            }} to="/">Deconnexion</Link>
+
         </div>
     );
 };

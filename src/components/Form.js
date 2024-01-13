@@ -182,12 +182,7 @@ export default function Form(props) {
     return (
 
         <div>
-            <Link style={{width: '20px', margin: '0'}} onClick={() => {
-                localStorage.removeItem('jwt');
-                localStorage.removeItem("utilisateur");
-            }} to="/">
-                <button style={{color: 'red'}}>Deconnexion</button>
-            </Link>
+
             <div className="div2">
 
 
@@ -236,6 +231,7 @@ export default function Form(props) {
                     : <h1>Chargement...</h1>}
 
             </div>
+
         </div>
 
     );

@@ -1,4 +1,4 @@
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import React, {useState} from "react";
 
 export default function MenuComponent(props) {
@@ -26,6 +26,12 @@ export default function MenuComponent(props) {
                 <div className="logo-details">
                     <div className="logo_name">Kriss CLOTILDE Budget</div>
                 </div>
+                <Link style={{width: '20px', margin: '0'}} onClick={() => {
+                    localStorage.removeItem('jwt');
+                    localStorage.removeItem("utilisateur");
+                }} to="/">
+                    <button style={{color: 'red'}}>Deconnexion</button>
+                </Link>
                 <ul className="nav-list">
 
 
@@ -53,30 +59,7 @@ export default function MenuComponent(props) {
             <section className={content}>
 
 
-                <div id="header">
-                    <div className="header uboxed">
-                        <ul className="logo">
-                            <li>
 
-                            </li>
-                        </ul>
-                        <ul className="menu">
-                            <li></li>
-                            <li></li>
-                            <li>
-                                <div id="lang">
-                                    <div className="selected"></div>
-                                    <div className="options">
-                                        <a href="#"></a>
-                                        <a href="#"></a>
-                                        <a href="#"></a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
 
                 <h1>{props.title}</h1>
                 <button onClick={handlemenu}>Menu</button>
