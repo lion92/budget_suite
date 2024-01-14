@@ -763,8 +763,8 @@ export function Budget(props) {
                     }
 
 
-                        <label>Filtre par mois</label>
-                        <select onChange={async (e) => {
+                        <label role="mois">Filtre par mois</label>
+                        <select role="select_mois" onChange={async (e) => {
                             await filterByMonth(e.target.value);
                             let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
                             localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));

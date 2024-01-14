@@ -6,10 +6,10 @@
   "dependencies": {
     "@ramonak/react-progress-bar": "^5.0.3",
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.23.0",
     "chart.js": "^2.9.4",
+    "fetch": "^1.1.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "node-excel-export": "^1.4.4",
@@ -29,7 +29,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
     "sass": "^1.68.0",
-    "typescript": "^5.1.6",
+    "typescript": "^3.2.1",
     "web-vitals": "^1.0.1",
     "xlsx": "^0.18.5"
   },
@@ -60,6 +60,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
+    "@testing-library/react": "^12.1.2",
     "@types/react-dom": "^18.2.15",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "react-refresh": "^0.14.0"
