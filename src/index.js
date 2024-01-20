@@ -9,7 +9,6 @@ import DashLogin from "./components/DashLogin";
 import DashBoardCategorie from "./components/DashBoardCategorie";
 import DashBoardInscription from "./components/DashInscription";
 import DashBoardHello from "./components/DashBoardHello";
-import Enveloppe from "./components/Enveloppe";
 import DashEnveloppe from "./components/DashEnveloppe";
 
 
