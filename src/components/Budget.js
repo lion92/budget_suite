@@ -837,7 +837,7 @@ export function Budget(props) {
                 </div>
                 <div className="containerCote">
                     <div className="containerCote">
-                        <button className="butGenerique" onClick={() => {
+                        <button className="raise" onClick={() => {
                             if (budgetCSS === "visible") {
 
                                 setBudgetCSS("hidden")
@@ -860,7 +860,7 @@ export function Budget(props) {
                             <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                         </div>
                         <div className="containerButton">
-                            <button className="butGenerique" onClick={toggleCategorie}>Ajouter une categorie
+                            <button className="raise" onClick={toggleCategorie}>Ajouter une categorie
                                 <BiCategory style={{fontSize: '5em', color: 'blueviolet'}}/>
                             </button>
                             <p className={categorieCSS}>{actionCategorie}</p>
@@ -869,7 +869,7 @@ export function Budget(props) {
                         </div>
                     </div>
                     <div className="containerButton">
-                        <button className="butGenerique" onClick={toggleDescription}>
+                        <button className="raise" onClick={toggleDescription}>
                             Ajouter une description
                             <MdOutlineDescription style={{fontSize: '5em', color: 'blueviolet'}}/>
 
@@ -879,17 +879,17 @@ export function Budget(props) {
                     </div>
 
                     <div className="containerCote containerButton">
-                        <button className="butGenerique" onClick={toggleMontant}>Ajouter un montant
+                        <button className="raise" onClick={toggleMontant}>Ajouter un montant
                             <RiPassPendingLine style={{fontSize: '5em', color: 'blueviolet'}}/>
                         </button>
 
                     </div>
-                    <button onClick={toggleDate}>Ajouter une date
+                    <button className="raise" onClick={toggleDate}>Ajouter une date
                         <CiCalendarDate/>
                     </button>
 
 
-                </div>   <button className="butGenerique" onClick={(e) => {
+                </div>   <button className="raise" onClick={(e) => {
                 e.preventDefault();
                 if (buttonCSS === "visible") {
 
@@ -903,18 +903,18 @@ export function Budget(props) {
 
                     <div className={buttonCSS}>
                         <div className="containerCote">
-                            <button className="butGenerique" onClick={fetchCreer}>creer <GrAddCircle
+                            <button className="raise" onClick={fetchCreer}>creer <GrAddCircle
                                 style={{fontSize: '5em', color: 'blueviolet'}}/></button>
                             <div>{messageAjout}</div>
-                            <button className="butGenerique" onClick={modifier}>modifier <RxUpdate
+                            <button className="raise" onClick={modifier}>modifier <RxUpdate
                                 style={{fontSize: '5em', color: 'blueviolet'}}/></button>
 
                             <div>
-                                <button className="butGenerique" onClick={deleteMontant}><CiCircleRemove
+                                <button className="raise" onClick={deleteMontant}><CiCircleRemove
                                     style={{fontSize: '5em', color: 'blueviolet'}}/>Supprimer
                                 </button>
                             </div>
-                            <button className="butGenerique" onClick={getData}>Download</button>
+                            <button className="raise" onClick={getData}>Download</button>
                         </div>
                     </div>
                 </div>
