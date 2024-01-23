@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import Item from "./Item";
 import lien from './lien'
-import {Link} from "react-router-dom";
 
 export default function Form(props) {
     let [titre, setValue] = useState("");
@@ -83,10 +82,16 @@ export default function Form(props) {
     ///////////////////////////appel delete
     let fetchdelete = useCallback(async (data) => {
         let idTodo = parseInt(data, 10)
+        let str = "" + localStorage.getItem('jwt')
         const response = await fetch(
             lien.url + "todos/" + idTodo,
             {
                 method: "DELETE",
+                body: JSON.stringify({
+
+                    jwt: str
+
+                }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -100,6 +105,7 @@ export default function Form(props) {
     let fetchCreer = useCallback(async (e) => {
         let userid = "" + localStorage.getItem("utilisateur");
         let userid2 = parseInt(userid)
+        let str = "" + localStorage.getItem('jwt')
         e.preventDefault();
         const response = await fetch(
             lien.url + "todos",
@@ -108,7 +114,10 @@ export default function Form(props) {
                 body: JSON.stringify({
                     title: titre,
                     description: valueInputDescription,
-                    user: userid2
+                    user: userid2,
+
+                    jwt: str
+
                 }),
                 headers: {
                     "Content-Type": "application/json",
@@ -122,6 +131,7 @@ export default function Form(props) {
     ////////////////////update////////////
     let fetchAPIupdate = useCallback(async () => {
         let userid = "" + localStorage.getItem("utilisateur");
+        let str = "" + localStorage.getItem('jwt')
         await console.log(userid);
         let id = parseInt(userid);
         const response = await fetch(
@@ -131,7 +141,10 @@ export default function Form(props) {
                 body: JSON.stringify({
                     title: titre,
                     description: valueInputDescription,
-                    user: id
+                    user: id,
+
+                    jwt: str
+
                 }),
                 headers: {
                     "Content-Type": "application/json",

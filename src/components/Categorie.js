@@ -79,11 +79,15 @@ export function Categorie(props) {
         /////////////////////////////
         ///////////////////////////appel delete
         let fetchdelete = useCallback(async (data) => {
+            let str = "" + localStorage.getItem('jwt')
             let idTodo = parseInt(data, 10)
             const response = await fetch(
                 lien.url + "categorie/" + idTodo,
                 {
                     method: "DELETE",
+                    body: JSON.stringify({
+                            jwt: str
+                        }),
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -104,6 +108,7 @@ export function Categorie(props) {
         //////////////////////insert tache
         let fetchCreer = useCallback(async (e) => {
             e.preventDefault();
+            let str = "" + localStorage.getItem('jwt')
             const response = await fetch(
                 lien.url + "categorie",
                 {
@@ -113,9 +118,10 @@ export function Categorie(props) {
                         description: categorieDescription,
                         color: colorCategorie,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        month:month,
-                        annee:annee,
-                        budgetDebutMois:budgetDebutMois
+                        month: month,
+                        annee: annee,
+                        budgetDebutMois: budgetDebutMois,
+                        jwt: str
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -126,6 +132,7 @@ export function Categorie(props) {
         });
         ////////////////////update////////////
         let fetchAPIupdate = useCallback(async () => {
+            let str = "" + localStorage.getItem('jwt')
             const response = await fetch(
                 lien.url + "categorie/" + idVal,
                 {
@@ -135,11 +142,12 @@ export function Categorie(props) {
                         description: categorieDescription,
                         color: colorCategorie,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        month:month,
-                        annee:annee,
-                        budgetDebutMois:budgetDebutMois
+                        month: month,
+                        annee: annee,
+                        budgetDebutMois: budgetDebutMois,
+                        jwt:str
 
-        }),
+                    }),
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -243,7 +251,7 @@ export function Categorie(props) {
                                             changeDec={textebisDesc}
                                             changeTitle={title}
                                             idFunc={idchange}
-                                            changeMonth={ changeMonth}
+                                            changeMonth={changeMonth}
                                             changeBudgetDebutMois={changeBudgetDebutMois}
                                             changeAnnee={changeAnnee}
                                             categorie={item.categorie}

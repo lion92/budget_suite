@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import Graph from "./Graph";
 import lien from './lien'
 import Calendar from 'react-calendar';
 import GraphParDate from "./GraphParDate";
@@ -114,7 +113,7 @@ export function Budget(props) {
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'top' ,
+                    position: 'top',
                 },
                 title: {
                     display: true,
@@ -210,7 +209,7 @@ export function Budget(props) {
                 },
 
             ]
-    };
+        };
 
         const dataTous = {
             labels: catAll.map(value => "voir la legende des couleurs"),
@@ -522,10 +521,14 @@ export function Budget(props) {
         ///////////////////////////appel delete
         let fetchdelete = useCallback(async (data) => {
             let idTodo = parseInt(data, 10)
+            let str = "" + localStorage.getItem('jwt')
             const response = await fetch(
                 lien.url + "action/" + idTodo,
                 {
                     method: "DELETE",
+                    body: JSON.stringify({
+                        jwt: str
+                    }),
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -538,7 +541,7 @@ export function Budget(props) {
         });
         //////////////////////insert tache
         let fetchCreer = useCallback(async (e) => {
-
+            let str = "" + localStorage.getItem('jwt')
             e.preventDefault();
             const response = await fetch(
                 lien.url + "action",
@@ -549,7 +552,8 @@ export function Budget(props) {
                         categorie: actionCategorie,
                         description: actionDescription,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        dateTransaction: datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})
+                        dateTransaction: datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'}),
+                        jwt: str
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -564,6 +568,7 @@ export function Budget(props) {
         });
         ////////////////////update////////////
         let fetchAPIupdate = useCallback(async () => {
+            let str = "" + localStorage.getItem('jwt')
             const response = await fetch(
                 lien.url + "action/" + idMontant,
                 {
@@ -573,7 +578,8 @@ export function Budget(props) {
                         description: actionDescription,
                         montant: montant,
                         user: parseInt("" + localStorage.getItem("utilisateur")),
-                        dateTransaction: datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})
+                        dateTransaction: datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'}),
+                        jwt: str
                     }),
                     headers: {
                         "Content-Type": "application/json",
@@ -647,107 +653,106 @@ export function Budget(props) {
         const pdfref = useRef();
 
 
+        const downloadPDF = () => {
+            const input = pdfref.current;
+            html2canvas(input).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4', true);
 
-    const downloadPDF = () => {
-        const input = pdfref.current;
-        html2canvas(input).then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4', true);
+                // doc and image dimensions
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
 
-            // doc and image dimensions
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
-            const imgWidth = canvas.width;
-            const imgHeight = canvas.height;
+                const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight)
+                const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                const imgY = 30
 
-            const ratio=Math.min(pdfWidth/imgWidth,pdfHeight/imgHeight)
-            const imgX=(pdfWidth-imgWidth*ratio)/2;
-            const imgY=30
-
-            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth*ratio, imgHeight*ratio);
-            pdf.save('Garph.pdf');
-        });
+                pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                pdf.save('Garph.pdf');
+            });
 
 
-}
+        }
 
         /////////////////////////
         return <div>
             {modalDescription && <div className="modal">
-                    <div onClick={toggleDescription} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Description</h1>
-                        <div>
-                            <input placeholder="Description" value={actionDescription}
-                                   onChange={(e) => setActionDescription(e.target.value)}/>{" "}
-                            <p className="error">{actionDescriptionError}</p>
-                        </div>
-                        <div>
-
-                        </div>
+                <div onClick={toggleDescription} className="overlay"></div>
+                <div className="modal-content containerButton">
+                    <h1>Description</h1>
+                    <div>
+                        <input placeholder="Description" value={actionDescription}
+                               onChange={(e) => setActionDescription(e.target.value)}/>{" "}
+                        <p className="error">{actionDescriptionError}</p>
+                    </div>
+                    <div>
 
                     </div>
-                </div>}
+
+                </div>
+            </div>}
 
             {modalMontant && <div className="modal">
-                    <div onClick={toggleMontant} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Montant</h1>
-                        <div>
-                            <input value={montant}
-                                   onChange={(e) => setMontant(e.target.value)}/>{" "}
-                            <p className={montantCSS + " " + "error"}>{montant}</p>
-                        </div>
-                        <div>
-
-                        </div>
+                <div onClick={toggleMontant} className="overlay"></div>
+                <div className="modal-content containerButton">
+                    <h1>Montant</h1>
+                    <div>
+                        <input value={montant}
+                               onChange={(e) => setMontant(e.target.value)}/>{" "}
+                        <p className={montantCSS + " " + "error"}>{montant}</p>
+                    </div>
+                    <div>
 
                     </div>
-                </div>}
+
+                </div>
+            </div>}
 
             {modalCategorie && <div className="modal">
-                    <div onClick={toggleCategorie} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Categorie</h1>
-                        <div>
-                            {catAll.map((option, index) => {
-                                return <h1 className="but1" onClick={() => {
-                                    setIdCat(option)
-                                }}
-                                           key={option.id}>
-                                    {option.id + " " + option.categorie}
+                <div onClick={toggleCategorie} className="overlay"></div>
+                <div className="modal-content containerButton">
+                    <h1>Categorie</h1>
+                    <div>
+                        {catAll.map((option, index) => {
+                            return <h1 className="but1" onClick={() => {
+                                setIdCat(option)
+                            }}
+                                       key={option.id}>
+                                {option.id + " " + option.categorie}
 
 
-                                </h1>
-                            })}
-                        </div>
-                        <div>
-
-                        </div>
+                            </h1>
+                        })}
+                    </div>
+                    <div>
 
                     </div>
-                </div>}
+
+                </div>
+            </div>}
 
             {modalDate && <div className="modal">
-                    <div onClick={toggleDate} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Date</h1>
-                        <div className="containerCote">
+                <div onClick={toggleDate} className="overlay"></div>
+                <div className="modal-content containerButton">
+                    <h1>Date</h1>
+                    <div className="containerCote">
 
 
-                            <div style={{color:'black'}}>
-                                <div
-                                >{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
-                                <Calendar  onChange={onChangeDatePick}
-                                          value={datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}/>
-                            </div>
+                        <div style={{color: 'black'}}>
+                            <div
+                            >{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
+                            <Calendar onChange={onChangeDatePick}
+                                      value={datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}/>
                         </div>
-                        <div>
-
-                        </div>
+                    </div>
+                    <div>
 
                     </div>
-                </div>}
+
+                </div>
+            </div>}
             <div className="containerButton principaleDiv">
 
                 <div className="containerCote">
@@ -808,11 +813,11 @@ export function Budget(props) {
                         <label>Filtre de montant supérieur à:</label>
                         <input type="number" placeholder="Montant supérieur à" value={montantFiltre}
                                onChange={(e) => {
-                                   setMontantFiltre(parseInt(""+e.target.value))
+                                   setMontantFiltre(parseInt("" + e.target.value))
                                }}/>
                         <button onClick={async () => {
-                            await setListDesDepense(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).filter(value => +value.montant>+montantFiltre))
-                            await setMontantTotal(listDesDepense.filter(value =>value => +value.montant>+montantFiltre).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
+                            await setListDesDepense(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).filter(value => +value.montant > +montantFiltre))
+                            await setMontantTotal(listDesDepense.filter(value => value => +value.montant > +montantFiltre).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
                             }, 0))
                         }}>Actualiser
@@ -889,16 +894,17 @@ export function Budget(props) {
                     </button>
 
 
-                </div>   <button className="raise" onClick={(e) => {
-                e.preventDefault();
-                if (buttonCSS === "visible") {
+                </div>
+                <button className="raise" onClick={(e) => {
+                    e.preventDefault();
+                    if (buttonCSS === "visible") {
 
-                    setbuttonCSS("hidden")
-                } else {
-                    setbuttonCSS("visible");
-                }
-            }}>Acceder aux bouttons
-            </button>
+                        setbuttonCSS("hidden")
+                    } else {
+                        setbuttonCSS("visible");
+                    }
+                }}>Acceder aux bouttons
+                </button>
                 <div style={{"margin": "10px"}}>
 
                     <div className={buttonCSS}>
@@ -922,62 +928,65 @@ export function Budget(props) {
             </div>
 
             <div ref={pdfref} className="containerButton">
-                {"Numero mois:"+localStorage.getItem("month")}
+                {"Numero mois:" + localStorage.getItem("month")}
                 <h1>montantTotal: {montantTotal}</h1>
 
                 <h1>Nombre de
                     dépense: {"" + listDesDepense.filter(value => value?.dateTransaction?.split("-")[0] == year)?.length}</h1>
 
 
-                <div style={{margin:"10px"}}><h1>Depense en cours: {textCat2.map(val => val.montant).reduce(function (a, b) {
-                    return +a + +b;
-                }, 0)}</h1></div>
-                <div style={{margin:"10px"}}><h1>Budget: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
-                    return  +a + +b;
-                }, 0)}</h1></div>
-                <div style={{margin:"10px"}}><h1>Reste à dépenser: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
-                    return  +a + +b;
-                }, 0) - textCat2.map(val => val.montant).reduce(function (a, b) {
-                    return  +a + +b;
-                }, 0)}</h1></div><div className="containerCote">
-                {textCat2?.length > 0 ? textCat2.map(value => {
-                    return <>
-                        <div style={{color: 'black', padding:"10px"}}>
-                            <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
-                            <div style={{width:"40px",height:"40px",backgroundColor:""+value.color}}></div>
-                            <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
-                            <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
+                <div style={{margin: "10px"}}><h1>Depense en
+                    cours: {textCat2.map(val => val.montant).reduce(function (a, b) {
+                        return +a + +b;
+                    }, 0)}</h1></div>
+                <div style={{margin: "10px"}}>
+                    <h1>Budget: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
+                        return +a + +b;
+                    }, 0)}</h1></div>
+                <div style={{margin: "10px"}}><h1>Reste à
+                    dépenser: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
+                        return +a + +b;
+                    }, 0) - textCat2.map(val => val.montant).reduce(function (a, b) {
+                        return +a + +b;
+                    }, 0)}</h1></div>
+                <div className="containerCote">
+                    {textCat2?.length > 0 ? textCat2.map(value => {
+                        return <>
+                            <div style={{color: 'black', padding: "10px"}}>
+                                <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
+                                <div style={{width: "40px", height: "40px", backgroundColor: "" + value.color}}></div>
+                                <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
+                                <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
 
-                            <h2 style={{color: 'black'}}>Montant
-                                restant: {value.budgetDebutMois - value.montant}</h2>
-                        </div>
+                                <h2 style={{color: 'black'}}>Montant
+                                    restant: {value.budgetDebutMois - value.montant}</h2>
+                            </div>
 
 
-                    </>
-                }) : []} </div>
+                        </>
+                    }) : []} </div>
             </div>
-
 
 
             <button onClick={downloadPDF}>dl pdf</button>
             <ProgressBar className={budgetCSS} completed={calcul() / 100}
             />
-            <div style={{ padding:"15px"}}className="containerButton">
+            <div style={{padding: "15px"}} className="containerButton">
 
             </div>
 
-                <h1>Toutes les dépenses du tableau</h1>
-                <GraphParDate data={dataParDate}></GraphParDate>
+            <h1>Toutes les dépenses du tableau</h1>
+            <GraphParDate data={dataParDate}></GraphParDate>
 
-                <h1>Dépense par mois</h1>
-                <h1>Systeme des budget par catégorie</h1>
+            <h1>Dépense par mois</h1>
+            <h1>Systeme des budget par catégorie</h1>
 
-                <h1>Dépense par mois</h1>
-                <div>
-                    <h1>{"Numero de mois: "+localStorage.getItem("month")}</h1>
-                    <BarGraph   data={data}></BarGraph>
+            <h1>Dépense par mois</h1>
+            <div>
+                <h1>{"Numero de mois: " + localStorage.getItem("month")}</h1>
+                <BarGraph data={data}></BarGraph>
 
-                </div>
+            </div>
 
             <div>
 
@@ -997,21 +1006,21 @@ export function Budget(props) {
 
                     {listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).map((item, index) => {
                         return <>
-                                <tr onClick={() => {
-                                    setIdMontant(item.id);
-                                    setMontant(item.montant);
-                                    setActionDescription(item.description);
-                                }}>
-                                    <th>{item.id}</th>
-                                    <th className="montant">{item.montant}</th>
-                                    <th className="description">{item.description}</th>
-                                    <th className="description">{item.categorieId}</th>
-                                    <th className="description">{item.categorie}</th>
-                                    <th className="description">{item.dateTransaction}</th>
-                                    <th className="description">{item.dateAjout}</th>
+                            <tr onClick={() => {
+                                setIdMontant(item.id);
+                                setMontant(item.montant);
+                                setActionDescription(item.description);
+                            }}>
+                                <th>{item.id}</th>
+                                <th className="montant">{item.montant}</th>
+                                <th className="description">{item.description}</th>
+                                <th className="description">{item.categorieId}</th>
+                                <th className="description">{item.categorie}</th>
+                                <th className="description">{item.dateTransaction}</th>
+                                <th className="description">{item.dateAjout}</th>
 
-                                </tr>
-                            </>;
+                            </tr>
+                        </>;
                     })}
                     </tbody>
                     <tfoot>
