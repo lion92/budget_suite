@@ -1,7 +1,8 @@
 import React from 'react';
+import {useAppStore} from "../store";
 
 const Helloword = () => {
-
+    const {mois}=useAppStore()
     return (
         <div>
             <h1>Bienvenue dans l'application de gestion de budget.</h1>
