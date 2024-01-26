@@ -336,48 +336,50 @@ export function Budget(props) {
             let tousMois = [];
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
             let getyear = parseInt("" + localStorage.getItem("year"))
+            let str = "" + localStorage.getItem('jwt')
             if (isNaN(year)) {
                 return
             }
-            const response1 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 1 + "/" + getyear)
+
+            const response1 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 1 + "/" + getyear,{headers:{Authorization: `Bearer ${str}}`}})
             let resbisJanvier = await response1.json();
 
 
-            const response2 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 2 + "/" + getyear)
+            const response2 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 2 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisFevrier = await response2.json();
 
 
-            const response3 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 3 + "/" + getyear)
+            const response3 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 3 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisMars = await response3.json();
 
-            const response4 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 4 + "/" + getyear)
+            const response4 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 4 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisAvril = await response4.json();
 
-            const response5 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 5 + "/" + getyear)
+            const response5 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 5 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisMai = await response5.json();
 
-            const response6 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 6 + "/" + getyear)
+            const response6 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 6 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisJuin = await response6.json();
 
 
-            const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7 + "/" + getyear)
+            const response7 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 7 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisJuillet = await response7.json();
 
 
-            const response8 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 8 + "/" + getyear)
+            const response8 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 8 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisAout = await response8.json();
 
 
-            const response9 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 9 + "/" + getyear)
+            const response9 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 9 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisSeptembre = await response9.json();
 
-            const response10 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 10 + "/" + getyear)
+            const response10 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 10 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisOctobre = await response10.json();
 
-            const response11 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 11 + "/" + getyear)
+            const response11 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 11 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisNovembre = await response11.json();
 
-            const response12 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 12 + "/" + getyear)
+            const response12 = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + 12 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
             let resbisDecembre = await response12.json();
             tousMois.push(resbisJanvier);
             tousMois.push(resbisFevrier);
@@ -401,14 +403,15 @@ export function Budget(props) {
         }, [setTextCat2]);
 
 
-        const fetchAPICat2 = useCallback(async () => {
+        const fetchApiCAtegorie = useCallback(async () => {
             let getyear = parseInt("" + localStorage.getItem("year"))
             if (isNaN(year)) {
                 return
             }
             let str = localStorage.getItem("month")
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str + "/" + getyear)
+
+            const response = await fetch(lien.url + "action/categorie/sum/byUser/" + idUser + "/" + str + "/" + getyear, {Authorization: `Bearer ${str}`})
             const resbis = await response.json();
             await setTextCat2(resbis);
 
@@ -432,7 +435,7 @@ export function Budget(props) {
             await fetchAPI();
             fetchAPICat3();
 
-            await fetchAPICat2();
+            await fetchApiCAtegorie();
         }, []);
         ////////////////////////Rechercher/////////////
         let recherche = async (e) => {
@@ -450,7 +453,7 @@ export function Budget(props) {
                 await setListDesDepense(tab);
             }
 
-            fetchAPICat2();
+            fetchApiCAtegorie();
         };
 
 
@@ -537,7 +540,7 @@ export function Budget(props) {
 
             const resbis = await response;
             await fetchAPI();
-            await fetchAPICat2()
+            await fetchApiCAtegorie()
         });
         //////////////////////insert tache
         let fetchCreer = useCallback(async (e) => {
@@ -562,7 +565,7 @@ export function Budget(props) {
             );
             const resbis = await response;
             await fetchAPI();
-            await fetchAPICat2();
+            await fetchApiCAtegorie();
             await setMessageAjout("Ajout de " + montant + " categorie " + actionCategorie + " description " + actionDescription)
 
         });
@@ -588,7 +591,7 @@ export function Budget(props) {
             );
             const resbis = await response;
             await fetchAPI();
-            fetchAPICat2();
+            fetchApiCAtegorie();
         });
         ////////////////////////input change value
         let Valuechange = (e) => {
@@ -773,7 +776,7 @@ export function Budget(props) {
                             await filterByMonth(e.target.value);
                             let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
                             localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
-                            fetchAPICat2()
+                            fetchApiCAtegorie()
                         }}
                                 className='form-select'>
                             <option>Janvier</option>

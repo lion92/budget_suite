@@ -98,8 +98,9 @@ export function Categorie(props) {
             const resbis = await response;
         });
         const fetchAPI = useCallback(async () => {
+            let str = "" + localStorage.getItem('jwt')
             let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-            const response = await fetch(lien.url + "categorie/byuser/" + idUser);
+            const response = await fetch(lien.url + "categorie/byuser/" + idUser,{headers:{Authorization: `Bearer ${str}`}});
             const resbis = await response.json();
             await setCategorieCard(resbis);
 

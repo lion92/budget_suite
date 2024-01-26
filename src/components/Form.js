@@ -9,7 +9,7 @@ export default function Form(props) {
     let [valueInputTitre, setTitre] = useState("");
     let [valueInputDescription, setDescription] = useState("");
     let [idVal, setId] = useState(-1);
-    let [textp, setText] = useState([]);
+    let [listItem, setText] = useState([]);
     ///////////////////////////
     const [load, setLoad] = useState(false);
 
@@ -46,7 +46,8 @@ export default function Form(props) {
     ///////////////////fectchApi/////////////////////////
     const fetchAPI = useCallback(async () => {
         let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-        const response = await fetch(lien.url + "todos/byuser/" + idUser);
+        let str = "" + localStorage.getItem('jwt')
+        const response = await fetch(lien.url + "todos/byuser/" + idUser ,{headers:{Authorization: `Bearer ${str}`}});
         const resbis = await response.json();
         await setText(resbis);
         return resbis;
@@ -225,7 +226,7 @@ export default function Form(props) {
                 {!load ? <div className="containerCote">
 
 
-                        {textp.map((item, index) => {
+                        {listItem.map((item, index) => {
                             return (
                                 <Item
                                     del={del}
