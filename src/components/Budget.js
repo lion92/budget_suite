@@ -92,7 +92,7 @@ export function Budget(props) {
         }
 
         const data = {
-            labels: textCat2?.length > 0 ? textCat2.Fmap(value => value.categorie) : [],
+            labels: textCat2?.length > 0 ? textCat2.map(value => value.categorie) : [],
             datasets: [
                 {
                     label: 'Montant par catégorie',
