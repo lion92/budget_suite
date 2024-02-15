@@ -2,7 +2,6 @@ import React from 'react';
 import './dashboard.scss'
 import './dash.scss'
 import MenuComponent from "./MenuComponent";
-import Helloword from "./Helloword";
 import Enveloppe from "./Enveloppe";
 
 const DashEnveloppe = () => {

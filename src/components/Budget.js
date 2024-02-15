@@ -53,6 +53,7 @@ export function Budget(props) {
         const [modalDate, setModalDate] = useState(false);
         const [year, setYear] = useState("2023");
         const [catAll, setCatAll] = useState([]);
+        const [textCatAll, setCat2All] = useState([]);
         const [montantFiltre, setMontantFiltre] = useState(0);
         const toggleDescription = () => {
             setModalDescription(!modalDescription);
@@ -90,6 +91,25 @@ export function Budget(props) {
         } else {
             document.body.classList.remove('active-modal')
         }
+
+        const dataAll = {
+            labels: textCatAll?.length > 0 ? textCatAll.map(value => value.categorie) : [],
+            datasets: [
+                {
+                    label: 'Montant par catégorie',
+                    data: textCatAll?.length > 0 ? textCatAll.map(value => value.montant) : [],
+                    backgroundColor: textCatAll?.length > 0 ? textCatAll.map(value => value.color) : [],
+                    borderColor: 'black',
+
+                }, {
+                    label: 'Budget debut mois',
+                    data: textCatAll?.length > 0 ? textCatAll.map(value => value.budgetDebutMois) : [],
+                    backgroundColor: textCatAll?.length > 0 ? textCatAll.map(value => value.color) : [],
+                    borderColor: 'black',
+
+                }
+            ]
+        };
 
         const data = {
             labels: textCat2?.length > 0 ? textCat2.map(value => value.categorie) : [],
@@ -419,6 +439,20 @@ export function Budget(props) {
         }, [setTextCat2]);
 
 
+        const fetchApiCAtegorieAll = useCallback(async () => {
+            if (isNaN(year)) {
+                return
+            }
+            let idUser = parseInt("" + localStorage.getItem("utilisateur"))
+
+            const response = await fetch(lien.url + "action/categorie/sum/all/" + idUser)
+            const resbis = await response.json();
+            await setCat2All(resbis);
+
+            return resbis;
+        }, [setCat2All]);
+
+
         let attendre = () => {
             setLoad(true);
             setTimeout(() => {
@@ -436,6 +470,7 @@ export function Budget(props) {
             fetchAPICat3();
 
             await fetchApiCAtegorie();
+            await fetchApiCAtegorieAll();
         }, []);
         ////////////////////////Rechercher/////////////
         let recherche = async (e) => {
@@ -988,6 +1023,12 @@ export function Budget(props) {
             <div>
                 <h1>{"Numero de mois: " + localStorage.getItem("month")}</h1>
                 <BarGraph data={data}></BarGraph>
+
+            </div>
+
+            <div>
+                <h1>{"Numero de mois: " + localStorage.getItem("month")}</h1>
+                <BarGraph data={dataAll}></BarGraph>
 
             </div>
 

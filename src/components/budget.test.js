@@ -1,6 +1,7 @@
 import {render, screen} from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Budget from "./Budget";
+
 describe('Budget', () => {
     test('Filtre du mois présent', async () => {
         // ARRANGE

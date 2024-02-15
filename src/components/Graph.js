@@ -1,5 +1,5 @@
 import React from 'react';
-import {Bar, Pie} from 'react-chartjs-2'
+import {Pie} from 'react-chartjs-2'
 
 export default function Graph(props) {
     return (

@@ -1,4 +1,4 @@
-import React,{FunctionComponent} from "react";
+import React, {FunctionComponent} from "react";
 import {Line} from "react-chartjs-2";
 
 const LineChart:FunctionComponent<{}>=(props:any)=>{
