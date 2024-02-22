@@ -695,7 +695,7 @@ export function Budget(props) {
             const input = pdfref.current;
             html2canvas(input).then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4', true);
+                const pdf = new jsPDF('p', 'mm', 'a5', true);
 
                 // doc and image dimensions
                 const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -705,7 +705,7 @@ export function Budget(props) {
 
                 const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight)
                 const imgX = (pdfWidth - imgWidth * ratio) / 2;
-                const imgY = 30
+                const imgY = 1
 
                 pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
                 pdf.save('Garph.pdf');
@@ -964,45 +964,65 @@ export function Budget(props) {
                 </div>
 
             </div>
-
-            <div ref={pdfref} className="containerButton">
-                {"Numero mois:" + localStorage.getItem("month")}
-                <h1>montantTotal: {montantTotal}</h1>
-
-                <h1>Nombre de
-                    dépense: {"" + listDesDepense.filter(value => value?.dateTransaction?.split("-")[0] == year)?.length}</h1>
+            <h1>Toutes les dépenses du tableau</h1>
+            <GraphParDate data={dataParDate}></GraphParDate>
+            <div ref={pdfref}>
 
 
-                <div style={{margin: "10px"}}><h1>Depense en
-                    cours: {textCat2.map(val => val.montant).reduce(function (a, b) {
-                        return +a + +b;
-                    }, 0)}</h1></div>
-                <div style={{margin: "10px"}}>
-                    <h1>Budget: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
-                        return +a + +b;
-                    }, 0)}</h1></div>
-                <div style={{margin: "10px"}}><h1>Reste à
-                    dépenser: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
-                        return +a + +b;
-                    }, 0) - textCat2.map(val => val.montant).reduce(function (a, b) {
-                        return +a + +b;
-                    }, 0)}</h1></div>
-                <div className="containerCote">
-                    {textCat2?.length > 0 ? textCat2.map(value => {
-                        return <>
-                            <div style={{color: 'black', padding: "10px"}}>
-                                <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
-                                <div style={{width: "40px", height: "40px", backgroundColor: "" + value.color}}></div>
-                                <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
-                                <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
+                <h1>Dépense par mois par catégorie</h1>
+                <div>
+                    <h1>{"Numero de mois: " + localStorage.getItem("month")}</h1>
+                    <BarGraph data={data}></BarGraph>
 
-                                <h2 style={{color: 'black'}}>Montant
-                                    restant: {value.budgetDebutMois - value.montant}</h2>
-                            </div>
+                </div>
+                <h1>Dépense totale sur toutes les dépenses</h1>
+                <div>
+                    <BarGraph data={dataAll}></BarGraph>
+
+                </div>
+                <div className="containerButton">
+                    {"Numero mois:" + localStorage.getItem("month")}
+                    <h1>montantTotal: {montantTotal}</h1>
+
+                    <h1>Nombre de
+                        dépense: {"" + listDesDepense.filter(value => value?.dateTransaction?.split("-")[0] == year)?.length}</h1>
 
 
-                        </>
-                    }) : []} </div>
+                    <div style={{margin: "10px"}}><h1>Depense en
+                        cours: {textCat2.map(val => val.montant).reduce(function (a, b) {
+                            return +a + +b;
+                        }, 0)}</h1></div>
+                    <div style={{margin: "10px"}}>
+                        <h1>Budget: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
+                            return +a + +b;
+                        }, 0)}</h1></div>
+                    <div style={{margin: "10px"}}><h1>Reste à
+                        dépenser: {textCat2.map(val => val.budgetDebutMois).reduce(function (a, b) {
+                            return +a + +b;
+                        }, 0) - textCat2.map(val => val.montant).reduce(function (a, b) {
+                            return +a + +b;
+                        }, 0)}</h1></div>
+                    <div className="containerCote">
+                        {textCat2?.length > 0 ? textCat2.map(value => {
+                            return <>
+                                <div style={{color: 'black', padding: "10px"}}>
+                                    <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
+                                    <div style={{
+                                        width: "40px",
+                                        height: "40px",
+                                        backgroundColor: "" + value.color
+                                    }}></div>
+                                    <h2 style={{color: 'black'}}>Debut mois: {value.budgetDebutMois}</h2>
+                                    <h2 style={{color: 'black'}}>En cours: {value.montant}</h2>
+
+                                    <h2 style={{color: 'black'}}>Montant
+                                        restant: {value.budgetDebutMois - value.montant}</h2>
+                                </div>
+
+
+                            </>
+                        }) : []} </div>
+                </div>
             </div>
 
 
@@ -1013,24 +1033,6 @@ export function Budget(props) {
 
             </div>
 
-            <h1>Toutes les dépenses du tableau</h1>
-            <GraphParDate data={dataParDate}></GraphParDate>
-
-            <h1>Dépense par mois</h1>
-            <h1>Systeme des budget par catégorie</h1>
-
-            <h1>Dépense par mois</h1>
-            <div>
-                <h1>{"Numero de mois: " + localStorage.getItem("month")}</h1>
-                <BarGraph data={data}></BarGraph>
-
-            </div>
-
-            <div>
-                <h1>{"Numero de mois: " + localStorage.getItem("month")}</h1>
-                <BarGraph data={dataAll}></BarGraph>
-
-            </div>
 
             <div>
 
