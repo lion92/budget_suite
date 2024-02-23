@@ -38,6 +38,7 @@ export function Categorie(props) {
 
         /////////////////////////////////////////
         ///////////////remonter au parent//////////////////////////////iddata/////////
+
         let idchange = (data) => {
             setId(data);
         };
@@ -219,8 +220,26 @@ export function Categorie(props) {
                         </div>
                         <div>
                             <label>Month</label>
-                            <input placeholder="Month" value={month}
-                                   onChange={(e) => setMonth(e.target.value)}/>{" "}
+                            <select value={month} role="select_mois" onChange={async (e) => {
+                                setMonth(e.target.value);
+                            }}
+                                    className='form-select'>
+                                <option>Janvier</option>
+                                <option>Fevrier</option>
+                                <option>Mars</option>
+                                <option>Avril</option>
+                                <option>Mai</option>
+                                <option>Juin</option>
+                                <option>Juillet</option>
+                                <option>Aout</option>
+                                <option>Septembre</option>
+                                <option>Octobre</option>
+                                <option>Novembre</option>
+                                <option>Decembre</option>
+
+
+                            </select>
+
                         </div>
                         <div>
                             <label>Annee</label>
