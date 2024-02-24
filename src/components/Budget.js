@@ -46,6 +46,8 @@ export function Budget(props) {
         const [selectv, setselectedtv] = useState("");
         let [monthNumSave, selectMonthNumSave] = useState(1);
         let [messageAjout, setMessageAjout] = useState("");
+        let [messageModif, setMessageModif] = useState("");
+        let [messageDelete, setMessageDelete] = useState("");
         let [categorieFiltre, setCategorieFiltre] = useState("");
         const [modalDescription, setModalDescription] = useState(false);
         const [modalCategorie, setModalCategorie] = useState(false);
@@ -558,6 +560,7 @@ export function Budget(props) {
         /////////////////////////////
         ///////////////////////////appel delete
         let fetchdelete = useCallback(async (data) => {
+            setMessageDelete("")
             let idTodo = parseInt(data, 10)
             let str = "" + localStorage.getItem('jwt')
             const response = await fetch(
@@ -575,6 +578,7 @@ export function Budget(props) {
 
             const resbis = await response;
             await fetchAPI();
+            setMessageDelete("Valeur supprimée")
             await fetchApiCAtegorie()
         });
         //////////////////////insert tache
@@ -606,6 +610,7 @@ export function Budget(props) {
         });
         ////////////////////update////////////
         let fetchAPIupdate = useCallback(async () => {
+            setMessageModif("")
             let str = "" + localStorage.getItem('jwt')
             const response = await fetch(
                 lien.url + "action/" + idMontant,
@@ -626,6 +631,7 @@ export function Budget(props) {
             );
             const resbis = await response;
             await fetchAPI();
+            setMessageModif("Valeur modifiée")
             fetchApiCAtegorie();
         });
         ////////////////////////input change value
@@ -952,11 +958,12 @@ export function Budget(props) {
                             <div>{messageAjout}</div>
                             <button className="raise" onClick={modifier}>modifier <RxUpdate
                                 style={{fontSize: '5em', color: 'blueviolet'}}/></button>
-
+                            <div>{messageModif}</div>
                             <div>
                                 <button className="raise" onClick={deleteMontant}><CiCircleRemove
                                     style={{fontSize: '5em', color: 'blueviolet'}}/>Supprimer
                                 </button>
+                                <div>{messageDelete}</div>
                             </div>
                             <button className="raise" onClick={getData}>Download</button>
                         </div>
