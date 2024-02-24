@@ -1,1 +1,1 @@
-export default {url: "http://localhost:3004/"}
+export default {url: "https://www.krisscode.fr/"}
