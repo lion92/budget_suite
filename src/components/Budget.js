@@ -122,6 +122,7 @@ export function Budget(props) {
                     backgroundColor: textCat2?.length > 0 ? textCat2.map(value => value.color) : [],
                     borderColor: 'black',
 
+
                 }, {
                     label: 'Budget debut mois',
                     data: textCat2?.length > 0 ? textCat2.map(value => value.budgetDebutMois) : [],
