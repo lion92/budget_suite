@@ -34,6 +34,7 @@ export function Budget(props) {
         let [montantTotal, setMontantTotal] = useState(0);
         let [textCat2, setTextCat2] = useState([]);
         let [tousLesMois, settousLesMois] = useState([]);
+        let [tousLesMoisAll, settousLesMoisAll] = useState([]);
         const [load, setLoad] = useState(false);
         const [datePick, onChangeDatePick] = useState(new Date());
         const [montantCSS, setMontantCSS] = useState("hidden");
@@ -425,6 +426,76 @@ export function Budget(props) {
             return tousMois;
         }, [setTextCat2]);
 
+        const fetchAPICat3All = useCallback(async () => {
+            let tousMois = [];
+            let idUser = parseInt("" + localStorage.getItem("utilisateur"))
+            let getyear = parseInt("" + localStorage.getItem("year"))==undefined||parseInt("" + localStorage.getItem("year"))==null?2023:localStorage.getItem("year")
+            let str = "" + localStorage.getItem('jwt')
+            if (isNaN(year)) {
+                return
+            }
+
+            const response1 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 1 + "/" + getyear,{headers:{Authorization: `Bearer ${str}}`}})
+            let resbisJanvier = await response1.json();
+
+
+            const response2 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 2 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisFevrier = await response2.json();
+
+
+            const response3 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 3 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisMars = await response3.json();
+
+            const response4 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 4 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisAvril = await response4.json();
+
+            const response5 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 5 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisMai = await response5.json();
+
+            const response6 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 6 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisJuin = await response6.json();
+
+
+            const response7 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 7 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisJuillet = await response7.json();
+
+
+            const response8 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 8 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisAout = await response8.json();
+
+
+            const response9 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 9 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisSeptembre = await response9.json();
+
+            const response10 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 10 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisOctobre = await response10.json();
+
+            const response11 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 11 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisNovembre = await response11.json();
+
+            const response12 = await fetch(lien.url + "action/montant/sum/byUser/" + idUser + "/" + 12 + "/" + getyear,{headers:{Authorization: `Bearer ${str}`}})
+            let resbisDecembre = await response12.json();
+            tousMois.push(resbisJanvier);
+            tousMois.push(resbisFevrier);
+            tousMois.push(resbisMars);
+            tousMois.push(resbisAvril);
+            tousMois.push(resbisMai)
+            tousMois.push(resbisJuin)
+            tousMois.push(resbisJuillet);
+            tousMois.push(resbisAout);
+            tousMois.push(resbisSeptembre);
+            tousMois.push(resbisOctobre);
+            tousMois.push(resbisNovembre);
+            tousMois.push(resbisDecembre);
+
+
+            await console.log(tousMois)
+            await settousLesMoisAll(tousMois);
+
+
+            return tousMois;
+        },[]);
+
 
         const fetchApiCAtegorie = useCallback(async () => {
             let getyear = parseInt("" + localStorage.getItem("year"))
@@ -467,10 +538,10 @@ export function Budget(props) {
             attendre();
             await localStorage.setItem("year", 2023);
 
-
+            await fetchAPICat3All();
             await fetchAPIToutCategorie();
             await fetchAPI();
-            fetchAPICat3();
+            await fetchAPICat3();
 
             await fetchApiCAtegorie();
             await fetchApiCAtegorieAll();
@@ -501,6 +572,8 @@ export function Budget(props) {
             let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
             let tout = await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum) + 1)));
+
+
             await setListDesDepense(await fetchAPI().then(value => value.filter(value2 => (value2.dateTransaction.toString().split("-")[1]) == (month.indexOf(monthNum) + 1))));
 
             await setMontantTotal(tout.filter(value => value.dateTransaction.split("-")[0] == year).map(val => val.montant).reduce(function (a, b) {
@@ -540,6 +613,18 @@ export function Budget(props) {
                     window.location.assign(file);
                 });
         }
+
+        const getDataPdf = async (e) => {
+            e.preventDefault();
+            let idUser = parseInt("" + localStorage.getItem("utilisateur"));
+            fetch(lien.url + "action/generate-pdf/" + idUser)
+                .then(res => res.blob())
+                .then(blob => {
+                    var file = window.URL.createObjectURL(blob);
+                    window.location.assign(file);
+                });
+        }
+
 
 
         /////////////////////////////////////////
@@ -967,6 +1052,7 @@ export function Budget(props) {
                                 <div>{messageDelete}</div>
                             </div>
                             <button className="raise" onClick={getData}>Download</button>
+                            <button className="raise" onClick={getDataPdf}>DownloadPDFBilan</button>
                         </div>
                     </div>
                 </div>
@@ -1085,6 +1171,13 @@ export function Budget(props) {
                     </tr>
                     </tfoot>
                 </table>
+
+
+            </div>
+            <div>
+                <p>Janvier{tousLesMoisAll?.length > 0 ? tousLesMois[0]?.map(value => value.montant):""}"</p>
+                <p>Fevrier{tousLesMoisAll?.length > 0 ? tousLesMois[1]?.map(value => value.montant):""}</p>
+                <p>Mars{tousLesMoisAll?.length > 0 ? tousLesMois[2]?.map(value => value.montant):""}</p>
 
 
             </div>
