@@ -39,8 +39,6 @@ export default function MenuComponent(props) {
                     <button style={{color: 'red'}}>Deconnexion</button>
                 </Link>
                 <ul className="nav-list">
-
-
                     <NavLink to={"/"}>
                         <li>Bienvenue <SiWelcometothejungle /> </li>
                     </NavLink>

@@ -625,6 +625,17 @@ export function Budget(props) {
                 });
         }
 
+        const getDataPdfCategorie = async (e) => {
+            e.preventDefault();
+            let idUser = parseInt("" + localStorage.getItem("utilisateur"));
+            fetch(lien.url + "action/generateAll-categorie-bilan/" + idUser)
+                .then(res => res.blob())
+                .then(blob => {
+                    var file = window.URL.createObjectURL(blob);
+                    window.location.assign(file);
+                });
+        }
+
 
 
         /////////////////////////////////////////
@@ -1053,6 +1064,7 @@ export function Budget(props) {
                             </div>
                             <button className="raise" onClick={getData}>Download</button>
                             <button className="raise" onClick={getDataPdf}>DownloadPDFBilan</button>
+                            <button className="raise" onClick={getDataPdfCategorie}>DownloadPDF Bilan Categorie</button>
                         </div>
                     </div>
                 </div>
