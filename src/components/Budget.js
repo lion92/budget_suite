@@ -540,11 +540,11 @@ export function Budget(props) {
 
             await fetchAPICat3All();
             await fetchAPIToutCategorie();
-            await fetchAPI();
             await fetchAPICat3();
-
-            await fetchApiCAtegorie();
             await fetchApiCAtegorieAll();
+            await fetchAPI();
+            await fetchApiCAtegorie();
+            await fetchAPIupdate();
         }, []);
         ////////////////////////Rechercher/////////////
         let recherche = async (e) => {
@@ -674,7 +674,14 @@ export function Budget(props) {
             );
 
             const resbis = await response;
+
+            await fetchAPICat3All();
+            await fetchAPIToutCategorie();
+            await fetchAPICat3();
+            await fetchApiCAtegorieAll();
             await fetchAPI();
+            await fetchApiCAtegorie();
+            await fetchAPIupdate();
             setMessageDelete("Valeur supprimée")
             await fetchApiCAtegorie()
         });
@@ -700,8 +707,14 @@ export function Budget(props) {
                 }
             );
             const resbis = await response;
+
+            await fetchAPICat3All();
+            await fetchAPIToutCategorie();
+            await fetchAPICat3();
+            await fetchApiCAtegorieAll();
             await fetchAPI();
             await fetchApiCAtegorie();
+            await fetchAPIupdate();
             await setMessageAjout("Ajout de " + montant + " categorie " + actionCategorie + " description " + actionDescription)
 
         });
@@ -727,7 +740,14 @@ export function Budget(props) {
                 }
             );
             const resbis = await response;
+
+            await fetchAPICat3All();
+            await fetchAPIToutCategorie();
+            await fetchAPICat3();
+            await fetchApiCAtegorieAll();
             await fetchAPI();
+            await fetchApiCAtegorie();
+            await fetchAPIupdate();
             setMessageModif("Valeur modifiée")
             fetchApiCAtegorie();
         });
@@ -759,9 +779,9 @@ export function Budget(props) {
             return a;
         };
         /////////////////////////modifier
-        let modifier = (e) => {
+        let modifier = async (e) => {
             e.preventDefault();
-            fetchAPIupdate();
+            await fetchAPIupdate();
             setValue("");
 
         };
@@ -783,9 +803,9 @@ export function Budget(props) {
 
         };
         /////////////////////////modifier
-        let deleteMontant = (e) => {
+        let deleteMontant = async (e) => {
             e.preventDefault();
-            fetchdelete(idMontant);
+            await fetchdelete(idMontant);
             setValue("");
 
         };
@@ -946,6 +966,14 @@ export function Budget(props) {
                             await setMontantTotal(listDesDepense.filter(value => value.description.includes(descriptionFiltre)).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
                             }, 0))
+
+                            await fetchAPICat3All();
+                            await fetchAPIToutCategorie();
+                            await fetchAPICat3();
+                            await fetchApiCAtegorieAll();
+                            await fetchAPI();
+                            await fetchApiCAtegorie();
+                            await fetchAPIupdate();
                         }}>Actualiser
                         </button>
                     </div>
@@ -961,6 +989,14 @@ export function Budget(props) {
                             await setMontantTotal(listDesDepense.filter(value => value => +value.montant > +montantFiltre).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
                             }, 0))
+
+                            await fetchAPICat3All();
+                            await fetchAPIToutCategorie();
+                            await fetchAPICat3();
+                            await fetchApiCAtegorieAll();
+                            await fetchAPI();
+                            await fetchApiCAtegorie();
+                            await fetchAPIupdate();
                         }}>Actualiser
                         </button>
                     </div>
@@ -977,6 +1013,14 @@ export function Budget(props) {
                             await setMontantTotal(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
                             }, 0))
+
+                            await fetchAPICat3All();
+                            await fetchAPIToutCategorie();
+                            await fetchAPICat3();
+                            await fetchApiCAtegorieAll();
+                            await fetchAPI();
+                            await fetchApiCAtegorie();
+                            await fetchAPIupdate();
                         }}>Actualiser
                         </button>
                     </div>
