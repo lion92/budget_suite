@@ -58,6 +58,7 @@ export function Budget(props) {
         const [catAll, setCatAll] = useState([]);
         const [textCatAll, setCat2All] = useState([]);
         const [montantFiltre, setMontantFiltre] = useState(0);
+        const [montantFiltre2, setMontantFiltre2] = useState(0);
         const toggleDescription = () => {
             setModalDescription(!modalDescription);
         };
@@ -538,13 +539,12 @@ export function Budget(props) {
             attendre();
             await localStorage.setItem("year", 2023);
 
-            await fetchAPICat3All();
             await fetchAPIToutCategorie();
-            await fetchAPICat3();
-            await fetchApiCAtegorieAll();
             await fetchAPI();
+            await fetchAPICat3();
             await fetchApiCAtegorie();
-            await fetchAPIupdate();
+            await fetchApiCAtegorieAll();
+            await fetchAPICat3All();
         }, []);
         ////////////////////////Rechercher/////////////
         let recherche = async (e) => {
@@ -675,13 +675,6 @@ export function Budget(props) {
 
             const resbis = await response;
 
-            await fetchAPICat3All();
-            await fetchAPIToutCategorie();
-            await fetchAPICat3();
-            await fetchApiCAtegorieAll();
-            await fetchAPI();
-            await fetchApiCAtegorie();
-            await fetchAPIupdate();
             setMessageDelete("Valeur supprimée")
             await fetchApiCAtegorie()
         });
@@ -708,13 +701,7 @@ export function Budget(props) {
             );
             const resbis = await response;
 
-            await fetchAPICat3All();
-            await fetchAPIToutCategorie();
-            await fetchAPICat3();
-            await fetchApiCAtegorieAll();
-            await fetchAPI();
-            await fetchApiCAtegorie();
-            await fetchAPIupdate();
+
             await setMessageAjout("Ajout de " + montant + " categorie " + actionCategorie + " description " + actionDescription)
 
         });
@@ -967,13 +954,6 @@ export function Budget(props) {
                                 return a + b;
                             }, 0))
 
-                            await fetchAPICat3All();
-                            await fetchAPIToutCategorie();
-                            await fetchAPICat3();
-                            await fetchApiCAtegorieAll();
-                            await fetchAPI();
-                            await fetchApiCAtegorie();
-                            await fetchAPIupdate();
                         }}>Actualiser
                         </button>
                     </div>
@@ -990,13 +970,24 @@ export function Budget(props) {
                                 return a + b;
                             }, 0))
 
-                            await fetchAPICat3All();
-                            await fetchAPIToutCategorie();
-                            await fetchAPICat3();
-                            await fetchApiCAtegorieAll();
-                            await fetchAPI();
-                            await fetchApiCAtegorie();
-                            await fetchAPIupdate();
+
+                        }}>Actualiser
+                        </button>
+                    </div>
+
+                    <div className="containerButton">
+                        <label>Filtre de montant inférieur à:</label>
+                        <input type="number" placeholder="Montant inférieur à" value={montantFiltre2}
+                               onChange={(e) => {
+                                   setMontantFiltre2(parseInt("" + e.target.value))
+                               }}/>
+                        <button onClick={async () => {
+                            await setListDesDepense(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).filter(value => +value.montant < +montantFiltre2))
+                            await setMontantTotal(listDesDepense.filter(value => value => +value.montant < +montantFiltre2).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
+                                return a + b;
+                            }, 0))
+
+
                         }}>Actualiser
                         </button>
                     </div>
@@ -1014,13 +1005,6 @@ export function Budget(props) {
                                 return a + b;
                             }, 0))
 
-                            await fetchAPICat3All();
-                            await fetchAPIToutCategorie();
-                            await fetchAPICat3();
-                            await fetchApiCAtegorieAll();
-                            await fetchAPI();
-                            await fetchApiCAtegorie();
-                            await fetchAPIupdate();
                         }}>Actualiser
                         </button>
                     </div>
@@ -1035,7 +1019,7 @@ export function Budget(props) {
                                 setBudgetCSS("visible");
                             }
                         }}>Ajouter un budget
-                            <RiMoneyEuroCircleFill style={{fontSize: "5em", color: 'blueviolet'}}/>
+                            <RiMoneyEuroCircleFill style={{color: 'blueviolet'}}/>
                         </button>
                         <input className={budgetCSS} value={budget}
                                onChange={(e) => setBudget(e.target.value)}/>
@@ -1051,7 +1035,7 @@ export function Budget(props) {
                         </div>
                         <div className="containerButton">
                             <button className="raise" onClick={toggleCategorie}>Ajouter une categorie
-                                <BiCategory style={{fontSize: '5em', color: 'blueviolet'}}/>
+                                <BiCategory style={{ color: 'blueviolet'}}/>
                             </button>
                             <p className={categorieCSS}>{actionCategorie}</p>
 
@@ -1061,7 +1045,7 @@ export function Budget(props) {
                     <div className="containerButton">
                         <button className="raise" onClick={toggleDescription}>
                             Ajouter une description
-                            <MdOutlineDescription style={{fontSize: '5em', color: 'blueviolet'}}/>
+                            <MdOutlineDescription style={{ color: 'blueviolet'}}/>
 
                         </button>
 
@@ -1070,7 +1054,7 @@ export function Budget(props) {
 
                     <div className="containerCote containerButton">
                         <button className="raise" onClick={toggleMontant}>Ajouter un montant
-                            <RiPassPendingLine style={{fontSize: '5em', color: 'blueviolet'}}/>
+                            <RiPassPendingLine style={{ color: 'blueviolet'}}/>
                         </button>
 
                     </div>
@@ -1095,14 +1079,14 @@ export function Budget(props) {
                     <div className={buttonCSS}>
                         <div className="containerCote">
                             <button className="raise" onClick={fetchCreer}>creer <GrAddCircle
-                                style={{fontSize: '5em', color: 'blueviolet'}}/></button>
+                                style={{ color: 'blueviolet'}}/></button>
                             <div>{messageAjout}</div>
                             <button className="raise" onClick={modifier}>modifier <RxUpdate
-                                style={{fontSize: '5em', color: 'blueviolet'}}/></button>
+                                style={{ color: 'blueviolet'}}/></button>
                             <div>{messageModif}</div>
                             <div>
                                 <button className="raise" onClick={deleteMontant}><CiCircleRemove
-                                    style={{fontSize: '5em', color: 'blueviolet'}}/>Supprimer
+                                    style={{ color: 'blueviolet'}}/>Supprimer
                                 </button>
                                 <div>{messageDelete}</div>
                             </div>
