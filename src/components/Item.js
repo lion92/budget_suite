@@ -11,9 +11,9 @@ export default function Item(props) {
                 props.changetext(props.title);
                 props.changeColor(props.color);
             }}>
-                <h1 style={{color: 'black'}}>{props.title}</h1>
+                <h1 className="card-title">{props.title}</h1>
 
-                <p style={{color: 'blue'}}>{props.description}</p>
+                <p className="card-description">{props.description}</p>
                 <button style={{width: '100%'}} onClick={(e) => props.del(e, props.id)}>delete</button>
             </div>
         </>

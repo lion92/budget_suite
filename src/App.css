@@ -391,3 +391,63 @@ button:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+/* Style général pour la carte */
+.card {
+    width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet de survol pour la carte */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Style de l'image */
+.card-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Contenu de la carte */
+.card-content {
+    padding: 20px;
+}
+
+/* Titre de la carte */
+.card-title {
+    font-size: 1.5em;
+    margin: 0 0 10px;
+    color: #333;
+}
+
+/* Description de la carte */
+.card-description {
+    font-size: 2em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Bouton de la carte */
+.card-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet de survol pour le bouton */
+.card-btn:hover {
+    background-color: #0056b3;
+}

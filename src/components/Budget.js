@@ -547,23 +547,7 @@ export function Budget(props) {
             await fetchAPICat3All();
         }, []);
         ////////////////////////Rechercher/////////////
-        let recherche = async (e) => {
-            e.preventDefault();
-            if (montant === 0) {
-                let f = await fetchAPI();
-                await setListDesDepense(f);
-            } else {
-                let f = await fetchAPI();
-                await console.log(f);
-                let tab = await f.filter((elemt) => {
-                        return ("" + elemt.montant === "" + montant)
-                    }
-                );
-                await setListDesDepense(tab);
-            }
 
-            fetchApiCAtegorie();
-        };
 
 
         async function filterByMonth(monthNum) {
@@ -1211,13 +1195,6 @@ export function Budget(props) {
                     </tr>
                     </tfoot>
                 </table>
-
-
-            </div>
-            <div>
-                <p>Janvier{tousLesMoisAll?.length > 0 ? tousLesMois[0]?.map(value => value.montant):""}"</p>
-                <p>Fevrier{tousLesMoisAll?.length > 0 ? tousLesMois[1]?.map(value => value.montant):""}</p>
-                <p>Mars{tousLesMoisAll?.length > 0 ? tousLesMois[2]?.map(value => value.montant):""}</p>
 
 
             </div>
