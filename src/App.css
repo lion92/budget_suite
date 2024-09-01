@@ -232,7 +232,9 @@ form .message a {
     border: solid black;
     margin: 10px;
     padding: 10px;
-    width: 250px;
+}
+.card:hover{
+    transform: scaleY(2);
 }
 
 
@@ -275,13 +277,25 @@ td, th, tr {
 }
 
 .card {
-    padding: 15px;
-    background-color: #7c7373;
-    width: 100%;
+    padding: 2px;
+    text-align: center;
+}
+.card th{
+    background-color: white;
+    color: #2f143b;
+    text-align: center;
+    font-size: 14px
 }
 
 button:hover {
     background-color: #ece5c1;
+}
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+
 }
 
 .containerButton {

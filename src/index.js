@@ -10,6 +10,7 @@ import DashBoardCategorie from "./components/DashBoardCategorie";
 import DashBoardInscription from "./components/DashInscription";
 import DashBoardHello from "./components/DashBoardHello";
 import DashEnveloppe from "./components/DashEnveloppe";
+import DashAllSpend from "./components/DashAllSpend";
 
 
 const Root = () => (
@@ -22,6 +23,7 @@ const Root = () => (
             <Route exact path="/budget" component={DashBoardBudget}/>
             <Route exact path="/enveloppe" component={DashEnveloppe}/>
             <Route exact path="/form" component={DashBoardTache}/>
+            <Route exact path="/allSpend" component={DashAllSpend}/>
             <Route component={NotFound}/>
         </Switch>
     </Router>
