@@ -9,6 +9,8 @@ const AllSpend = () => {
     const [maxMontant, setMaxMontant] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [descriptionSearch, setDescriptionSearch] = useState('');
+    const [categorieSearch, setCategorieSearch] = useState('');
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -53,17 +55,33 @@ const AllSpend = () => {
                 filtered = filtered.filter(expense => new Date(expense.dateTransaction) <= new Date(endDate));
             }
 
+            // Filtrer par description
+            if (descriptionSearch !== '') {
+                filtered = filtered.filter(expense =>
+                    expense.description.toLowerCase().includes(descriptionSearch.toLowerCase())
+                );
+            }
+
+            // Filtrer par catégorie
+            if (categorieSearch !== '') {
+                filtered = filtered.filter(expense =>
+                    expense.categorie.toLowerCase().includes(categorieSearch.toLowerCase())
+                );
+            }
+
             setFilteredDepense(filtered);
         };
 
         filterExpenses();
-    }, [minMontant, maxMontant, startDate, endDate, listDesDepense]);
+    }, [minMontant, maxMontant, startDate, endDate, descriptionSearch, categorieSearch, listDesDepense]);
 
     const resetFilters = () => {
         setMinMontant('');
         setMaxMontant('');
         setStartDate('');
         setEndDate('');
+        setDescriptionSearch('');
+        setCategorieSearch('');
         setFilteredDepense(listDesDepense); // Reset to show all expenses
     };
 
@@ -97,6 +115,20 @@ const AllSpend = () => {
                     placeholder="Date de fin"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
+                    style={{ marginRight: '10px' }}
+                />
+                <input
+                    type="text"
+                    placeholder="Recherche description"
+                    value={descriptionSearch}
+                    onChange={(e) => setDescriptionSearch(e.target.value)}
+                    style={{ marginRight: '10px' }}
+                />
+                <input
+                    type="text"
+                    placeholder="Recherche catégorie"
+                    value={categorieSearch}
+                    onChange={(e) => setCategorieSearch(e.target.value)}
                     style={{ marginRight: '10px' }}
                 />
                 <button onClick={resetFilters} style={{ padding: '5px 10px', marginLeft: '10px' }}>
