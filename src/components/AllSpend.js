@@ -1,36 +1,118 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import lien from "./lien";
 
 const AllSpend = () => {
     const [year, setYear] = useState("2023");
-    let [listDesDepense, setListDesDepense] = useState([]);
+    const [listDesDepense, setListDesDepense] = useState([]);
+    const [filteredDepense, setFilteredDepense] = useState([]);
+    const [minMontant, setMinMontant] = useState('');
+    const [maxMontant, setMaxMontant] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+
     useEffect(() => {
+        const fetchAPI = async () => {
+            const idUser = parseInt(localStorage.getItem("utilisateur"));
+            if (isNaN(idUser)) {
+                console.error("Invalid user ID from localStorage");
+                return;
+            }
+            try {
+                const response = await fetch(`${lien.url}action/byuser/${idUser}`);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const resbis = await response.json();
+                setListDesDepense(resbis);
+                setFilteredDepense(resbis); // Initialize filtered list with all expenses
+            } catch (error) {
+                console.error("Failed to fetch expenses:", error);
+            }
+        };
+
         fetchAPI();
     }, []);
-    const fetchAPI = useCallback(async () => {
-        let idUser = parseInt("" + localStorage.getItem("utilisateur"))
-        const response = await fetch(lien.url + "action/byuser/" + idUser);
-        const resbis = await response.json();
-        await setListDesDepense(resbis);
-        return resbis;
-    }, [setListDesDepense]);
+
+    useEffect(() => {
+        const filterExpenses = () => {
+            let filtered = listDesDepense;
+
+            // Filtrer par montant
+            if (minMontant !== '') {
+                filtered = filtered.filter(expense => expense.montant >= parseFloat(minMontant));
+            }
+            if (maxMontant !== '') {
+                filtered = filtered.filter(expense => expense.montant <= parseFloat(maxMontant));
+            }
+
+            // Filtrer par date
+            if (startDate !== '') {
+                filtered = filtered.filter(expense => new Date(expense.dateTransaction) >= new Date(startDate));
+            }
+            if (endDate !== '') {
+                filtered = filtered.filter(expense => new Date(expense.dateTransaction) <= new Date(endDate));
+            }
+
+            setFilteredDepense(filtered);
+        };
+
+        filterExpenses();
+    }, [minMontant, maxMontant, startDate, endDate, listDesDepense]);
+
+    const resetFilters = () => {
+        setMinMontant('');
+        setMaxMontant('');
+        setStartDate('');
+        setEndDate('');
+        setFilteredDepense(listDesDepense); // Reset to show all expenses
+    };
+
     return (
         <>
-            <h1 style={{fontSize:20, color:"blueviolet", textAlign:"center"}}>Toutes vos dépenses</h1>
+            <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
+            <div className="filter-container" style={{ marginBottom: '20px', textAlign: 'center' }}>
+                <input
+                    type="number"
+                    placeholder="Montant minimal"
+                    value={minMontant}
+                    onChange={(e) => setMinMontant(e.target.value)}
+                    style={{ marginRight: '10px' }}
+                />
+                <input
+                    type="number"
+                    placeholder="Montant maximal"
+                    value={maxMontant}
+                    onChange={(e) => setMaxMontant(e.target.value)}
+                    style={{ marginRight: '10px' }}
+                />
+                <input
+                    type="date"
+                    placeholder="Date de début"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    style={{ marginRight: '10px' }}
+                />
+                <input
+                    type="date"
+                    placeholder="Date de fin"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    style={{ marginRight: '10px' }}
+                />
+                <button onClick={resetFilters} style={{ padding: '5px 10px', marginLeft: '10px' }}>
+                    Réinitialiser
+                </button>
+            </div>
             <div className="container">
-
-                {listDesDepense.map((item, index) => {
-                    return <div>
-                        <div className="card">
-                            <th>{item.id}</th>
-                            <th style={{color:"red"}}>Montant: {item.montant}</th>
-                            <th className="description">Description: {item.description}</th>
-                            <th className="description">Categorie: {item.categorie}</th>
-                            <th className="description">{item.dateTransaction}</th>
-                        </div>
-
-                    </div>;
-                })}
+                {filteredDepense.map((item) => (
+                    <div key={item.id} className="card">
+                        <div>Id: {item.id}</div>
+                        <div style={{ color: "red" }}>Montant: {item.montant}</div>
+                        <div className="description">Description: {item.description}</div>
+                        <div className="description">Categorie: {item.categorie}</div>
+                        <div className="description">Date: {item.dateTransaction}</div>
+                    </div>
+                ))}
             </div>
         </>
     );
