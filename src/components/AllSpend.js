@@ -11,6 +11,7 @@ const AllSpend = () => {
     const [endDate, setEndDate] = useState('');
     const [descriptionSearch, setDescriptionSearch] = useState('');
     const [categorieSearch, setCategorieSearch] = useState('');
+    const [totalFilteredMontant, setTotalFilteredMontant] = useState(0);
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -70,6 +71,10 @@ const AllSpend = () => {
             }
 
             setFilteredDepense(filtered);
+
+            // Calculer la somme des montants filtrés
+            const total = filtered.reduce((acc, expense) => acc + expense.montant, 0);
+            setTotalFilteredMontant(total);
         };
 
         filterExpenses();
@@ -83,6 +88,7 @@ const AllSpend = () => {
         setDescriptionSearch('');
         setCategorieSearch('');
         setFilteredDepense(listDesDepense); // Reset to show all expenses
+        setTotalFilteredMontant(listDesDepense.reduce((acc, expense) => acc + expense.montant, 0)); // Reset total amount
     };
 
     return (
@@ -134,6 +140,9 @@ const AllSpend = () => {
                 <button onClick={resetFilters} style={{ padding: '5px 10px', marginLeft: '10px' }}>
                     Réinitialiser
                 </button>
+            </div>
+            <div style={{ textAlign: 'center', marginBottom: '20px', color: "red", fontSize:30 }}>
+                <strong style={{ textAlign: 'center', marginBottom: '20px', color: "black" }}>Total des montants après filtre: </strong>{totalFilteredMontant} €
             </div>
             <div className="container">
                 {filteredDepense.map((item) => (
