@@ -60,6 +60,9 @@ export default function MenuComponent(props) {
                     <NavLink to={"/allspend"}>
                         <li>Toutes les dépenses<CiMoneyBill /></li>
                     </NavLink>
+                    <NavLink to={"/agenda"}>
+                        <li>Agenda<CiMoneyBill /></li>
+                    </NavLink>
 
                 </ul>
             </div>

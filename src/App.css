@@ -232,6 +232,7 @@ form .message a {
     border: solid black;
     margin: 10px;
     padding: 10px;
+
 }
 .card:hover{
     transform: scaleY(2);
@@ -242,16 +243,12 @@ form .message a {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
 }
 
 .parent {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
 }
 
 .div1 {
@@ -294,7 +291,6 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 100%;
 
 }
 
@@ -465,3 +461,4 @@ button:active {
 .card-btn:hover {
     background-color: #0056b3;
 }
+span{font-size: 1em}

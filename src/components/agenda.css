@@ -1,0 +1,82 @@
+
+/* Styles pour la div principale App */
+.App {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #cdc9e7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulaire d'événements */
+.event-form {
+    margin-bottom: 30px;
+}
+
+/* Liste des événements */
+.event-list {
+    margin-top: 40px;
+}
+
+.event-list h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.event-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.event-list li strong {
+    font-size: 1.2rem;
+    color: #1c76c5;
+}
+
+.event-list li button {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.event-list li button:hover {
+    background-color: #c0392b;
+}
+
+/* Styles pour les événements vides */
+.event-list p {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+}
+
+/* Media queries pour la mise en page responsive */
+@media (max-width: 768px) {
+    .App {
+        padding: 15px;
+    }
+
+    .event-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .event-list li button {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+}
