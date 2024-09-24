@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import Item from "./Item";
 import lien from './lien'
+import {Link} from "react-router-dom";
 
 export default function Form(props) {
     let [titre, setValue] = useState("");
@@ -198,7 +199,13 @@ export default function Form(props) {
         <div>
 
             <div className="div2">
+                {localStorage.getItem("jwt")? <Link style={{width: '20px', margin: '0'}} onClick={() => {
+                    localStorage.removeItem('jwt');
+                    localStorage.removeItem("utilisateur");
+                }} to="/">
+                    <button style={{color: 'red'}}>Deconnexion</button>
 
+                </Link>:""}
 
                 <div>
                     <label id="idLabel">

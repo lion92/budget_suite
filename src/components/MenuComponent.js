@@ -6,6 +6,7 @@ import {MdOutlineAppRegistration} from "react-icons/md";
 import {BiSolidCategory} from "react-icons/bi";
 import {GoTasklist} from "react-icons/go";
 import {CiMenuBurger, CiMoneyBill} from "react-icons/ci";
+import DashBoardLogin from "./DashLogin";
 
 export default function MenuComponent(props) {
     const [sidebar, setSideBar] = useState("sidebar");
@@ -32,12 +33,9 @@ export default function MenuComponent(props) {
                 <div className="logo-details">
                     <div className="logo_name">Kriss CLOTILDE Budget</div>
                 </div>
-                <Link style={{width: '20px', margin: '0'}} onClick={() => {
-                    localStorage.removeItem('jwt');
-                    localStorage.removeItem("utilisateur");
-                }} to="/">
-                    <button style={{color: 'red'}}>Deconnexion</button>
-                </Link>
+
+
+
                 <ul className="nav-list">
                     <NavLink to={"/"}>
                         <li>Bienvenue <SiWelcometothejungle /> </li>

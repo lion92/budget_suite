@@ -117,6 +117,7 @@ const Connection = () => {
                 <>
                     <div>
 
+
                         <div className="container2">
                             {"" + probleme}
                             <div>{messageLog}</div>
