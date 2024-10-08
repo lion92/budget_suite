@@ -139,7 +139,7 @@ const Connection = () => {
                                            setPasswordError("")
                                            setPassword(e.target.value)
                                        }
-                                   }} type={'text'}/>
+                                   }} type={'password'}/>
 
                             <p className="error">{passwordError}</p>
 
