@@ -133,7 +133,7 @@ const Inscription = () => {
                                } else {
                                    setPasswordError("");
                                }
-                           }} type={'text'}/>
+                           }} type={'password'}/>
                     <p className="error">{passwordError}</p>
                 </div>
                 <p className="error">{inscriptionError}</p>

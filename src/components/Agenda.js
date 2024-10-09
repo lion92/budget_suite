@@ -49,7 +49,8 @@ const Agenda = () => {
                     <ul>
                         {events.map((event, index) => (
                             <li key={index}>
-                                <strong>{event.title}</strong>: {event.description}
+                                <strong>{event.title}</strong>: {event.description}:
+                                :{event.date}
                                 <button onClick={() => deleteEvent(index)}>Supprimer</button>
                             </li>
                         ))}
