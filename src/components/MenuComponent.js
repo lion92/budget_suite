@@ -7,6 +7,7 @@ import {BiSolidCategory} from "react-icons/bi";
 import {GoTasklist} from "react-icons/go";
 import {CiMenuBurger, CiMoneyBill} from "react-icons/ci";
 import DashBoardLogin from "./DashLogin";
+import CookieConsent from "./cookie_bandeau";
 
 export default function MenuComponent(props) {
     const [sidebar, setSideBar] = useState("sidebar");
@@ -68,7 +69,7 @@ export default function MenuComponent(props) {
 
 
 
-
+                <CookieConsent></CookieConsent>
                 <h1>{props.title}</h1>
                 <button onClick={handlemenu}><CiMenuBurger /></button>
                 {props.contenue}

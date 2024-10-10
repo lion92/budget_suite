@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import lien from "./lien";
+import AjoutBudget from "./ajoutBudget";
 
 const AllSpend = () => {
     const [year, setYear] = useState("2023");
@@ -94,6 +95,7 @@ const AllSpend = () => {
     return (
         <>
             <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
+            <AjoutBudget></AjoutBudget>
             <div className="container" style={{ marginBottom: '20px', textAlign: 'center' }}>
                 <input
                     type="number"
