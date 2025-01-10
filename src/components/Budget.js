@@ -641,27 +641,40 @@ export function Budget(props) {
         /////////////////////////////
         ///////////////////////////appel delete
         let fetchdelete = useCallback(async (data) => {
-            setMessageDelete("")
-            let idTodo = parseInt(data, 10)
-            let str = "" + localStorage.getItem('jwt')
-            const response = await fetch(
-                lien.url + "action/" + idTodo,
-                {
-                    method: "DELETE",
-                    body: JSON.stringify({
-                        jwt: str
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+            if (window.confirm("Êtes-vous sûr de vouloir supprimer cette donnée ?")) {
+                try {
+                    setMessageDelete("");
+                    let idTodo = parseInt(data, 10);
+                    let str = "" + localStorage.getItem('jwt');
+
+                    const response = await fetch(
+                        `${lien.url}action/${idTodo}`,
+                        {
+                            method: "DELETE",
+                            body: JSON.stringify({ jwt: str }),
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+
+                    if (response.ok) {
+                        setMessageDelete("Valeur supprimée");
+                        await fetchApiCAtegorie(); // Met à jour les catégories après suppression
+                    } else {
+                        const errorMessage = await response.text();
+                        console.error("Erreur lors de la suppression :", errorMessage);
+                        setMessageDelete("Échec de la suppression !");
+                    }
+                } catch (error) {
+                    console.error("Erreur réseau :", error);
+                    setMessageDelete("Erreur réseau !");
                 }
-            );
+            } else {
+                setMessageDelete("Suppression annulée !");
+            }
+        }, [lien.url, fetchApiCAtegorie]);
 
-            const resbis = await response;
-
-            setMessageDelete("Valeur supprimée")
-            await fetchApiCAtegorie()
-        });
         //////////////////////insert tache
         let fetchCreer = useCallback(async (e) => {
             let str = "" + localStorage.getItem('jwt')
@@ -778,6 +791,25 @@ export function Budget(props) {
             e.preventDefault();
             await fetchdelete(idMontant);
             setValue("");
+            await fetchAPIToutCategorie();
+            await fetchAPI();
+            await fetchAPICat3();
+            await fetchApiCAtegorie();
+            await fetchApiCAtegorieAll();
+            await fetchAPICat3All();
+
+        };
+
+        let deleteMontantById = async (e, id) => {
+            e.preventDefault();
+            await fetchdelete(id);
+            setValue("");
+            await fetchAPIToutCategorie();
+            await fetchAPI();
+            await fetchAPICat3();
+            await fetchApiCAtegorie();
+            await fetchApiCAtegorieAll();
+            await fetchAPICat3All();
 
         };
         ///////////////////
@@ -1065,15 +1097,6 @@ export function Budget(props) {
                             <button className="raise" onClick={fetchCreer}>creer <GrAddCircle
                                 style={{ color: 'blueviolet'}}/></button>
                             <div>{messageAjout}</div>
-                            <button className="raise" onClick={modifier}>modifier <RxUpdate
-                                style={{ color: 'blueviolet'}}/></button>
-                            <div>{messageModif}</div>
-                            <div>
-                                <button className="raise" onClick={deleteMontant}><CiCircleRemove
-                                    style={{ color: 'blueviolet'}}/>Supprimer
-                                </button>
-                                <div>{messageDelete}</div>
-                            </div>
                             <button className="raise" onClick={getData}>Download</button>
                             <button className="raise" onClick={getDataPdf}>DownloadPDFBilan</button>
                             <button className="raise" onClick={getDataPdfCategorie}>DownloadPDF Bilan Categorie</button>
@@ -1170,6 +1193,8 @@ export function Budget(props) {
 
                     {listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).map((item, index) => {
                         return <>
+
+
                             <tr onClick={() => {
                                 setIdMontant(item.id);
                                 setMontant(item.montant);
@@ -1182,9 +1207,19 @@ export function Budget(props) {
                                 <th className="description">{item.categorie}</th>
                                 <th className="description">{item.dateTransaction}</th>
                                 <th className="description">{item.dateAjout}</th>
+                                <span className="span-supprimer"
+                                    onClick={async (e) => {
+                                        e.stopPropagation();
+                                        await deleteMontantById(e, item.id);
+                                    }}
 
+                                >Supprimer
+                            </span>
                             </tr>
-                        </>;
+
+
+                        </>
+                            ;
                     })}
                     </tbody>
                     <tfoot>

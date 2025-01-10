@@ -145,3 +145,11 @@ tfoot td {
         width: 95%;
     }
 }
+.span-supprimer{
+    background-color: red;
+    opacity: 0.5;
+    color: black;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+}
