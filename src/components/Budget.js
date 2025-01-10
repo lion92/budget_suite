@@ -12,7 +12,7 @@ import {MdOutlineDescription} from "react-icons/md";
 import BarGraph from "./BarGraph";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-
+import '../budget_style.css';
 
 export function Budget(props) {
 
