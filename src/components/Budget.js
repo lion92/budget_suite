@@ -13,6 +13,7 @@ import BarGraph from "./BarGraph";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import '../budget_style.css';
+import {useNotify} from "../Notification";
 
 export function Budget(props) {
 
@@ -59,6 +60,7 @@ export function Budget(props) {
         const [textCatAll, setCat2All] = useState([]);
         const [montantFiltre, setMontantFiltre] = useState(0);
         const [montantFiltre2, setMontantFiltre2] = useState(0);
+        const notify = useNotify();
         const toggleDescription = () => {
             setModalDescription(!modalDescription);
         };
@@ -661,17 +663,21 @@ export function Budget(props) {
                     if (response.ok) {
                         setMessageDelete("Valeur supprimée");
                         await fetchApiCAtegorie(); // Met à jour les catégories après suppression
+                        notify("Valeur supprimée", 'success')
                     } else {
                         const errorMessage = await response.text();
                         console.error("Erreur lors de la suppression :", errorMessage);
                         setMessageDelete("Échec de la suppression !");
+                        notify("Erreur", 'error')
                     }
                 } catch (error) {
                     console.error("Erreur réseau :", error);
                     setMessageDelete("Erreur réseau !");
+                    notify("Erreur reseau", 'error')
                 }
             } else {
                 setMessageDelete("Suppression annulée !");
+                notify("Suppression annulée", 'error')
             }
         }, [lien.url, fetchApiCAtegorie]);
 
@@ -699,7 +705,7 @@ export function Budget(props) {
             const resbis = await response;
 
 
-            await setMessageAjout("Ajout de " + montant + " categorie " + actionCategorie + " description " + actionDescription)
+            notify("Ajout de " + montant + " categorie " + actionCategorie + " description " + actionDescription, 'success')
 
         });
         ////////////////////update////////////
@@ -842,6 +848,7 @@ export function Budget(props) {
 
         /////////////////////////
         return <div>
+            <div style={{color: "black"}}>{messageAjout}</div>
             {modalDescription && <div className="modal">
                 <div onClick={toggleDescription} className="overlay"></div>
                 <div className="modal-content containerButton">
@@ -1051,7 +1058,7 @@ export function Budget(props) {
                         </div>
                         <div className="containerButton">
                             <button className="raise" onClick={toggleCategorie}>Ajouter une categorie
-                                <BiCategory style={{ color: 'blueviolet'}}/>
+                                <BiCategory style={{color: 'blueviolet'}}/>
                             </button>
                             <p className={categorieCSS}>{actionCategorie}</p>
 
@@ -1061,7 +1068,7 @@ export function Budget(props) {
                     <div className="containerButton">
                         <button className="raise" onClick={toggleDescription}>
                             Ajouter une description
-                            <MdOutlineDescription style={{ color: 'blueviolet'}}/>
+                            <MdOutlineDescription style={{color: 'blueviolet'}}/>
 
                         </button>
 
@@ -1070,7 +1077,7 @@ export function Budget(props) {
 
                     <div className="containerCote containerButton">
                         <button className="raise" onClick={toggleMontant}>Ajouter un montant
-                            <RiPassPendingLine style={{ color: 'blueviolet'}}/>
+                            <RiPassPendingLine style={{color: 'blueviolet'}}/>
                         </button>
 
                     </div>
@@ -1095,8 +1102,7 @@ export function Budget(props) {
                     <div className={buttonCSS}>
                         <div className="containerCote">
                             <button className="raise" onClick={fetchCreer}>creer <GrAddCircle
-                                style={{ color: 'blueviolet'}}/></button>
-                            <div>{messageAjout}</div>
+                                style={{color: 'blueviolet'}}/></button>
                             <button className="raise" onClick={getData}>Download</button>
                             <button className="raise" onClick={getDataPdf}>DownloadPDFBilan</button>
                             <button className="raise" onClick={getDataPdfCategorie}>DownloadPDF Bilan Categorie</button>
@@ -1208,10 +1214,10 @@ export function Budget(props) {
                                 <th className="description">{item.dateTransaction}</th>
                                 <th className="description">{item.dateAjout}</th>
                                 <span className="span-supprimer"
-                                    onClick={async (e) => {
-                                        e.stopPropagation();
-                                        await deleteMontantById(e, item.id);
-                                    }}
+                                      onClick={async (e) => {
+                                          e.stopPropagation();
+                                          await deleteMontantById(e, item.id);
+                                      }}
 
                                 >Supprimer
                             </span>

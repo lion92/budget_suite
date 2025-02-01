@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import Item from "./Item";
 import lien from './lien'
 import {Link} from "react-router-dom";
+import {useNotify} from "../Notification";
 
 export default function Form(props) {
     let [titre, setValue] = useState("");
@@ -13,6 +14,7 @@ export default function Form(props) {
     let [listItem, setText] = useState([]);
     ///////////////////////////
     const [load, setLoad] = useState(false);
+    const notify = useNotify();
 
 
     let attendre = () => {
@@ -101,6 +103,7 @@ export default function Form(props) {
         );
 
         const resbis = await response;
+        notify("Todo supprimé", 'success')
         await fetchAPI();
     });
     //////////////////////insert tache
@@ -127,6 +130,7 @@ export default function Form(props) {
             }
         );
         const resbis = await response;
+        notify("Todo crée", 'success')
         await fetchAPI();
 
     });
@@ -154,6 +158,7 @@ export default function Form(props) {
             }
         );
         const resbis = await response;
+        notify("Todo mis à jour", 'success')
         await fetchAPI();
     });
     ////////////////////////input change value

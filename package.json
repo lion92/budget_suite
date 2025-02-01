@@ -11,6 +11,7 @@
     "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^1.0.0",
     "fetch": "^1.1.0",
+    "framer-motion": "4.1.17",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "node-excel-export": "^1.4.4",
@@ -66,5 +67,8 @@
     "@types/react-dom": "^18.2.15",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "react-refresh": "^0.14.0"
+  },
+  "resolutions": {
+    "framer-motion": "4.1.17"
   }
 }

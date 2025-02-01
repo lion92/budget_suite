@@ -8,6 +8,7 @@ import {GoTasklist} from "react-icons/go";
 import {CiMenuBurger, CiMoneyBill} from "react-icons/ci";
 import DashBoardLogin from "./DashLogin";
 import CookieConsent from "./cookie_bandeau";
+import Notifications from "../Notification";
 
 export default function MenuComponent(props) {
     const [sidebar, setSideBar] = useState("sidebar");
@@ -29,8 +30,10 @@ export default function MenuComponent(props) {
 
     return (
         <>
+            <div style={{position:"fixed", top:20, left:50, fontSize:50, zIndex:100}}><Notifications /></div>
 
             <div className={sidebar}>
+
                 <div className="logo-details">
                     <div className="logo_name">Kriss CLOTILDE Budget</div>
                 </div>
@@ -38,6 +41,7 @@ export default function MenuComponent(props) {
 
 
                 <ul className="nav-list">
+
                     <NavLink to={"/"}>
                         <li>Bienvenue <SiWelcometothejungle /> </li>
                     </NavLink>
@@ -73,6 +77,8 @@ export default function MenuComponent(props) {
                 <h1>{props.title}</h1>
                 <button onClick={handlemenu}><CiMenuBurger /></button>
                 {props.contenue}
+
+
 
             </section>
 
