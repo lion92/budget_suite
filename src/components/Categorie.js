@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import lien from './lien'
 import ItemCategorie from "./ItemCategorie";
+import {useNotify} from "../Notification";
 
 export function Categorie(props) {
 
@@ -17,6 +18,7 @@ export function Categorie(props) {
         let [month, setMonth] = useState("");
         let [annee, setAnnee] = useState("");
         let [budgetDebutMois, setbudgetDebutMois] = useState(0);
+        const notify = useNotify();
 
         const [load, setLoad] = useState(false);
 
@@ -95,7 +97,7 @@ export function Categorie(props) {
                 }
             );
             await fetchAPI();
-
+            notify("Catégorie supprimée si il n'y a rien de rattacher", 'info')
             const resbis = await response;
         });
         const fetchAPI = useCallback(async () => {
@@ -131,6 +133,7 @@ export function Categorie(props) {
                 }
             );
             await fetchAPI();
+            notify("Catégorie crée", 'success')
         });
         ////////////////////update////////////
         let fetchAPIupdate = useCallback(async () => {
@@ -156,6 +159,7 @@ export function Categorie(props) {
                 }
             );
             const resbis = await response;
+            notify("Catégorie mis à jour", 'success')
             await fetchAPI()
         });
         ////////////////////////input change value

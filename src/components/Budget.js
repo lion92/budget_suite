@@ -598,6 +598,7 @@ export function Budget(props) {
                     var file = window.URL.createObjectURL(blob);
                     window.location.assign(file);
                 });
+            notify("Teléchargement", 'success')
         }
 
         const getDataPdf = async (e) => {
@@ -609,6 +610,7 @@ export function Budget(props) {
                     var file = window.URL.createObjectURL(blob);
                     window.location.assign(file);
                 });
+            notify("Teléchargement du pdf", 'success')
         }
 
         const getDataPdfCategorie = async (e) => {
@@ -620,6 +622,7 @@ export function Budget(props) {
                     var file = window.URL.createObjectURL(blob);
                     window.location.assign(file);
                 });
+            notify("Teléchargement du pdf", 'success')
         }
 
 
@@ -790,6 +793,7 @@ export function Budget(props) {
 
         function setIdCat(option) {
             setActionCategorie(option.id);
+            notify("Catégorie sélectionnée \n"+option.categorie, 'success')
 
         };
         /////////////////////////modifier
@@ -842,7 +846,7 @@ export function Budget(props) {
                 pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
                 pdf.save('Garph.pdf');
             });
-
+            notify("Teléchargement du pdf", 'success')
 
         }
 
