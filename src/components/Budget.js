@@ -736,7 +736,7 @@ export function Budget(props) {
                         </button>
                     </div>
 
-                    <div>
+                    <div className="containerButton">
                         <label>Filtre de Categorie</label>
                         <input placeholder="Categorie" value={categorieFiltre}
                                onChange={(e) => {
