@@ -4,7 +4,7 @@ export default function ItemCategorie(props) {
 
     return (
         <>
-            <div className="card" style={{width: "240px", height:"400px"}} onClick={() => {
+            <div className="card" style={{width: "240px", height:"400px", boxShadow:"7px 7px 7px black"}} onClick={() => {
                 props.idFunc(props.id)
                 props.changeTitle(props.title)
                 props.changeAnnee(props.annee)

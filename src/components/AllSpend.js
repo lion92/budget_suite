@@ -148,7 +148,7 @@ const AllSpend = () => {
             </div>
             <div className="container">
                 {filteredDepense.map((item) => (
-                    <div key={item.id} className="card">
+                    <div key={item.id} className="card" style={{height: "100%", boxShadow:"4px 4px 4px black"}}>
                         <div>Id: {item.id}</div>
                         <div style={{ color: "red" }}>Montant: {item.montant}</div>
                         <div className="description">Description: {item.description}</div>

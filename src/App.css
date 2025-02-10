@@ -299,8 +299,6 @@ button:hover {
     list-style: none;
     align-items: center;
     justify-content: center;
-
-
     flex-wrap: wrap;
     flex-direction: column;
     background-color: #c8b3d2;
