@@ -196,6 +196,7 @@ export default function Form(props) {
         fetchAPIupdate();
         setValue("");
         setTitre("");
+        setDescription("");
     };
     /////////////////////////
 
