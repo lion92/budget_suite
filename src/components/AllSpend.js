@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
 import lien from "./lien";
 import AjoutBudget from "./ajoutBudget";
+import ChartJS from "react-refresh";
+
+ChartJS.register({
+    id: 'dataLabels',
+    afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        chart.data.datasets.forEach((dataset, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((bar, index) => {
+                const value = dataset.data[index];
+                ctx.fillStyle = 'black';
+                ctx.fillText(value + '€', bar.x, bar.y - 5);
+            });
+        });
+    }
+});
 
 const AllSpend = () => {
-    const [year, setYear] = useState("2023");
     const [listDesDepense, setListDesDepense] = useState([]);
     const [filteredDepense, setFilteredDepense] = useState([]);
-    const [minMontant, setMinMontant] = useState('');
-    const [maxMontant, setMaxMontant] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [descriptionSearch, setDescriptionSearch] = useState('');
-    const [categorieSearch, setCategorieSearch] = useState('');
-    const [totalFilteredMontant, setTotalFilteredMontant] = useState(0);
+    const [monthlySummary, setMonthlySummary] = useState({});
+    const [budget, setBudget] = useState(0);
+    const [budgetUsed, setBudgetUsed] = useState(0);
+    const [budgetRemaining, setBudgetRemaining] = useState(0);
+    const [monthlyBudget, setMonthlyBudget] = useState({});
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -26,9 +40,11 @@ const AllSpend = () => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-                const resbis = await response.json();
-                setListDesDepense(resbis);
-                setFilteredDepense(resbis); // Initialize filtered list with all expenses
+                const data = await response.json();
+                setListDesDepense(data);
+                setFilteredDepense(data);
+                generateMonthlySummary(data);
+                calculateBudgetAnalysis(data);
             } catch (error) {
                 console.error("Failed to fetch expenses:", error);
             }
@@ -37,125 +53,73 @@ const AllSpend = () => {
         fetchAPI();
     }, []);
 
-    useEffect(() => {
-        const filterExpenses = () => {
-            let filtered = listDesDepense;
-
-            // Filtrer par montant
-            if (minMontant !== '') {
-                filtered = filtered.filter(expense => expense.montant >= parseFloat(minMontant));
+    const generateMonthlySummary = (expenses) => {
+        const summary = {};
+        const budgetData = {};
+        expenses.forEach(({ montant, dateTransaction, categorie }) => {
+            const date = new Date(dateTransaction);
+            const month = date.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+            if (!summary[month]) {
+                summary[month] = { total: 0, categories: {} };
+                budgetData[month] = budget;
             }
-            if (maxMontant !== '') {
-                filtered = filtered.filter(expense => expense.montant <= parseFloat(maxMontant));
+            summary[month].total += montant;
+            summary[month].categories[categorie] = (summary[month].categories[categorie] || 0) + montant;
+        });
+        setMonthlySummary(summary);
+        setMonthlyBudget(budgetData);
+    };
+
+    const calculateBudgetAnalysis = (expenses) => {
+        const totalExpenses = expenses.reduce((acc, { montant }) => acc + montant, 0);
+        setBudgetUsed(totalExpenses);
+        setBudgetRemaining(budget - totalExpenses);
+    };
+
+    const chartData = {
+        labels: Object.keys(monthlySummary),
+        datasets: [
+            {
+                label: "Dépenses par Mois",
+                data: Object.values(monthlySummary).map(m => m.total),
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderWidth: 1,
+            },
+            {
+                label: "Budget Total par Mois",
+                data: Object.values(monthlyBudget),
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderWidth: 1,
             }
-
-            // Filtrer par date
-            if (startDate !== '') {
-                filtered = filtered.filter(expense => new Date(expense.dateTransaction) >= new Date(startDate));
-            }
-            if (endDate !== '') {
-                filtered = filtered.filter(expense => new Date(expense.dateTransaction) <= new Date(endDate));
-            }
-
-            // Filtrer par description
-            if (descriptionSearch !== '') {
-                filtered = filtered.filter(expense =>
-                    expense.description.toLowerCase().includes(descriptionSearch.toLowerCase())
-                );
-            }
-
-            // Filtrer par catégorie
-            if (categorieSearch !== '') {
-                filtered = filtered.filter(expense =>
-                    expense.categorie.toLowerCase().includes(categorieSearch.toLowerCase())
-                );
-            }
-
-            setFilteredDepense(filtered);
-
-            // Calculer la somme des montants filtrés
-            const total = filtered.reduce((acc, expense) => acc + expense.montant, 0);
-            setTotalFilteredMontant(total);
-        };
-
-        filterExpenses();
-    }, [minMontant, maxMontant, startDate, endDate, descriptionSearch, categorieSearch, listDesDepense]);
-
-    const resetFilters = () => {
-        setMinMontant('');
-        setMaxMontant('');
-        setStartDate('');
-        setEndDate('');
-        setDescriptionSearch('');
-        setCategorieSearch('');
-        setFilteredDepense(listDesDepense); // Reset to show all expenses
-        setTotalFilteredMontant(listDesDepense.reduce((acc, expense) => acc + expense.montant, 0)); // Reset total amount
+        ]
     };
 
     return (
         <>
             <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
-            <AjoutBudget></AjoutBudget>
-            <div className="container" style={{ marginBottom: '20px', textAlign: 'center' }}>
-                <input
-                    type="number"
-                    placeholder="Montant minimal"
-                    value={minMontant}
-                    onChange={(e) => setMinMontant(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <input
-                    type="number"
-                    placeholder="Montant maximal"
-                    value={maxMontant}
-                    onChange={(e) => setMaxMontant(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <input
-                    type="date"
-                    placeholder="Date de début"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <input
-                    type="date"
-                    placeholder="Date de fin"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <input
-                    type="text"
-                    placeholder="Recherche description"
-                    value={descriptionSearch}
-                    onChange={(e) => setDescriptionSearch(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <input
-                    type="text"
-                    placeholder="Recherche catégorie"
-                    value={categorieSearch}
-                    onChange={(e) => setCategorieSearch(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <button onClick={resetFilters} style={{ padding: '5px 10px', marginLeft: '10px' }}>
-                    Réinitialiser
-                </button>
-            </div>
-            <div style={{ textAlign: 'center', marginBottom: '20px', color: "red", fontSize:30 }}>
-                <strong style={{ textAlign: 'center', marginBottom: '20px', color: "black" }}>Total des montants après filtre: </strong>{totalFilteredMontant} €
-            </div>
+            <AjoutBudget />
             <div className="container">
-                {filteredDepense.map((item) => (
-                    <div key={item.id} className="card" style={{height: "100%", boxShadow:"4px 4px 4px black"}}>
-                        <div>Id: {item.id}</div>
-                        <div style={{ color: "red" }}>Montant: {item.montant}</div>
-                        <div className="description">Description: {item.description}</div>
-                        <div className="description">Categorie: {item.categorie}</div>
-                        <div className="description">Date: {item.dateTransaction}</div>
+                <h2 style={{color:"black"}}>Bilan Mensuel</h2>
+                {Object.entries(monthlySummary).map(([month, { total, categories }]) => (
+                    <div key={month} style={{ marginBottom: "20px", padding: "10px", border: "1px solid black" }}>
+                        <h3 style={{color:"black"}}>{month} - Dépense Totale: {total}€</h3>
+                        <ul>
+                            {Object.entries(categories).map(([category, amount]) => (
+                                <li key={category}>{category}: {amount}€</li>
+                            ))}
+                        </ul>
                     </div>
                 ))}
+            </div>
+            <div style={{ width: '80%', margin: 'auto' }}>
+                <h2>Graphique des Dépenses et Budgets</h2>
+                <Bar data={chartData} options={{ plugins: { dataLabels: {} } }} />
+            </div>
+            <div className="container" style={{ textAlign: 'center', marginTop: '20px' }}>
+                <h2>Analyse du Budget</h2>
+                <p><strong>Budget total:</strong> {budget} €</p>
+                <p><strong>Dépenses totales:</strong> {budgetUsed} €</p>
+                <p><strong>Budget restant:</strong> {budgetRemaining} €</p>
             </div>
         </>
     );
