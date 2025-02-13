@@ -41,6 +41,14 @@ const AllSpend = () => {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
+                if (data.length === 0) {
+                    console.warn("Aucune donnée trouvée.");
+                    setListDesDepense([]);
+                    setFilteredDepense([]);
+                    setMonthlySummary({});
+                    setMonthlyBudget({});
+                    return;
+                }
                 setListDesDepense(data);
                 setFilteredDepense(data);
                 generateMonthlySummary(data);
@@ -98,26 +106,32 @@ const AllSpend = () => {
         <>
             <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
             <AjoutBudget />
-            <div className="container">
-                <h2 style={{color:"black"}}>Bilan Mensuel</h2>
-                {Object.entries(monthlySummary).map(([month, { total, categories }]) => (
-                    <div key={month} style={{ marginBottom: "20px", padding: "10px", border: "1px solid black" }}>
-                        <h3 style={{color:"black"}}>{month} - Dépense Totale: {total}€</h3>
-                        <ul>
-                            {Object.entries(categories).map(([category, amount]) => (
-                                <li key={category}>{category}: {amount}€</li>
-                            ))}
-                        </ul>
+            {Object.keys(monthlySummary).length === 0 ? (
+                <p style={{ textAlign: 'center', color: 'gray' }}>Aucune donnée disponible.</p>
+            ) : (
+                <>
+                    <div className="container">
+                        <h2  style={{color:"black"}}>Bilan Mensuel</h2>
+                        {Object.entries(monthlySummary).map(([month, { total, categories }]) => (
+                            <div key={month} style={{ marginBottom: "20px", padding: "10px", border: "1px solid black" }}>
+                                <h3  style={{color:"black"}}>{month} - Dépense Totale: {total}€</h3>
+                                <ul>
+                                    {Object.entries(categories).map(([category, amount]) => (
+                                        <li key={category}>{category}: {amount}€</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <div style={{ width: '80%', margin: 'auto' }}>
-                <h2>Graphique des Dépenses et Budgets</h2>
-                <Bar data={chartData} options={{ plugins: { dataLabels: {} } }} />
-            </div>
+                    <div style={{ width: '80%', margin: 'auto' }}>
+                        <h2>Graphique des Dépenses et Budgets</h2>
+                        <Bar data={chartData} options={{ plugins: { dataLabels: {} } }} />
+                    </div>
+                </>
+            )}
             <div className="container" style={{ textAlign: 'center', marginTop: '20px' }}>
                 <h2>Analyse du Budget</h2>
-                <p><strong>Budget total:</strong> {budget} €</p>
+                <p style={{color:"black"}}><strong>Budget total:</strong> {budget} €</p>
                 <p><strong>Dépenses totales:</strong> {budgetUsed} €</p>
                 <p><strong>Budget restant:</strong> {budgetRemaining} €</p>
             </div>

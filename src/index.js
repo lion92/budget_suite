@@ -11,6 +11,7 @@ import DashBoardInscription from "./components/DashInscription";
 import DashBoardHello from "./components/DashBoardHello";
 import DashAllSpend from "./components/DashAllSpend";
 import DashBoardAgenda from "./components/DashBoardAgenda";
+import DashAllSpendFilters from "./components/DashAllSpendFilters";
 
 
 const Root = () => (
@@ -23,6 +24,7 @@ const Root = () => (
             <Route exact path="/budget" component={DashBoardBudget}/>
             <Route exact path="/form" component={DashBoardTache}/>
             <Route exact path="/allSpend" component={DashAllSpend}/>
+            <Route exact path="/allSpendFilters" component={DashAllSpendFilters}/>
             <Route exact path="/agenda" component={DashBoardAgenda}/>
             <Route component={NotFound}/>
         </Switch>
