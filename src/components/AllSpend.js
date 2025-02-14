@@ -2,22 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import lien from "./lien";
 import AjoutBudget from "./ajoutBudget";
-import ChartJS from "react-refresh";
 
-ChartJS.register({
-    id: 'dataLabels',
-    afterDatasetsDraw(chart) {
-        const ctx = chart.ctx;
-        chart.data.datasets.forEach((dataset, i) => {
-            const meta = chart.getDatasetMeta(i);
-            meta.data.forEach((bar, index) => {
-                const value = dataset.data[index];
-                ctx.fillStyle = 'black';
-                ctx.fillText(value + '€', bar.x, bar.y - 5);
-            });
-        });
-    }
-});
 
 const AllSpend = () => {
     const [listDesDepense, setListDesDepense] = useState([]);
@@ -109,23 +94,24 @@ const AllSpend = () => {
             {Object.keys(monthlySummary).length === 0 ? (
                 <p style={{ textAlign: 'center', color: 'gray' }}>Aucune donnée disponible.</p>
             ) : (
-                <>
+                <><h2 style={{color: "black"}}>Bilan Mensuel</h2>
                     <div className="container">
-                        <h2  style={{color:"black"}}>Bilan Mensuel</h2>
-                        {Object.entries(monthlySummary).map(([month, { total, categories }]) => (
-                            <div key={month} style={{ marginBottom: "20px", padding: "10px", border: "1px solid black" }}>
-                                <h3  style={{color:"black"}}>{month} - Dépense Totale: {total}€</h3>
+                        {Object.entries(monthlySummary).map(([month, {total, categories}]) => (
+                            <div key={month} style={{marginBottom: "20px", padding: "10px", border: "1px solid black"}}>
+                                <h3 style={{color: "black"}}>{month} - Dépense Totale: {total}€</h3>
                                 <ul>
-                                    {Object.entries(categories).map(([category, amount]) => (
-                                        <li key={category}>{category}: {amount}€</li>
-                                    ))}
+                                    {Object.entries(categories)
+                                        .sort(([categoryA], [categoryB]) => categoryA.localeCompare(categoryB)) // Tri alphabétique
+                                        .map(([category, amount]) => (
+                                            <li key={category}>{category}: {amount}€</li>
+                                        ))}
                                 </ul>
                             </div>
                         ))}
                     </div>
-                    <div style={{ width: '80%', margin: 'auto' }}>
+                    <div style={{width: '80%', margin: 'auto'}}>
                         <h2>Graphique des Dépenses et Budgets</h2>
-                        <Bar data={chartData} options={{ plugins: { dataLabels: {} } }} />
+                        <Bar data={chartData} options={{plugins: {dataLabels: {}}}}/>
                     </div>
                 </>
             )}
