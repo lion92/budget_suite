@@ -12,6 +12,7 @@ import DashBoardHello from "./components/DashBoardHello";
 import DashAllSpend from "./components/DashAllSpend";
 import DashBoardAgenda from "./components/DashBoardAgenda";
 import DashAllSpendFilters from "./components/DashAllSpendFilters";
+import DashPrediction from "./components/DashPrediction";
 
 
 const Root = () => (
@@ -25,6 +26,7 @@ const Root = () => (
             <Route exact path="/form" component={DashBoardTache}/>
             <Route exact path="/allSpend" component={DashAllSpend}/>
             <Route exact path="/allSpendFilters" component={DashAllSpendFilters}/>
+            <Route exact path="/prediction" component={DashPrediction}/>
             <Route exact path="/agenda" component={DashBoardAgenda}/>
             <Route component={NotFound}/>
         </Switch>

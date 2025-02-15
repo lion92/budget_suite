@@ -63,8 +63,14 @@ export default function MenuComponent(props) {
                     <NavLink to={"/allspend"}>
                         <li>Dépenses par mois<CiMoneyBill /></li>
                     </NavLink>
+                    <NavLink to={"/prediction"}>
+                        <li>Dépenses par mois<CiMoneyBill /></li>
+                    </NavLink>
                     <NavLink to={"/allspendFilters"}>
                         <li>Dépenses filtrées<CiMoneyBill /></li>
+                    </NavLink>
+                    <NavLink to={"/prediction"}>
+                        <li>Prédiction<CiMoneyBill /></li>
                     </NavLink>
                     <NavLink to={"/agenda"}>
                         <li>Agenda<CiMoneyBill /></li>
