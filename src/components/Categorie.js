@@ -116,7 +116,7 @@ export function Categorie(props) {
 
     return (
         <div className="container2">
-            <div className="containerCote">
+            <div>
                 <div className="containerButton">
                     <div>
                         <input
