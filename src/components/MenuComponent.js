@@ -9,6 +9,8 @@ import {CiMenuBurger, CiMoneyBill} from "react-icons/ci";
 import DashBoardLogin from "./DashLogin";
 import CookieConsent from "./cookie_bandeau";
 import Notifications from "../Notification";
+import MonthlyBudgetInfo from "../MonthlyBudgetInfo";
+import Prediction from "./Prediction";
 
 export default function MenuComponent(props) {
     const [sidebar, setSideBar] = useState("sidebar");
@@ -37,7 +39,6 @@ export default function MenuComponent(props) {
                 <div className="logo-details">
                     <div className="logo_name">Kriss CLOTILDE Budget</div>
                 </div>
-
 
 
                 <ul className="nav-list">

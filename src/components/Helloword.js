@@ -1,5 +1,6 @@
 import React from 'react';
 import {useAppStore} from "../store";
+import Prediction from "./Prediction";
 
 const Helloword = () => {
     const {mois}=useAppStore()
