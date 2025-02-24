@@ -142,9 +142,7 @@ const AllSpend = () => {
             {
                 label: "Dépenses par Mois",
                 data: Object.values(monthlySummary).map((m) => m.total),
-                backgroundColor: Object.keys(monthlySummary).map(
-                    (_, index) => Object.values(categoryColors)[index % Object.values(categoryColors).length]
-                ),
+                backgroundColor: "blue",
                 borderWidth: 1,
             },
         ],

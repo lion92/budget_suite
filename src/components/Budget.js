@@ -929,11 +929,11 @@ export function Budget(props) {
                             }}>
                                 <th>{item.id}</th>
                                 <th className="montant">{item.montant}</th>
-                                <th className="description">{item.description}</th>
-                                <th className="description">{item.categorieId}</th>
-                                <th className="description">{item.categorie}</th>
-                                <th className="description">{item.dateTransaction}</th>
-                                <th className="description">{item.dateAjout}</th>
+                                <th style={{color:"white"}}>{item.description}</th>
+                                <th style={{color:"white"}}>{item.categorieId}</th>
+                                <th style={{color:"white"}}>{item.dateTransaction}</th>
+                                <th style={{color:"white"}}>{item.dateAjout}</th>
+                                <th style={{color:"white"}}>{item.categorie}</th>
                                 <span className="span-supprimer"
                                       onClick={async (e) => {
                                           e.stopPropagation();
