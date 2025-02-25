@@ -825,7 +825,7 @@ export function Budget(props) {
                             <button className="button-85" role="button" onClick={apiCreate}>creer <GrAddCircle
                                 style={{color: 'blueviolet'}}/></button>
                             <button className="button-85" role="button" onClick={getData}>Download</button>
-                            <button className="button-85" role="button" onClick={getDataPdf}>DownloadPDFBilan</button>
+                            <button className="button-85" role="button" onClick={getDataPdf}>Download PDF Bilan</button>
                             <button className="button-85" role="button" onClick={getDataPdfCategorie}>DownloadPDF Bilan Categorie</button>
                         </div>
                     </div>

@@ -10,7 +10,7 @@ function Sidebar(props) {
         <div className="divCentrer">
             <div className={props.affiche}>
                 <div className="logo-details">
-                    <div className="logo_name">Kriss CLOTILDE Budget</div>
+                    <div className="logo_name">Budget</div>
                 </div>
                 <ul className="nav-list">
 

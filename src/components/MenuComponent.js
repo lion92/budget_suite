@@ -37,7 +37,7 @@ export default function MenuComponent(props) {
             <div className={sidebar}>
 
                 <div className="logo-details">
-                    <div className="logo_name">Kriss CLOTILDE Budget</div>
+                    <div className="logo_name" style={{margin:"auto"}}>Budget</div>
                 </div>
 
 
