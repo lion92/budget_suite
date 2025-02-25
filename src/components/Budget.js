@@ -692,7 +692,7 @@ export function Budget(props) {
                                onChange={(e) => {
                                    setDescriptionFiltre(e.target.value)
                                }}/>
-                        <button onClick={async () => {
+                        <button className="button-85" role="button" onClick={async () => {
                             setListDesDepense(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).filter(value => value.description.includes(descriptionFiltre)))
                             setMontantTotal(listDesDepense.filter(value => value.description.includes(descriptionFiltre)).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
@@ -708,7 +708,7 @@ export function Budget(props) {
                                onChange={(e) => {
                                    setMontantFiltre(parseInt("" + e.target.value))
                                }}/>
-                        <button onClick={async () => {
+                        <button className="button-85" role="button" onClick={async () => {
                             setListDesDepense(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).filter(value => +value.montant > +montantFiltre))
                             setMontantTotal(listDesDepense.filter(value => value => +value.montant > +montantFiltre).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
@@ -725,7 +725,7 @@ export function Budget(props) {
                                onChange={(e) => {
                                    setMontantFiltre2(parseInt("" + e.target.value))
                                }}/>
-                        <button onClick={async () => {
+                        <button className="button-85" role="button" onClick={async () => {
                             setListDesDepense(listDesDepense.filter(value => value.dateTransaction.split("-")[0] == year).filter(value => +value.montant < +montantFiltre2))
                             setMontantTotal(listDesDepense.filter(value => value => +value.montant < +montantFiltre2).filter(value => value.dateTransaction.split("-")[0] == year).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
@@ -743,7 +743,7 @@ export function Budget(props) {
                                    setCategorieFiltre(e.target.value)
                                }}/>
 
-                        <button onClick={async () => {
+                        <button className="button-85" role="button" onClick={async () => {
                             setListDesDepense(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)))
                             setMontantTotal(listDesDepense.filter(value => value.categorie.includes(categorieFiltre)).map(value => value.montant).reduce(function (a, b) {
                                 return a + b;
@@ -755,7 +755,7 @@ export function Budget(props) {
                 </div>
                 <div className="containerCote">
                     <div className="containerCote">
-                        <button className="raise" onClick={() => {
+                        <button className="button-85" role="button" onClick={() => {
                             if (budgetCSS === "visible") {
 
                                 setBudgetCSS("hidden")
@@ -778,7 +778,7 @@ export function Budget(props) {
                             <input value={idMontant} onChange={(e) => setIdMontant(e.target.value)}/>{" "}
                         </div>
                         <div className="containerButton">
-                            <button className="raise" onClick={toggleCategorie}>Ajouter une categorie
+                            <button className="button-85" role="button" onClick={toggleCategorie}>Ajouter une categorie
                                 <BiCategory style={{color: 'blueviolet'}}/>
                             </button>
                             <p className={categorieCSS}>{actionCategorie}</p>
@@ -787,7 +787,7 @@ export function Budget(props) {
                         </div>
                     </div>
                     <div className="containerButton">
-                        <button className="raise" onClick={toggleDescription}>
+                        <button className="button-85" role="button" onClick={toggleDescription}>
                             Ajouter une description
                             <MdOutlineDescription style={{color: 'blueviolet'}}/>
 
@@ -797,18 +797,18 @@ export function Budget(props) {
                     </div>
 
                     <div className="containerCote containerButton">
-                        <button className="raise" onClick={toggleMontant}>Ajouter un montant
+                        <button className="button-85" role="button" onClick={toggleMontant}>Ajouter un montant
                             <RiPassPendingLine style={{color: 'blueviolet'}}/>
                         </button>
 
                     </div>
-                    <button className="raise" onClick={toggleDate}>Ajouter une date
+                    <button className="button-85" role="button" onClick={toggleDate}>Ajouter une date
                         <CiCalendarDate/>
                     </button>
 
 
                 </div>
-                <button className="raise" onClick={(e) => {
+                <button className="button-85" role="button" onClick={(e) => {
                     e.preventDefault();
                     if (buttonCSS === "visible") {
 
@@ -822,11 +822,11 @@ export function Budget(props) {
 
                     <div className={buttonCSS}>
                         <div className="containerCote">
-                            <button className="raise" onClick={apiCreate}>creer <GrAddCircle
+                            <button className="button-85" role="button" onClick={apiCreate}>creer <GrAddCircle
                                 style={{color: 'blueviolet'}}/></button>
-                            <button className="raise" onClick={getData}>Download</button>
-                            <button className="raise" onClick={getDataPdf}>DownloadPDFBilan</button>
-                            <button className="raise" onClick={getDataPdfCategorie}>DownloadPDF Bilan Categorie</button>
+                            <button className="button-85" role="button" onClick={getData}>Download</button>
+                            <button className="button-85" role="button" onClick={getDataPdf}>DownloadPDFBilan</button>
+                            <button className="button-85" role="button" onClick={getDataPdfCategorie}>DownloadPDF Bilan Categorie</button>
                         </div>
                     </div>
                 </div>
@@ -894,7 +894,7 @@ export function Budget(props) {
             </div>
 
 
-            <button onClick={downloadPDF}>dl pdf</button>
+            <button className="button-85" role="button" onClick={downloadPDF}>dl pdf</button>
             <ProgressBar className={budgetCSS} completed={calcul() / 100}
             />
             <div style={{padding: "15px"}} className="containerButton">
