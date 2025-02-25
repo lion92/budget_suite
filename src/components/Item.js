@@ -5,7 +5,7 @@ export default function Item(props) {
     const [iditem, setItemid] = useState(-1);
     return (
         <>
-            <div className="card" style={{height: "400px", boxShadow: "7px 7px 7px black", position:"relative"}} onClick={() => {
+            <div className="card" style={{height: "400px", padding:"20px", boxShadow: "7px 7px 7px black", position:"relative"}} onClick={() => {
                 props.updatefunc(props.id);
                 props.changeDec(props.description);
                 props.changetext(props.title);
@@ -14,7 +14,7 @@ export default function Item(props) {
                 <h1 className="card-title">{props.title}</h1>
 
                 <p>{props.description}</p>
-                <button style={{position:"absolute", bottom:"0", padding:"1px" ,margin:"auto", left:28}} onClick={(e) => props.del(e, props.id)}>x</button>
+                <button style={{position:"absolute", bottom:"10px", padding:"1px" ,margin:"auto", left:28}} onClick={(e) => props.del(e, props.id)}>x</button>
             </div>
 
         </>
