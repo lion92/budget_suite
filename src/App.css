@@ -136,52 +136,75 @@ nav.menu {
 
 form {
     position: relative;
-    background: #786d6d;
-    max-width: 360px;
-    margin: 0 auto 100px;
-    padding: 45px;
+    background: #2c3e50;
+    margin: 50px auto;
+    padding: 40px;
     text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
 }
 
-form input, form div input {
+form input, form div input, form select {
     font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #5b5353;
-    border: 0;
-    margin: 0 0 15px;
+    width: 80%; /* Réduction de la largeur pour éviter de toucher les bords */
+    max-width: 350px; /* Assurer une largeur maximale */
+    outline: none;
+    background: #34495e;
+    border: none;
+    margin: 10px auto; /* Centrer les inputs horizontalement */
     padding: 15px;
+    border-radius: 5px;
     box-sizing: border-box;
+    color: #ecf0f1;
+    font-size: 16px;
+    display: block; /* Assurer un centrage correct */
+    transition: all 0.3s ease-in-out;
+}
+
+form input:focus {
+    background: #3a526e;
+    box-shadow: 0 0 5px #4aa6be;
 }
 
 form button, form div button {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
-    outline: 0;
-    background: #759ed8;
-    width: 100%;
-    border: 0;
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    width: 80%; /* Même largeur que les inputs */
+    max-width: 350px;
+    border: none;
     padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
+    color: #ffffff;
+    font-size: 16px;
     cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    display: block;
+    margin: 10px auto;
 }
 
-form button:hover, form button:active, form button:focus {
-    background: #4aa6be;
+form button:hover {
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+    box-shadow: 0 5px 15px rgba(26, 188, 156, 0.4);
 }
 
 form .message {
-    margin: 15px 0 0;
-    color: #b3b3b3;
-    font-size: 12px;
+    margin-top: 15px;
+    color: #bdc3c7;
+    font-size: 14px;
 }
 
 form .message a {
-    color: #53828e;
+    color: #1abc9c;
     text-decoration: none;
+    transition: all 0.3s ease-in-out;
 }
 
+form .message a:hover {
+    color: #16a085;
+    text-decoration: underline;
+}
 
 .cache {
     display: none;
