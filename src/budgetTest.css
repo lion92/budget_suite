@@ -1,0 +1,221 @@
+/* CSS Responsive pour le composant Budget */
+
+/* Styles de base */
+.principaleDiv {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.containerButton {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.containerCote {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+}
+
+/* Styles pour les inputs et selects */
+input, select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Style pour les tableaux */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto;
+    display: block;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Ajustement des graphiques */
+canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
+/* Styles pour les modales */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Styles des boutons */
+.button-85 {
+    padding: 10px 15px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, #4e73df, #2e59d9);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.button-85:hover {
+    background: linear-gradient(to bottom, #2e59d9, #224abe);
+}
+
+/* Styles pour la barre de progression */
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(to right, #4e73df, #2e59d9);
+}
+
+/* Classes utilitaires */
+.span-supprimer {
+    color: #e74a3b;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.error {
+    color: #e74a3b;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Media Queries pour responsivité */
+
+/* Pour tablettes */
+@media (max-width: 992px) {
+    .containerCote {
+        flex-direction: column;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 15% auto;
+    }
+}
+
+/* Pour téléphones */
+@media (max-width: 576px) {
+    .containerButton {
+        padding: 10px;
+    }
+
+    .button-85 {
+        width: 100%;
+    }
+
+    input, select {
+        width: 100%;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table, table tbody, table tr, table td, table th {
+        display: block;
+        width: 100%;
+    }
+
+    table tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    table td, table th {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+    }
+
+    table td:before, table th:before {
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    /* Ajouter des labels aux cellules pour la version mobile */
+    table td:nth-of-type(1):before { content: "Id:"; }
+    table td:nth-of-type(2):before { content: "Montant:"; }
+    table td:nth-of-type(3):before { content: "Description:"; }
+    table td:nth-of-type(4):before { content: "Catégorie Id:"; }
+    table td:nth-of-type(5):before { content: "Date de dépense:"; }
+    table td:nth-of-type(6):before { content: "Date d'ajout:"; }
+    table td:nth-of-type(7):before { content: "Catégorie:"; }
+    table td:nth-of-type(8):before { content: "Actions:"; }
+
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+}
+
+/* Pour les écrans très petits */
+@media (max-width: 320px) {
+    .modal-content {
+        padding: 10px;
+    }
+
+    h1, h2 {
+        font-size: 1.2rem;
+    }
+}
