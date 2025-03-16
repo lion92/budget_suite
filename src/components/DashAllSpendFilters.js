@@ -1,5 +1,5 @@
 import React from 'react';
-import './dashboard.scss'
+import './css/dashboard.scss'
 import MenuComponent from "./MenuComponent";
 import AllSpendFilters from "../AllSpendFilters";
 

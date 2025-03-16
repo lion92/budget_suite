@@ -1,6 +1,6 @@
 import React from 'react';
-import './dashboard.scss'
-import './dash.scss'
+import './css/dashboard.scss'
+import './css/dash.scss'
 import MenuComponent from "./MenuComponent";
 import Helloword from "./Helloword";
 

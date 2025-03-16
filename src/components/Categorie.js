@@ -122,6 +122,7 @@ export function Categorie(props) {
                         <input
                             type="color"
                             value={colorCategorie}
+                            style={{width:"100px"}}
                             onChange={(e) => setColorCategorie(e.target.value)}
                         />
                     </div>

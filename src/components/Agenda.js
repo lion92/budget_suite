@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import './agenda.css'
+import './css/agenda.css'
 import EventForm from "./EventForm";
 import CalendarView from "./CalendarView";  // Importer le fichier CSS
 

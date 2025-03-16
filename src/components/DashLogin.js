@@ -1,5 +1,5 @@
 import React from 'react';
-import './dashboard.scss'
+import './css/dashboard.scss'
 import Connection from "./connection";
 import MenuComponent from "./MenuComponent";
 

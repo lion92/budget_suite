@@ -116,21 +116,21 @@ const AllSpendFilters = () => {
                     placeholder="Date de début"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    style={{ marginRight: '10px' }}
+                    style={{ marginRight: '10px', color:"black" }}
                 />
                 <input
                     type="date"
                     placeholder="Date de fin"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    style={{ marginRight: '10px' }}
+                    style={{ marginRight: '10px', color:"black" }}
                 />
                 <input
                     type="text"
                     placeholder="Recherche description"
                     value={descriptionSearch}
                     onChange={(e) => setDescriptionSearch(e.target.value)}
-                    style={{ marginRight: '10px' }}
+                    style={{ marginRight: '10px', color:"black" }}
                 />
                 <input
                     type="text"

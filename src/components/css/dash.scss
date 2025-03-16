@@ -14,6 +14,9 @@
   --shadow-standard: 0 4px 6px rgba(0, 0, 0, 0.2);
   --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.3);
   --transition-standard: all 0.3s ease;
+  --form-placeholder: black;
+  --darker:white;
+  --text-bright:black;
 }
 
 /* Base styling */
@@ -682,7 +685,7 @@ button:disabled {
   }
 
   .sidebar {
-    width: 78px;
+    width: 150px;
   }
 
   .sidebar.open {
@@ -730,133 +733,6 @@ button:disabled {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 }
-
-/* Small Screens (Mobile Landscape) */
-@media (max-width: 768px) {
-  html {
-    font-size: 15px;
-  }
-
-  .sidebar {
-    width: 0;
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  .sidebar.open {
-    width: 240px;
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .home-section,
-  #header {
-    left: 0;
-    width: 100%;
-  }
-
-  .sidebar.open ~ .home-section,
-  .sidebar.open ~ #header {
-    left: 240px;
-    width: calc(100% - 240px);
-    overflow: hidden;
-  }
-
-  #header {
-    padding: 0 1rem;
-    justify-content: space-between;
-  }
-
-  #header .header .menu img {
-    width: 30px;
-    margin: 0 0.25rem;
-  }
-
-  #header .header .menu img:last-child {
-    width: 24px;
-    margin: 0 0 0 0.5rem;
-  }
-
-  .main {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    padding: 1rem;
-    gap: 0.75rem;
-  }
-
-  button {
-    min-width: 120px;
-    padding: 0.625rem 1.25rem;
-    font-size: 0.875rem;
-  }
-}
-
-/* Extra Small Screens (Mobile Portrait) */
-@media (max-width: 576px) {
-  html {
-    font-size: 14px;
-  }
-
-  .sidebar.open {
-    width: 100%;
-  }
-
-  .sidebar.open ~ .home-section,
-  .sidebar.open ~ #header {
-    visibility: hidden;
-  }
-
-  .main {
-    grid-template-columns: 1fr;
-    padding: 0.75rem;
-  }
-
-  #header {
-    padding: 0 0.75rem;
-  }
-
-  #header.shrink {
-    height: 50px;
-  }
-
-  .header-space {
-    height: 50px;
-  }
-
-  button {
-    width: 100%;
-    margin: 0.5rem 0;
-  }
-
-  .divCentrer {
-    padding: 0.75rem;
-  }
-
-  #lang .options {
-    right: 0;
-    left: auto;
-  }
-}
-
-/* Handle landscape orientation on phones */
-@media (max-height: 500px) and (orientation: landscape) {
-  .sidebar {
-    overflow-y: scroll;
-  }
-
-  .sidebar li.profile {
-    position: static;
-    width: 100%;
-  }
-
-  .home-section {
-    padding-top: 60px;
-  }
-
-  #header {
-    height: 50px;
-  }
-
-  .header-space {
-    height: 50px;
-  }
+.description{
+  color: black;
 }

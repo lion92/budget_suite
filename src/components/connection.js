@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Form from "./Form";
 import lien from './lien'
-import './dash.scss'
+import './css/dash.scss'
 
 const Connection = () => {
     const [messageLog, setMessageLog] = useState("");
