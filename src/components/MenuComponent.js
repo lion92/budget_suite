@@ -1,4 +1,4 @@
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import React, {useState} from "react";
 import {SiWelcometothejungle} from "react-icons/si";
 import {TbLogin2} from "react-icons/tb";
@@ -6,11 +6,8 @@ import {MdOutlineAppRegistration} from "react-icons/md";
 import {BiSolidCategory} from "react-icons/bi";
 import {GoTasklist} from "react-icons/go";
 import {CiMenuBurger, CiMoneyBill} from "react-icons/ci";
-import DashBoardLogin from "./DashLogin";
 import CookieConsent from "./cookie_bandeau";
 import Notifications from "../Notification";
-import MonthlyBudgetInfo from "../MonthlyBudgetInfo";
-import Prediction from "./Prediction";
 
 export default function MenuComponent(props) {
     const [sidebar, setSideBar] = useState("sidebar");
@@ -62,9 +59,6 @@ export default function MenuComponent(props) {
                         <li>Budget<CiMoneyBill /></li>
                     </NavLink>
                     <NavLink to={"/allspend"}>
-                        <li>Dépenses par mois<CiMoneyBill /></li>
-                    </NavLink>
-                    <NavLink to={"/prediction"}>
                         <li>Dépenses par mois<CiMoneyBill /></li>
                     </NavLink>
                     <NavLink to={"/allspendFilters"}>

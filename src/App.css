@@ -177,6 +177,7 @@ button:active, .btn:active, .but1:active, .card-btn:active {
     max-width: 1200px;
     margin: 0 auto;
     padding: var(--spacing-md);
+    text-align: center;
 }
 
 .container2 {
