@@ -3,7 +3,7 @@ import lien from './lien'
 import Calendar from 'react-calendar';
 import GraphParDate from "./GraphParDate";
 import ProgressBar from "@ramonak/react-progress-bar";
-import {RiMoneyEuroCircleFill, RiPassPendingLine} from "react-icons/ri";
+import {RiPassPendingLine} from "react-icons/ri";
 import {BiCategory} from "react-icons/bi";
 import {CiCalendarDate} from "react-icons/ci";
 import {GrAddCircle} from "react-icons/gr";
@@ -628,515 +628,596 @@ export function Budget(props) {
     };
 
     return (
-        <div>
-            <div style={{color: "black"}}>{messageAjout}</div>
-            {modalDescription && (
-                <div className="modal">
-                    <div onClick={toggleDescription} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Description</h1>
-                        <div>
-                            <input
-                                placeholder="Description"
-                                value={actionDescription}
-                                onChange={(e) => setActionDescription(e.target.value)}
-                            />{" "}
-                            <p className="error">{actionDescriptionError}</p>
-                        </div>
-                    </div>
-                </div>
-            )}
+        <div className="expense-tracker">
+            {/* Status notification */}
+            {messageAjout && <div className="notification success">{messageAjout}</div>}
 
-            {modalMontant && (
-                <div className="modal">
-                    <div onClick={toggleMontant} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Montant</h1>
-                        <div>
+            {/* App Header */}
+            <header className="app-header">
+                <h1>Gestionnaire des Dépenses</h1>
+                <p className="subtitle">Suivez et gérez facilement votre budget</p>
+            </header>
+
+            {/* Main content area */}
+            <main className="app-content">
+                {/* Filters and Controls Panel */}
+                <section className="panel filters-panel">
+                    <h2 className="panel-title">Filtres</h2>
+
+                    <div className="panel-grid">
+                        {/* Year and Month Filters */}
+                        <div className="filter-group">
+                            <label>Année</label>
+                            <div className="input-with-value">
+                                <input
+                                    type="number"
+                                    placeholder="Année"
+                                    value={year}
+                                    onChange={async (e) => {
+                                        const newYear = e.target.value;
+                                        setYear(newYear);
+                                        localStorage.setItem("year", newYear);
+
+                                        // Réappliquer les filtres avec la nouvelle année
+                                        const data = await fetchAPI();
+                                        const filtered = data.filter(value => value.dateTransaction.split("-")[0] == newYear);
+                                        setListDesDepense(filtered);
+
+                                        const total = filtered.reduce((a, b) => a + parseFloat(b.montant || 0), 0);
+                                        setMontantTotal(total);
+                                    }}
+                                />
+                                <span className="current-value">{year}</span>
+                            </div>
+
+                            <label role="mois">Mois</label>
+                            <select
+                                role="select_mois"
+                                onChange={async (e) => {
+                                    await filterByMonth(e.target.value);
+                                    let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
+                                    localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
+                                    fetchApiCAtegorie();
+                                }}
+                                className='custom-select'
+                            >
+                                <option>Janvier</option>
+                                <option>Fevrier</option>
+                                <option>Mars</option>
+                                <option>Avril</option>
+                                <option>Mai</option>
+                                <option>Juin</option>
+                                <option>Juillet</option>
+                                <option>Aout</option>
+                                <option>Septembre</option>
+                                <option>Octobre</option>
+                                <option>Novembre</option>
+                                <option>Decembre</option>
+                            </select>
+                        </div>
+
+                        {/* Other Filters */}
+                        <div className="filter-group">
+                            <label>Description</label>
+                            <input
+                                placeholder="Rechercher une description"
+                                value={descriptionFiltre}
+                                onChange={(e) => {
+                                    setDescriptionFiltre(e.target.value);
+                                    // Application immédiate du filtre
+                                    const filtered = listDesDepense
+                                        .filter(value => value.dateTransaction.split("-")[0] == year)
+                                        .filter(value => value.description.includes(e.target.value));
+
+                                    setListDesDepense(filtered);
+
+                                    const total = filtered
+                                        .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
+
+                                    setMontantTotal(total);
+                                }}
+                            />
+
+                            <label>Montant supérieur à</label>
                             <input
                                 type="number"
-                                value={montant}
-                                onChange={(e) => setMontant(e.target.value)}
-                            />{" "}
-                            <p className={montantCSS + " " + "error"}>{montant}</p>
+                                placeholder="Valeur minimum"
+                                value={montantFiltre}
+                                onChange={(e) => {
+                                    const newValue = parseInt(e.target.value || "0");
+                                    setMontantFiltre(newValue);
+
+                                    // Application immédiate du filtre
+                                    const filtered = listDesDepense
+                                        .filter(value => value.dateTransaction.split("-")[0] == year)
+                                        .filter(value => parseFloat(value.montant) > newValue);
+
+                                    setListDesDepense(filtered);
+
+                                    const total = filtered
+                                        .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
+
+                                    setMontantTotal(total);
+                                }}
+                            />
+
+                            <label>Montant inférieur à</label>
+                            <input
+                                type="number"
+                                placeholder="Valeur maximum"
+                                value={montantFiltre2}
+                                onChange={(e) => {
+                                    const newValue = parseInt(e.target.value || "0");
+                                    setMontantFiltre2(newValue);
+
+                                    // Application immédiate du filtre
+                                    const filtered = listDesDepense
+                                        .filter(value => value.dateTransaction.split("-")[0] == year)
+                                        .filter(value => parseFloat(value.montant) < newValue);
+
+                                    setListDesDepense(filtered);
+
+                                    const total = filtered
+                                        .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
+
+                                    setMontantTotal(total);
+                                }}
+                            />
+
+                            <label>Catégorie</label>
+                            <input
+                                placeholder="Rechercher une catégorie"
+                                value={categorieFiltre}
+                                onChange={(e) => {
+                                    setCategorieFiltre(e.target.value);
+
+                                    // Application immédiate du filtre
+                                    const filtered = listDesDepense
+                                        .filter(value => value.categorie.includes(e.target.value));
+
+                                    setListDesDepense(filtered);
+
+                                    const total = filtered
+                                        .filter(value => value.dateTransaction.split("-")[0] == year)
+                                        .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
+
+                                    setMontantTotal(total);
+                                }}
+                            />
                         </div>
                     </div>
-                </div>
-            )}
+                    <button
+                        className="btn"
+                        onClick={resetFilters}
+                    >
+                        Réinitialiser les filtres
+                    </button>
+                </section>
 
-            {modalCategorie && (
-                <div className="modal">
-                    <div onClick={toggleCategorie} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Categorie</h1>
-                        <div>
-                            {catAll.map((option) => (
-                                <h1
-                                    className="but1"
-                                    onClick={() => setIdCat(option)}
-                                    key={option.id}
-                                >
-                                    {option.id + " " + option.categorie}
-                                </h1>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
+                {/* Actions Panel */}
+                <section className="panel actions-panel">
+                    <h2 className="panel-title">Ajouter une dépense</h2>
 
-            {modalDate && (
-                <div className="modal">
-                    <div onClick={toggleDate} className="overlay"></div>
-                    <div className="modal-content containerButton">
-                        <h1>Date</h1>
-                        <div className="containerCote">
-                            <div style={{color: 'black'}}>
-                                <div>{datePick.toLocaleString("zh-CN", {timeZone: 'Europe/Paris'})}</div>
-                                <Calendar
-                                    onChange={onChangeDatePick}
-                                    value={datePick}
+                    <div className="panel-grid">
+
+                        {/* Category Button */}
+                        <div className="action-group">
+                            <div className="hidden">
+                                <input
+                                    value={idMontant}
+                                    onChange={(e) => setIdMontant(e.target.value)}
                                 />
+                            </div>
+
+                            <button
+                                className="btn"
+                                onClick={toggleCategorie}
+                            >
+                                <BiCategory className="icon" />
+                                <span>Catégorie</span>
+                            </button>
+
+                            {actionCategorie && (
+                                <div className="selected-value">
+                                    <span>Catégorie sélectionnée:</span>
+                                    <strong>{actionCategorie}</strong>
+                                </div>
+                            )}
+
+                            {actionCategorieError && (
+                                <p className="error-text">{actionCategorieError}</p>
+                            )}
+                        </div>
+
+                        {/* Description Button */}
+                        <div className="action-group">
+                            <button
+                                className="btn btn-primary"
+                                onClick={toggleDescription}
+                            >
+                                <MdOutlineDescription className="icon" />
+                                <span>Description</span>
+                            </button>
+
+                            {actionDescription && (
+                                <div className="selected-value">
+                                    <span>Description:</span>
+                                    <strong>{actionDescription}</strong>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Amount Button */}
+                        <div className="action-group">
+                            <button
+                                className="btn btn-primary"
+                                onClick={toggleMontant}
+                            >
+                                <RiPassPendingLine className="icon" />
+                                <span>Montant</span>
+                            </button>
+
+                            {montant > 0 && (
+                                <div className="selected-value">
+                                    <span>Montant:</span>
+                                    <strong>{montant}</strong>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Date Button */}
+                        <div className="action-group">
+                            <button
+                                className="btn btn-primary"
+                                onClick={toggleDate}
+                            >
+                                <CiCalendarDate className="icon" />
+                                <span>Date</span>
+                            </button>
+
+                            <div className="selected-value">
+                                <span>Date sélectionnée:</span>
+                                <strong>{datePick.toLocaleDateString()}</strong>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
 
-            <div className="containerButton principaleDiv">
-                <div className="containerCote">
-                    <div className="containerButton">
-                        <label>Filtre de l'année</label>
-                        <input
-                            type="number"
-                            placeholder="Année"
-                            value={year}
-                            onChange={async (e) => {
-                                const newYear = e.target.value;
-                                setYear(newYear);
-                                localStorage.setItem("year", newYear);
-
-                                // Réappliquer les filtres avec la nouvelle année
-                                const data = await fetchAPI();
-                                const filtered = data.filter(value => value.dateTransaction.split("-")[0] == newYear);
-                                setListDesDepense(filtered);
-
-                                const total = filtered.reduce((a, b) => a + parseFloat(b.montant || 0), 0);
-                                setMontantTotal(total);
-                            }}
-                        />
-                        {year}
-
-                        <label role="mois">Filtre par mois</label>
-                        <select
-                            role="select_mois"
-                            onChange={async (e) => {
-                                await filterByMonth(e.target.value);
-                                let month = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-                                localStorage.setItem("month", "" + (month.indexOf(e.target.value) + 1));
-                                fetchApiCAtegorie();
-                            }}
-                            className='form-select'
-                        >
-                            <option>Janvier</option>
-                            <option>Fevrier</option>
-                            <option>Mars</option>
-                            <option>Avril</option>
-                            <option>Mai</option>
-                            <option>Juin</option>
-                            <option>Juillet</option>
-                            <option>Aout</option>
-                            <option>Septembre</option>
-                            <option>Octobre</option>
-                            <option>Novembre</option>
-                            <option>Decembre</option>
-                        </select>
-
+                    {/* Action Buttons */}
+                    <div className="action-buttons">
                         <button
-                            className="button-85"
-                            role="button"
-                            onClick={resetFilters}
-                        >
-                            Réinitialiser les filtres
-                        </button>
-                    </div>
-
-                    <div className="containerButton">
-                        <label>Filtre de Description</label>
-                        <input
-                            placeholder="Description"
-                            value={descriptionFiltre}
-                            onChange={(e) => {
-                                setDescriptionFiltre(e.target.value);
-                                // Application immédiate du filtre
-                                const filtered = listDesDepense
-                                    .filter(value => value.dateTransaction.split("-")[0] == year)
-                                    .filter(value => value.description.includes(e.target.value));
-
-                                setListDesDepense(filtered);
-
-                                const total = filtered
-                                    .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
-
-                                setMontantTotal(total);
-                            }}
-                        />
-                    </div>
-
-                    <div className="containerButton">
-                        <label>Filtre de montant supérieur à:</label>
-                        <input
-                            type="number"
-                            placeholder="Montant supérieur à"
-                            value={montantFiltre}
-                            onChange={(e) => {
-                                const newValue = parseInt(e.target.value || "0");
-                                setMontantFiltre(newValue);
-
-                                // Application immédiate du filtre
-                                const filtered = listDesDepense
-                                    .filter(value => value.dateTransaction.split("-")[0] == year)
-                                    .filter(value => parseFloat(value.montant) > newValue);
-
-                                setListDesDepense(filtered);
-
-                                const total = filtered
-                                    .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
-
-                                setMontantTotal(total);
-                            }}
-                        />
-                    </div>
-
-                    <div className="containerButton">
-                        <label>Filtre de montant inférieur à:</label>
-                        <input
-                            type="number"
-                            placeholder="Montant inférieur à"
-                            value={montantFiltre2}
-                            onChange={(e) => {
-                                const newValue = parseInt(e.target.value || "0");
-                                setMontantFiltre2(newValue);
-
-                                // Application immédiate du filtre
-                                const filtered = listDesDepense
-                                    .filter(value => value.dateTransaction.split("-")[0] == year)
-                                    .filter(value => parseFloat(value.montant) < newValue);
-
-                                setListDesDepense(filtered);
-
-                                const total = filtered
-                                    .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
-
-                                setMontantTotal(total);
-                            }}
-                        />
-                    </div>
-
-                    <div className="containerButton">
-                        <label>Filtre de Categorie</label>
-                        <input
-                            placeholder="Categorie"
-                            value={categorieFiltre}
-                            onChange={(e) => {
-                                setCategorieFiltre(e.target.value);
-
-                                // Application immédiate du filtre
-                                const filtered = listDesDepense
-                                    .filter(value => value.categorie.includes(e.target.value));
-
-                                setListDesDepense(filtered);
-
-                                const total = filtered
-                                    .filter(value => value.dateTransaction.split("-")[0] == year)
-                                    .reduce((a, b) => a + parseFloat(b.montant || 0), 0);
-
-                                setMontantTotal(total);
-                            }}
-                        />
-                    </div>
-                </div>
-
-                <div className="containerCote">
-                    <div className="containerCote">
-                        <button
-                            className="button-85"
-                            role="button"
-                            onClick={() => {
-                                setBudgetCSS(prev => prev === "visible" ? "hidden" : "visible");
+                            className="btn btn-secondary toggle-btn"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setbuttonCSS(prev => prev === "visible" ? "hidden" : "visible");
                             }}
                         >
-                            Ajouter un budget
-                            <RiMoneyEuroCircleFill style={{color: 'blueviolet'}}/>
+                            {buttonCSS === "visible" ? "Masquer les options" : "Afficher les options"}
                         </button>
-                        <input
-                            className={budgetCSS}
-                            value={budget}
-                            onChange={(e) => setBudget(e.target.value)}
-                        />
-                        <p className={budgetCSS}></p>
-                    </div>
 
-                    <div>
-                        <div className="cache">
-                            <input
-                                value={idMontant}
-                                onChange={(e) => setIdMontant(e.target.value)}
-                            />{" "}
-                        </div>
-                        <div className="containerButton">
+                        <div className={buttonCSS === "visible" ? "expanded-buttons" : "hidden"}>
                             <button
-                                className="button-85"
-                                role="button"
-                                onClick={toggleCategorie}
+                                className="btn btn-success"
+                                onClick={apiCreate}
                             >
-                                Ajouter une categorie
-                                <BiCategory style={{color: 'blueviolet'}}/>
+                                <GrAddCircle className="icon" />
+                                <span>Créer</span>
                             </button>
-                            <p className={categorieCSS}>{actionCategorie}</p>
-                            <p className="error">{actionCategorieError}</p>
+
+                            <button
+                                className="btn btn-info"
+                                onClick={getData}
+                            >
+                                <span>Télécharger</span>
+                            </button>
+
+                            <button
+                                className="btn btn-info"
+                                onClick={getDataPdf}
+                            >
+                                <span>PDF Bilan</span>
+                            </button>
+
+                            <button
+                                className="btn btn-info"
+                                onClick={getDataPdfCategorie}
+                            >
+                                <span>PDF Catégories</span>
+                            </button>
                         </div>
                     </div>
+                </section>
 
-                    <div className="containerButton">
-                        <button
-                            className="button-85"
-                            role="button"
-                            onClick={toggleDescription}
-                        >
-                            Ajouter une description
-                            <MdOutlineDescription style={{color: 'blueviolet'}}/>
-                        </button>
+                {/* Data Visualization Section */}
+                <section className="panel chart-panel">
+                    <h2 className="panel-title">Graphique des dépenses</h2>
+                    <div className="chart-container">
+                        <GraphParDate data={dataParDate}></GraphParDate>
                     </div>
+                </section>
 
-                    <div className="containerCote containerButton">
-                        <button
-                            className="button-85"
-                            role="button"
-                            onClick={toggleMontant}
-                        >
-                            Ajouter un montant
-                            <RiPassPendingLine style={{color: 'blueviolet'}}/>
-                        </button>
-                    </div>
+                {/* PDF Report Section */}
+                <div ref={pdfref} className="pdf-content">
+                    <section className="panel chart-panel">
+                        <h2 className="panel-title">Dépenses par catégorie (Mois {localStorage.getItem("month")})</h2>
+                        <div className="chart-container">
+                            <BarGraph data={data}></BarGraph>
+                        </div>
+                    </section>
 
+
+                    {/* Summary Section */}
+                    <section className="panel summary-panel">
+                        <h2 className="panel-title">Résumé Financier</h2>
+
+                        <div className="summary-grid">
+                            <div className="summary-card">
+                                <div className="summary-label">Mois</div>
+                                <div className="summary-value">{localStorage.getItem("month")}</div>
+                            </div>
+
+                            <div className="summary-card">
+                                <div className="summary-label">Montant Total</div>
+                                <div className="summary-value highlight">{montantTotal}</div>
+                            </div>
+
+                            <div className="summary-card">
+                                <div className="summary-label">Nombre de dépenses</div>
+                                <div className="summary-value">
+                                    {listDesDepense.filter(value => value?.dateTransaction?.split("-")[0] === year)?.length}
+                                </div>
+                            </div>
+
+                            <div className="summary-card">
+                                <div className="summary-label">Dépenses en cours</div>
+                                <div className="summary-value highlight">
+                                    {textCat2.map(val => parseFloat(val.montant || 0)).reduce((a, b) => a + b, 0)}
+                                </div>
+                            </div>
+
+                            <div className="summary-card">
+                                <div className="summary-label">Budget</div>
+                                <div className="summary-value">
+                                    {textCat2.map(val => parseFloat(val.budgetDebutMois || 0)).reduce((a, b) => a + b, 0)}
+                                </div>
+                            </div>
+
+                            <div className="summary-card">
+                                <div className="summary-label">Reste à dépenser</div>
+                                <div className="summary-value">
+                                    {textCat2.map(val => parseFloat(val.budgetDebutMois || 0)).reduce((a, b) => a + b, 0) -
+                                        textCat2.map(val => parseFloat(val.montant || 0)).reduce((a, b) => a + b, 0)}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Category Cards */}
+                        <div className="categories-grid">
+                            {textCat2?.length > 0 ? textCat2.map(value => (
+                                <div key={value.categorie} className="category-card">
+                                    <div className="category-header">
+                                        <h3 className="category-title">{value.categorie}</h3>
+                                        <div
+                                            className="color-indicator"
+                                            style={{
+                                                backgroundColor: value.color || "#cccccc"
+                                            }}
+                                        ></div>
+                                    </div>
+
+                                    <div className="category-stats">
+                                        <div className="stat-group">
+                                            <div className="stat-label">Budget initial</div>
+                                            <div className="stat-value">{value.budgetDebutMois}</div>
+                                        </div>
+
+                                        <div className="stat-group">
+                                            <div className="stat-label">Dépensé</div>
+                                            <div className="stat-value">{value.montant}</div>
+                                        </div>
+
+                                        <div className="stat-group">
+                                            <div className="stat-label">Reste</div>
+                                            <div className="stat-value">
+                                                {parseFloat(value.budgetDebutMois || 0) - parseFloat(value.montant || 0)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )) : <p className="no-data">Aucune catégorie disponible</p>}
+                        </div>
+                    </section>
+                </div>
+
+                {/* PDF Download Button */}
+                <div className="pdf-download">
                     <button
-                        className="button-85"
-                        role="button"
-                        onClick={toggleDate}
+                        className="btn btn-secondary"
+                        onClick={downloadPDF}
                     >
-                        Ajouter une date
-                        <CiCalendarDate/>
+                        Télécharger PDF
                     </button>
                 </div>
 
-                <button
-                    className="button-85"
-                    role="button"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        setbuttonCSS(prev => prev === "visible" ? "hidden" : "visible");
-                    }}
-                >
-                    Acceder aux bouttons
-                </button>
+                {/* Budget Progress Bar */}
+                <div className={budgetCSS === "visible" ? "budget-progress" : "hidden"}>
+                    <h3>Progression du budget</h3>
+                    <ProgressBar
+                        completed={calcul()}
+                        bgColor="#4caf50"
+                        height="20px"
+                        labelColor="#fff"
+                        borderRadius="10px"
+                    />
+                </div>
 
-                <div style={{"margin": "10px"}}>
-                    <div className={buttonCSS}>
-                        <div className="containerCote">
-                            <button
-                                className="button-85"
-                                role="button"
-                                onClick={apiCreate}
-                            >
-                                creer <GrAddCircle style={{color: 'blueviolet'}}/>
-                            </button>
-                            <button
-                                className="button-85"
-                                role="button"
-                                onClick={getData}
-                            >
-                                Download
-                            </button>
-                            <button
-                                className="button-85"
-                                role="button"
-                                onClick={getDataPdf}
-                            >
-                                Download PDF Bilan
-                            </button>
-                            <button
-                                className="button-85"
-                                role="button"
-                                onClick={getDataPdfCategorie}
-                            >
-                                DownloadPDF Bilan Categorie
-                            </button>
+                {/* Expenses Table */}
+                <section className="panel table-panel">
+                    <h2 className="panel-title">Liste des dépenses</h2>
+
+                    <div className="table-container">
+                        <table className="expenses-table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Montant</th>
+                                <th>Description</th>
+                                <th>Catégorie Id</th>
+                                <th>Catégorie</th>
+                                <th>Date de la dépense</th>
+                                <th>Date d'ajout</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {listDesDepense
+                                .filter(value => value.dateTransaction.split("-")[0] === year)
+                                .map((item) => (
+                                    <tr
+                                        key={item.id}
+                                        className="expense-row"
+                                        onClick={() => {
+                                            setIdMontant(item.id);
+                                            setMontant(item.montant);
+                                            setActionDescription(item.description);
+                                        }}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td className="amount-cell">{item.montant}</td>
+                                        <td>{item.description}</td>
+                                        <td>{item.categorieId}</td>
+                                        <td>{item.categorie}</td>
+                                        <td>{item.dateTransaction}</td>
+                                        <td>{item.dateAjout}</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-danger btn-sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    deleteMontantById(e, item.id);
+                                                }}
+                                            >
+                                                Supprimer
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colSpan="2">Total: {montantTotal}</td>
+                                <td colSpan="6">Nombre de dépenses: {listDesDepense.filter(value => value.dateTransaction.split("-")[0] === year).length}</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </section>
+            </main>
+
+            {/* Modals */}
+            {/* Description Modal */}
+            {modalDescription && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-header">
+                            <h2>Description</h2>
+                            <button className="close-btn" onClick={toggleDescription}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <input
+                                className="modal-input"
+                                placeholder="Entrez une description"
+                                value={actionDescription}
+                                onChange={(e) => setActionDescription(e.target.value)}
+                            />
+                            {actionDescriptionError && <p className="error-text">{actionDescriptionError}</p>}
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-primary" onClick={toggleDescription}>Valider</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
 
-            <h1>Toutes les dépenses du tableau</h1>
-            <GraphParDate data={dataParDate}></GraphParDate>
-
-            <div ref={pdfref}>
-                <h1>Dépense par mois par catégorie</h1>
-                <div>
-                    <h1>{"Numero de mois: " + localStorage.getItem("month")}</h1>
-                    <BarGraph data={data}></BarGraph>
+            {/* Amount Modal */}
+            {modalMontant && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-header">
+                            <h2>Montant</h2>
+                            <button className="close-btn" onClick={toggleMontant}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <input
+                                className="modal-input"
+                                type="number"
+                                placeholder="Entrez un montant"
+                                value={montant}
+                                onChange={(e) => setMontant(e.target.value)}
+                            />
+                            {montant > 0 && <div className="amount-preview">{montant}</div>}
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-primary" onClick={toggleMontant}>Valider</button>
+                        </div>
+                    </div>
                 </div>
+            )}
 
-                <h1>Dépense totale sur toutes les dépenses</h1>
-                <div>
-                    <BarGraph data={dataAll}></BarGraph>
-                </div>
-
-                <div className="containerButton">
-                    {"Numero mois:" + localStorage.getItem("month")}
-                    <h1>montantTotal: {montantTotal}</h1>
-
-                    <h1>
-                        Nombre de dépense: {
-                        listDesDepense
-                            .filter(value => value?.dateTransaction?.split("-")[0] === year)
-                            ?.length
-                    }
-                    </h1>
-
-                    <div style={{margin: "10px"}}>
-                        <h1>
-                            Depense en cours: {
-                            textCat2
-                                .map(val => parseFloat(val.montant || 0))
-                                .reduce((a, b) => a + b, 0)
-                        }
-                        </h1>
-                    </div>
-
-                    <div style={{margin: "10px"}}>
-                        <h1>
-                            Budget: {
-                            textCat2
-                                .map(val => parseFloat(val.budgetDebutMois || 0))
-                                .reduce((a, b) => a + b, 0)
-                        }
-                        </h1>
-                    </div>
-
-                    <div style={{margin: "10px"}}>
-                        <h1>
-                            Reste à dépenser: {
-                            textCat2
-                                .map(val => parseFloat(val.budgetDebutMois || 0))
-                                .reduce((a, b) => a + b, 0) -
-                            textCat2
-                                .map(val => parseFloat(val.montant || 0))
-                                .reduce((a, b) => a + b, 0)
-                        }
-                        </h1>
-                    </div>
-
-                    <div className="containerCote">
-                        {textCat2?.length > 0 ? textCat2.map(value => (
-                            <div key={value.categorie} style={{color: 'black', padding: "10px"}}>
-                                <h2 style={{color: 'blue', marginBottom: '5px'}}>{value.categorie}</h2>
-                                <div
-                                    style={{
-                                        width: "40px",
-                                        height: "40px",
-                                        backgroundColor: value.color || "#cccccc"
-                                    }}
-                                ></div>
-                                <h2 style={{color: 'black'}}>
-                                    Debut mois: {value.budgetDebutMois}
-                                </h2>
-                                <h2 style={{color: 'black'}}>
-                                    En cours: {value.montant}
-                                </h2>
-                                <h2 style={{color: 'black'}}>
-                                    Montant restant: {
-                                    parseFloat(value.budgetDebutMois || 0) -
-                                    parseFloat(value.montant || 0)
-                                }
-                                </h2>
+            {/* Category Modal */}
+            {modalCategorie && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-header">
+                            <h2>Catégorie</h2>
+                            <button className="close-btn" onClick={toggleCategorie}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="categories-list">
+                                {catAll.map((option) => (
+                                    <button
+                                        className="category-option"
+                                        onClick={() => {
+                                            setIdCat(option);
+                                            toggleCategorie();
+                                        }}
+                                        key={option.id}
+                                    >
+                                        {option.categorie}
+                                    </button>
+                                ))}
                             </div>
-                        )) : null}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
-            <button
-                className="button-85"
-                role="button"
-                onClick={downloadPDF}
-            >
-                dl pdf
-            </button>
-
-            <ProgressBar
-                className={budgetCSS}
-                completed={calcul()}
-            />
-
-            <div style={{padding: "15px"}} className="containerButton"></div>
-
-            <div>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Montant</th>
-                        <th>Description</th>
-                        <th>Categorie Id</th>
-                        <th>Categorie</th>
-                        <th>Date de la dépense</th>
-                        <th>Date d'ajout</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {listDesDepense
-                        .filter(value => value.dateTransaction.split("-")[0] === year)
-                        .map((item) => (
-                            <tr
-                                key={item.id}
-                                onClick={() => {
-                                    setIdMontant(item.id);
-                                    setMontant(item.montant);
-                                    setActionDescription(item.description);
-                                }}
-                            >
-                                <th>{item.id}</th>
-                                <th className="montant">{item.montant}</th>
-                                <th style={{color: "white"}}>{item.description}</th>
-                                <th style={{color: "white"}}>{item.categorieId}</th>
-                                <th style={{color: "white"}}>{item.dateTransaction}</th>
-                                <th style={{color: "white"}}>{item.dateAjout}</th>
-                                <th style={{color: "white"}}>{item.categorie}</th>
-                                <th>
-                                        <span
-                                            className="span-supprimer"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                deleteMontantById(e, item.id);
-                                            }}
-                                        >
-                                            Supprimer
-                                        </span>
-                                </th>
-                            </tr>
-                        ))
-                    }
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th scope="row" colSpan="2"></th>
-                        <td colSpan="2">montantTotal: {montantTotal}</td>
-                        <td colSpan="2">Nombre de dépense: {listDesDepense?.length}</td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
+            {/* Date Modal */}
+            {modalDate && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-header">
+                            <h2>Date</h2>
+                            <button className="close-btn" onClick={toggleDate}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="calendar-container">
+                                <div className="selected-date">
+                                    {datePick.toLocaleDateString()}
+                                </div>
+                                <Calendar
+                                    onChange={onChangeDatePick}
+                                    value={datePick}
+                                    className="date-picker"
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-primary" onClick={toggleDate}>Valider</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

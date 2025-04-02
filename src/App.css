@@ -88,7 +88,7 @@ p {
 
 span {
     font-size: var(--font-size-md);
-    color: gray;
+    color: #1e1b1b;
 }
 
 label {
