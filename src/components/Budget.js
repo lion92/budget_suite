@@ -50,6 +50,10 @@ export function Budget(props) {
     const [textCatAll, setCat2All] = useState([]);
     const [montantFiltre, setMontantFiltre] = useState(0);
     const [montantFiltre2, setMontantFiltre2] = useState(0);
+    const [isEditingMinMontant, setIsEditingMinMontant] = useState(false);
+    const [isEditingMaxMontant, setIsEditingMaxMontant] = useState(false);
+
+
     const notify = useNotify();
 
     const toggleDescription = () => {
@@ -722,15 +726,22 @@ export function Budget(props) {
                             <input
                                 type="number"
                                 placeholder="Valeur minimum"
-                                value={montantFiltre}
+                                value={montantFiltre === 0 && isEditingMinMontant ? "" : montantFiltre}
+                                onFocus={() => setIsEditingMinMontant(true)}
+                                onBlur={() => setIsEditingMinMontant(false)}
                                 onChange={(e) => {
-                                    const newValue = parseInt(e.target.value || "0");
+                                    // Permettre les champs vides qui seront traités comme zéro
+                                    const newValue = e.target.value === "" ? 0 : parseFloat(e.target.value);
                                     setMontantFiltre(newValue);
 
                                     // Application immédiate du filtre
-                                    const filtered = listDesDepense
+                                    const data = [...listDesDepense]; // Créer une copie pour éviter de modifier l'état directement
+                                    const filtered = data
                                         .filter(value => value.dateTransaction.split("-")[0] == year)
-                                        .filter(value => parseFloat(value.montant) > newValue);
+                                        .filter(value =>
+                                            // Si le champ est vide, n'appliquez pas de filtre minimum
+                                            e.target.value === "" || parseFloat(value.montant) > newValue
+                                        );
 
                                     setListDesDepense(filtered);
 
@@ -741,19 +752,27 @@ export function Budget(props) {
                                 }}
                             />
 
+
                             <label>Montant inférieur à</label>
                             <input
                                 type="number"
                                 placeholder="Valeur maximum"
-                                value={montantFiltre2}
+                                value={montantFiltre2 === 0 && isEditingMaxMontant ? "" : montantFiltre2}
+                                onFocus={() => setIsEditingMaxMontant(true)}
+                                onBlur={() => setIsEditingMaxMontant(false)}
                                 onChange={(e) => {
-                                    const newValue = parseInt(e.target.value || "0");
+                                    // Permettre les champs vides qui seront traités comme zéro
+                                    const newValue = e.target.value === "" ? 0 : parseFloat(e.target.value);
                                     setMontantFiltre2(newValue);
 
                                     // Application immédiate du filtre
-                                    const filtered = listDesDepense
+                                    const data = [...listDesDepense]; // Créer une copie pour éviter de modifier l'état directement
+                                    const filtered = data
                                         .filter(value => value.dateTransaction.split("-")[0] == year)
-                                        .filter(value => parseFloat(value.montant) < newValue);
+                                        .filter(value =>
+                                            // Si le champ est vide ou zéro, n'appliquez pas de filtre maximum
+                                            e.target.value === "" || newValue === 0 || parseFloat(value.montant) < newValue
+                                        );
 
                                     setListDesDepense(filtered);
 
