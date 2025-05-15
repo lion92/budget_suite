@@ -229,7 +229,7 @@ export default function Form(props) {
                                       onChange={(e) => valueChangeDescription(e)}/>{" "}
                             <p className="error">{messageErrorDescription}</p>
                         </div>
-                        <div className="containerCote">
+                        <div>
                             <button onClick={modifier}>modifier</button>
                             <button onClick={fetchCreer}>creer</button>
 
