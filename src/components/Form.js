@@ -232,7 +232,6 @@ export default function Form(props) {
                         <div>
                             <button onClick={modifier}>modifier</button>
                             <button onClick={fetchCreer}>creer</button>
-
                         </div>
 
                     </div>
