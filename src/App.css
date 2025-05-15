@@ -222,10 +222,10 @@ button:active, .btn:active, .but1:active, .card-btn:active {
     justify-content: center;
     flex-wrap: wrap;
     list-style: none;
-    background-color: #c8b3d2;
     padding: var(--spacing-md);
     border-radius: var(--border-radius-md);
     margin-bottom: var(--spacing-lg);
+    background-color: var(--light) ;
 }
 
 /* Grid layouts */
