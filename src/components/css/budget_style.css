@@ -734,3 +734,39 @@ body {
         width: 95%;
     }
 }
+@media (max-width: 480px) {
+    .app-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .app-header .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 10px 14px;
+    }
+
+    .summary-card,
+    .category-card {
+        padding: 15px;
+    }
+
+    .modal-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .stat-label, .stat-value {
+        font-size: 0.85rem;
+    }
+
+    .expenses-table th,
+    .expenses-table td {
+        padding: 10px;
+    }
+}

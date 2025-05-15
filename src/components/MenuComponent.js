@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SiWelcometothejungle } from "react-icons/si";
 import { TbLogin2 } from "react-icons/tb";
 import { MdOutlineAppRegistration } from "react-icons/md";
@@ -10,15 +10,31 @@ import CookieConsent from "./cookie_bandeau";
 import Notifications from "../Notification";
 
 export default function MenuComponent(props) {
-    const [afficher, setAfficher] = useState(true);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [afficher, setAfficher] = useState(window.innerWidth >= 768);
 
-    const handlemenu = () => {
-        setAfficher(!afficher);
+    // Gérer resize window
+    useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            setAfficher(!mobile); // cacher menu si mobile
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const handlemenu = () => setAfficher(!afficher);
+
+    // Fermer menu après clic (sur mobile)
+    const handleLinkClick = () => {
+        if (isMobile) setAfficher(false);
     };
 
     const styles = {
         container: {
             display: "flex",
+            flexDirection: "row",
             width: "100vw",
             minHeight: "100vh",
         },
@@ -45,21 +61,14 @@ export default function MenuComponent(props) {
             alignItems: "center",
             gap: "10px",
             cursor: "pointer",
-            transition: "background 0.2s",
-        },
-        navItemHover: {
-            backgroundColor: "#D3B4F0",
         },
         content: {
             padding: 20,
             flexGrow: 1,
-            transition: "margin-left 0.3s ease",
+            width: "100%",
         },
         contentWithSidebar: {
-            marginLeft: 10,
-        },
-        contentFullWidth: {
-            width: "100%",
+            marginLeft: isMobile ? 0 : 10,
         },
         header: {
             display: "flex",
@@ -88,39 +97,47 @@ export default function MenuComponent(props) {
         },
     };
 
+    const navLinks = [
+        { path: "/", label: "Bienvenue", icon: <SiWelcometothejungle /> },
+        { path: "/login", label: "Connexion", icon: <TbLogin2 /> },
+        { path: "/inscription", label: "Inscription", icon: <MdOutlineAppRegistration /> },
+        { path: "/categorie", label: "Catégorie", icon: <BiSolidCategory /> },
+        { path: "/form", label: "Tâche", icon: <GoTasklist /> },
+        { path: "/budget", label: "Budget", icon: <CiMoneyBill /> },
+        { path: "/allspend", label: "Dépenses par mois", icon: <CiMoneyBill /> },
+        { path: "/allspendFilters", label: "Dépenses filtrées", icon: <CiMoneyBill /> },
+        { path: "/prediction", label: "Prédiction", icon: <CiMoneyBill /> },
+        { path: "/agenda", label: "Agenda", icon: <CiMoneyBill /> },
+    ];
+
     return (
         <div style={styles.container}>
             <div style={styles.notification}><Notifications /></div>
 
-            <div style={afficher ? styles.sidebar : styles.sidebarHidden}>
-                <div style={styles.logoName}>Budget</div>
+            {afficher && (
+                <div style={styles.sidebar}>
+                    <div style={styles.logoName}>Budget</div>
+                    <ul style={styles.navList}>
+                        {navLinks.map((link, index) => (
+                            <NavLink to={link.path} key={index} onClick={handleLinkClick}>
+                                <li style={styles.navItem}>
+                                    {link.label} {link.icon}
+                                </li>
+                            </NavLink>
+                        ))}
+                    </ul>
+                </div>
+            )}
 
-                <ul style={styles.navList}>
-                    <NavLink to="/"><li style={styles.navItem}>Bienvenue <SiWelcometothejungle /></li></NavLink>
-                    <NavLink to="/login"><li style={styles.navItem}>Connexion <TbLogin2 /></li></NavLink>
-                    <NavLink to="/inscription"><li style={styles.navItem}>Inscription <MdOutlineAppRegistration /></li></NavLink>
-                    <NavLink to="/categorie"><li style={styles.navItem}>Catégorie <BiSolidCategory /></li></NavLink>
-                    <NavLink to="/form"><li style={styles.navItem}>Tâche <GoTasklist /></li></NavLink>
-                    <NavLink to="/budget"><li style={styles.navItem}>Budget <CiMoneyBill /></li></NavLink>
-                    <NavLink to="/allspend"><li style={styles.navItem}>Dépenses par mois <CiMoneyBill /></li></NavLink>
-                    <NavLink to="/allspendFilters"><li style={styles.navItem}>Dépenses filtrées <CiMoneyBill /></li></NavLink>
-                    <NavLink to="/prediction"><li style={styles.navItem}>Prédiction <CiMoneyBill /></li></NavLink>
-                    <NavLink to="/agenda"><li style={styles.navItem}>Agenda <CiMoneyBill /></li></NavLink>
-                </ul>
-            </div>
-
-            <section
-                style={{
-                    ...styles.content,
-                    ...(afficher ? styles.contentWithSidebar : styles.contentFullWidth),
-                }}
-            >
+            <section style={{ ...styles.content, ...styles.contentWithSidebar }}>
                 <CookieConsent />
                 <div style={styles.header}>
                     <h1>{props.title}</h1>
-                    <button style={styles.toggleBtn} onClick={handlemenu}>
-                        <CiMenuBurger />
-                    </button>
+                    {isMobile && (
+                        <button style={styles.toggleBtn} onClick={handlemenu}>
+                            <CiMenuBurger />
+                        </button>
+                    )}
                 </div>
                 {props.contenue}
             </section>

@@ -11,7 +11,7 @@ import {MdOutlineDescription} from "react-icons/md";
 import BarGraph from "./BarGraph";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import '../budget_style.css';
+import './css/budget_style.css';
 import {useNotify} from "../Notification";
 
 export function Budget(props) {
@@ -783,6 +783,9 @@ export function Budget(props) {
                                 }}
                             />
 
+
+                        </div>
+                        <div className="filter-group">
                             <label>Catégorie</label>
                             <input
                                 placeholder="Rechercher une catégorie"
@@ -829,7 +832,7 @@ export function Budget(props) {
                             </div>
 
                             <button
-                                className="btn"
+                                className="btn btn-primary"
                                 onClick={toggleCategorie}
                             >
                                 <BiCategory className="icon" />

@@ -1,6 +1,6 @@
 import React from 'react';
 import './css/dashboard.scss'
-import '../budget_style.css'
+import './css/budget_style.css'
 import MenuComponent from "./MenuComponent";
 import {Budget} from "./Budget";
 
