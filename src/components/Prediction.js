@@ -89,7 +89,7 @@ const Prediction = () => {
     return (
         <>
             <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
-            <AjoutBudget />
+
             <h3 style={{ color: "red", textAlign: "center" }}>Prévision des dépenses pour le mois suivant: {predictedExpense?.toFixed(2)} €</h3>
             <div style={{ width: "80%", margin: "auto" }}>
                 <h2>Graphique des Dépenses</h2>

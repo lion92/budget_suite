@@ -763,7 +763,6 @@ const AllSpend = () => {
     return (
         <>
             <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
-            <AjoutBudget />
             <div style={{ display: "flex", gap: "10px", justifyContent: "flex-start", margin: "10px" }}>
                 <button
                     onClick={exportToPDF}

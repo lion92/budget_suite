@@ -50,8 +50,8 @@
   --spacing-xxl: 3rem;
 
   /* Layout */
-  --sidebar-width: 240px;
-  --sidebar-collapsed: 78px;
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 260px;
   --header-height: 72px;
   --header-height-sm: 60px;
   --border-radius: 8px;
@@ -180,7 +180,7 @@ input:focus, select:focus, textarea:focus {
 
 /* Sidebar styles */
 .sidebar {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   height: 100%;
@@ -393,15 +393,12 @@ input:focus, select:focus, textarea:focus {
   top: 0;
   left: var(--sidebar-width);
   width: calc(100% - var(--sidebar-width));
-  min-height: 100vh;
-  padding: var(--spacing-lg);
   background: var(--c-bg-light);
   transition: var(--transition-standard);
 }
 
 .sidebar.open ~ .home-section {
   left: var(--sidebar-collapsed);
-  width: calc(100% - var(--sidebar-collapsed));
 }
 
 .home-section-hide {
@@ -409,9 +406,6 @@ input:focus, select:focus, textarea:focus {
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 100vh;
-  background: var(--c-bg-light);
-  transition: var(--transition-standard);
 }
 
 /* Header styling */
@@ -690,7 +684,7 @@ button:disabled {
 @media (min-width: 1200px) {
   :root {
     --sidebar-width: 240px;
-    --sidebar-collapsed: 78px;
+    --sidebar-collapsed: 0;
   }
 
   html {

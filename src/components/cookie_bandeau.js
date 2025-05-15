@@ -18,13 +18,51 @@ const CookieConsent = () => {
     if (!showBanner) return null;
 
     return (
-        <div style={{ position: 'fixed', bottom: 0, width: '100%', backgroundColor: 'violet', color: 'white', textAlign: 'center', padding: '10px' }}>
-            <p>Nous utilisons des cookies pour améliorer votre expérience. En continuant à utiliser notre site, vous acceptez notre politique de cookies.</p>
-            <button onClick={handleAccept} style={{ margin: '10px', padding: '5px 20px', cursor: 'pointer' }}>
+        <div style={styles.container}>
+            <p style={styles.text}>
+                Nous utilisons des cookies pour améliorer votre expérience. En continuant à utiliser notre site, vous acceptez notre politique de cookies.
+            </p>
+            <button onClick={handleAccept} style={styles.button}>
                 Accepter
             </button>
         </div>
     );
+};
+
+const styles = {
+    container: {
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        backgroundColor: '#EBDDFB', // lavande claire
+        color: '#5D3A9B', // violet doux
+        textAlign: 'center',
+        padding: '1rem',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem',
+        zIndex: 9999,
+    },
+    text: {
+        margin: 0,
+        padding: '0 1rem',
+        fontSize: '1rem',
+        maxWidth: '800px',
+    },
+    button: {
+        backgroundColor: '#D3B4F0', // mauve clair
+        color: '#ffffff',
+        border: 'none',
+        borderRadius: '6px',
+        padding: '0.6rem 1.6rem',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease',
+    },
 };
 
 export default CookieConsent;

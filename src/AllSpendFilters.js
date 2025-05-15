@@ -95,7 +95,6 @@ const AllSpendFilters = () => {
     return (
         <>
             <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
-            <AjoutBudget></AjoutBudget>
             <div className="container" style={{ marginBottom: '20px', textAlign: 'center' }}>
                 <input
                     type="number"
