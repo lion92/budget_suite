@@ -782,8 +782,6 @@ export function Budget(props) {
                                     setMontantTotal(total);
                                 }}
                             />
-
-
                         </div>
                         <div className="filter-group">
                             <label>Catégorie</label>
@@ -835,7 +833,7 @@ export function Budget(props) {
                                 className="btn btn-primary"
                                 onClick={toggleCategorie}
                             >
-                                <BiCategory className="icon" />
+                                <BiCategory className="icon"/>
                                 <span>Catégorie</span>
                             </button>
 
@@ -857,7 +855,7 @@ export function Budget(props) {
                                 className="btn btn-primary"
                                 onClick={toggleDescription}
                             >
-                                <MdOutlineDescription className="icon" />
+                                <MdOutlineDescription className="icon"/>
                                 <span>Description</span>
                             </button>
 
@@ -875,7 +873,7 @@ export function Budget(props) {
                                 className="btn btn-primary"
                                 onClick={toggleMontant}
                             >
-                                <RiPassPendingLine className="icon" />
+                                <RiPassPendingLine className="icon"/>
                                 <span>Montant</span>
                             </button>
 
@@ -893,7 +891,7 @@ export function Budget(props) {
                                 className="btn btn-primary"
                                 onClick={toggleDate}
                             >
-                                <CiCalendarDate className="icon" />
+                                <CiCalendarDate className="icon"/>
                                 <span>Date</span>
                             </button>
 
@@ -921,7 +919,7 @@ export function Budget(props) {
                                 className="btn btn-success"
                                 onClick={apiCreate}
                             >
-                                <GrAddCircle className="icon" />
+                                <GrAddCircle className="icon"/>
                                 <span>Créer</span>
                             </button>
 
@@ -1128,7 +1126,8 @@ export function Budget(props) {
                             <tfoot>
                             <tr>
                                 <td colSpan="2">Total: {montantTotal}</td>
-                                <td colSpan="6">Nombre de dépenses: {listDesDepense.filter(value => value.dateTransaction.split("-")[0] === year).length}</td>
+                                <td colSpan="6">Nombre de
+                                    dépenses: {listDesDepense.filter(value => value.dateTransaction.split("-")[0] === year).length}</td>
                             </tr>
                             </tfoot>
                         </table>

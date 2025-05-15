@@ -66,7 +66,10 @@ body {
     grid-template-columns: 1fr;
     gap: 20px;
 }
-
+th,tr,td{
+    padding: 3px;
+    margin: 3px;
+}
 /* Panel Styles */
 .panel {
     background-color: var(--surface);
@@ -225,6 +228,7 @@ body {
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: var(--transition);
+    margin: 3px;
 }
 
 .btn:focus {
