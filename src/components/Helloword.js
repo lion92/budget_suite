@@ -11,13 +11,10 @@ const Helloword = () => {
                     👉 Qui suis-je ?
                 </a>
                 <div className="video-wrapper">
-                    <iframe
-                        src="https://www.youtube.com/embed/-BccOu30360?si=sndME0Gl7qSUY-cg"
-                        title="Présentation de l'application"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                    ></iframe>
+                    <iframe src="https://www.youtube.com/embed/-bKgZv2-5_A?si=eI8AhRJa5K2qMieD"
+                            title="YouTube video player" frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                 </div>
             </div>
         </div>
