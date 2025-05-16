@@ -8,6 +8,8 @@ import './css/budget_style.css';
 import { useNotify } from "../Notification";
 import AllSpend from "./AllSpend";
 import useBudgetStore from "../useBudgetStore";
+import {useNavigate} from "react-router-dom";
+import ModalCategorie from "./ModalCategorie";
 
 
 export function Budget() {
@@ -17,6 +19,7 @@ export function Budget() {
     const [date, setDate] = useState(new Date());
     const [range, setRange] = useState([null, null]);
     const [startDate, endDate] = range;
+    const [showModal, setShowModal] = useState(false);
 
     const notify = useNotify();
     const pdfref = useRef();
@@ -66,6 +69,11 @@ export function Budget() {
             pdf.save("budget.pdf");
         });
     };
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        setShowModal(true);
+    };
 
     const filtered = startDate && endDate
         ? (depenses || []).filter(d => {
@@ -76,23 +84,34 @@ export function Budget() {
 
     const totalFiltre = filtered.reduce((acc, val) => acc + parseFloat(val.montant || 0), 0);
 
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
     return (
         <div className="budget-container">
             <h1>Gestionnaire de Budget</h1>
-
+            <div>
+                <h1>Catégories</h1>
+                <button onClick={handleClick}>Nouvelle catégorie</button>
+                {showModal && <ModalCategorie onClose={handleCloseModal}/>}
+            </div>
             <form onSubmit={handleCreate} className="form-depense">
-                <input placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
-                <input type="number" placeholder="Montant" value={montant} onChange={e => setMontant(parseFloat(e.target.value))} />
+                <input placeholder="Description" value={description} onChange={e => setDescription(e.target.value)}/>
+                <input type="number" placeholder="Montant" value={montant}
+                       onChange={e => setMontant(parseFloat(e.target.value))}/>
                 <select value={categorie} onChange={e => setCategorie(e.target.value)}>
                     <option value="">-- Choisir catégorie --</option>
                     {categories?.map(c => <option key={c.id} value={c.id}>{c.categorie}</option>)}
                 </select>
-                <DatePicker selected={date} onChange={setDate} dateFormat="dd/MM/yyyy" />
+
+                <DatePicker selected={date} onChange={setDate} dateFormat="dd/MM/yyyy"/>
                 <button type="submit">Ajouter</button>
             </form>
 
             <div className="chart-section">
-                <AllSpend depenses={filtered} />
+                <AllSpend depenses={filtered}/>
             </div>
 
             <h2>Dépenses</h2>
@@ -115,7 +134,9 @@ export function Budget() {
                         <td>{dep.description}</td>
                         <td>{dep.categorie}</td>
                         <td>{new Date(dep.dateTransaction).toLocaleDateString('fr-FR')}</td>
-                        <td><button className="btn-danger" onClick={() => handleDelete(dep.id)}>Supprimer</button></td>
+                        <td>
+                            <button className="btn-danger" onClick={() => handleDelete(dep.id)}>Supprimer</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
