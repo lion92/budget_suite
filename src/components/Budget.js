@@ -95,10 +95,6 @@ export function Budget() {
                 <AllSpend depenses={filtered} />
             </div>
 
-            <div ref={pdfref} className="pdf-section">
-                <button onClick={downloadPDF}>Télécharger PDF</button>
-            </div>
-
             <h2>Dépenses</h2>
             <table>
                 <thead>
