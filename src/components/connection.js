@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import Form from "./Form";
 import lien from './lien'
 import './css/dash.scss'
+import {Budget} from "./Budget";
 
 const Connection = () => {
     const [messageLog, setMessageLog] = useState("");
@@ -250,10 +250,11 @@ const Connection = () => {
 
             {(probleme === "connecte") ? (
                 <div>
-                    <Form />
                     <button onClick={handleLogout} className="logout-button">
                         Déconnexion
                     </button>
+                    <Budget></Budget>
+
                 </div>
             ) : (
                 <div>
