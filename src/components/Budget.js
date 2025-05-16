@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import GraphParDate from "./GraphParDate";
+import React, {useEffect, useRef, useState} from 'react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import './css/budget_style.css';
-import { useNotify } from "../Notification";
+import {useNotify} from "../Notification";
 import AllSpend from "./AllSpend";
 import useBudgetStore from "../useBudgetStore";
-import {useNavigate} from "react-router-dom";
 import ModalCategorie from "./ModalCategorie";
 
 
@@ -69,7 +67,6 @@ export function Budget() {
             pdf.save("budget.pdf");
         });
     };
-    const navigate = useNavigate();
 
     const handleClick = () => {
         setShowModal(true);
