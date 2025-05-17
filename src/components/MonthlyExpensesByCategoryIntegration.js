@@ -123,15 +123,11 @@ const MonthlyExpensesByCategory = () => {
     // Gérer la sélection/désélection d'une catégorie
     const handleCategoryToggle = (category) => {
         if (selectedCategories.includes(category)) {
-            // Vérifier qu'au moins une catégorie reste sélectionnée
-            if (selectedCategories.length > 1) {
-                setSelectedCategories(selectedCategories.filter(cat => cat !== category));
-            }
+            setSelectedCategories(selectedCategories.filter(cat => cat !== category));
         } else {
             setSelectedCategories([...selectedCategories, category]);
         }
     };
-
     // Sélectionner toutes les catégories
     const handleSelectAllCategories = () => {
         setSelectedCategories([...allCategories]);
@@ -139,9 +135,8 @@ const MonthlyExpensesByCategory = () => {
 
     // Désélectionner toutes les catégories sauf une
     const handleDeselectAllCategories = () => {
-        if (allCategories.length > 0) {
-            setSelectedCategories([allCategories[0]]);
-        }
+
+            setSelectedCategories([]);
     };
 
     return (
