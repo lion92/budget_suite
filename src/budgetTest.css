@@ -21,6 +21,8 @@
     flex-wrap: wrap;
     gap: 15px;
     width: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Styles pour les inputs et selects */
