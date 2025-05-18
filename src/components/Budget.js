@@ -106,8 +106,8 @@ export function Budget() {
             </div>
             <label>Dépenses</label>
             <form onSubmit={handleCreate} className="form-depense">
-                <input placeholder="Description" value={description} onChange={e => setDescription(e.target.value)}/>
-                <input type="number" placeholder="Montant" value={montant}
+                <input placeholder="Description" value={description} aria-label="Description Dépense" onChange={e => setDescription(e.target.value)}/>
+                <input type="number" placeholder="Montant" value={montant}  aria-label="Montant Dépense"
                        onChange={e => setMontant(parseFloat(e.target.value))}/>
                 <select value={categorie} onChange={e => setCategorie(e.target.value)}>
                     <option value="">-- Choisir catégorie --</option>
