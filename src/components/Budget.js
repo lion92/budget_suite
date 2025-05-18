@@ -39,6 +39,7 @@ export function Budget() {
         fetchDepenses();
         fetchCategories();
         fetchRevenus();
+
     }, []);
 
     const handleCreate = async (e) => {
@@ -65,7 +66,7 @@ export function Budget() {
 
     // Filtrage par mois/année sélectionnés
     const revenusFiltres = (revenus || []).filter(r => {
-        const d = new Date(r.dateTransaction);
+        const d = new Date(r.date);
         return d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
     });
 
@@ -74,7 +75,7 @@ export function Budget() {
         return dDate.getMonth() === selectedMonth && dDate.getFullYear() === selectedYear;
     });
 
-    const totalRevenus = revenusFiltres.reduce((acc, val) => acc + parseFloat(val.montant || 0), 0);
+    const totalRevenus = revenusFiltres.reduce((acc, val) => acc + parseFloat(val.amount || 0), 0);
     const totalDepenses = depensesFiltres.reduce((acc, val) => acc + parseFloat(val.montant || 0), 0);
     const solde = totalRevenus - totalDepenses;
 
