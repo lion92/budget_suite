@@ -1,2 +1,2 @@
-export default {url: "https://www.krisscode.fr/"}
-//export default {url: "http://localhost:3006/"}
+//export default {url: "https://www.krisscode.fr/"}
+export default {url: "http://localhost:3004/"}

@@ -8,7 +8,72 @@ const useBudgetStore = create((set, get) => ({
     total: 0,
     monthlySummary: {},
     categoryColors: {},
+    revenus: [],
 
+    fetchRevenus: async () => {
+        const token = localStorage.getItem("jwt");
+
+        const res = await fetch(`${lien.url}revenues`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const data = await res.json();
+
+        const revenus = Array.isArray(data) ? data : data.revenus;
+        if (!Array.isArray(revenus)) {
+            console.error("⚠️ L'API /revenues n'a pas retourné un tableau :", data);
+            set({ revenus: [] });
+        } else {
+            set({ revenus });
+        }
+    },
+
+    addRevenu: async ({name, amount, date}, notify) => {
+        const token = localStorage.getItem("jwt");
+
+        const body = {
+            name: name,       // 👉 correspond à `name` dans DTO
+            amount: amount,         // 👉 correspond à `amount` dans DTO
+            date: date.toLocaleDateString("en-CA"), // format YYYY-MM-DD
+        };
+
+        const res = await fetch(`${lien.url}revenues`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (res.ok) {
+            notify("Revenu ajouté !", "success");
+            await get().fetchRevenus();
+        } else {
+            notify("Erreur lors de l'ajout du revenu", "error");
+        }
+    },
+
+    deleteRevenu: async (id, notify) => {
+        const token = localStorage.getItem("jwt");
+
+        const res = await fetch(`${lien.url}revenues/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (res.ok) {
+            notify("Revenu supprimé !", "success");
+            await get().fetchRevenus();
+        } else {
+            notify("Erreur lors de la suppression du revenu", "error");
+        }
+    },
     fetchDepenses: async () => {
         const id = localStorage.getItem("utilisateur");
         const res = await fetch(`${lien.url}action/byuser/${id}`);
