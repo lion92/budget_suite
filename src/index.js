@@ -1,11 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client'; // ⚠️ React 18+
-import './App.css';
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-} from 'react-router-dom';
+import '../src/App.css'
+import {BrowserRouter as Router, Route, Routes,} from 'react-router-dom';
 
 import NotFound from './components/NotFound';
 import DashBoardBudget from "./components/DashBoardBudget";
@@ -19,26 +15,30 @@ import DashBoardAgenda from "./components/DashBoardAgenda";
 import DashAllSpendFilters from "./components/DashAllSpendFilters";
 import DashPrediction from "./components/DashPrediction";
 import DashEnveloppe from "./components/DashEnveloppe";
+import {ToastContainer} from "react-toastify";
 
 const Root = () => (
-    <Router>
-        <Routes>
-            <Route path="/" element={<DashBoardHello />} />
-            <Route path="/login" element={<DashLogin />} />
-            <Route path="/inscription" element={<DashBoardInscription />} />
-            <Route path="/categorie" element={<DashBoardCategorie />} />
-            <Route path="/budget" element={<DashBoardBudget />} />
-            <Route path="/form" element={<DashBoardTache />} />
-            <Route path="/allSpend" element={<DashAllSpend />} />
-            <Route path="/allSpendFilters" element={<DashAllSpendFilters />} />
-            <Route path="/enveloppe" element={<DashEnveloppe />} />
-            <Route path="/prediction" element={<DashPrediction />} />
-            <Route path="/agenda" element={<DashBoardAgenda />} />
-            <Route path="*" element={<NotFound />} /> {/* Remplace Route "catch-all" */}
-        </Routes>
-    </Router>
+    <>      <ToastContainer position="top-right" autoClose={3000}/>
+        <Router>
+            <Routes>
+                <Route path="/" element={<DashBoardHello/>}/>
+                <Route path="/login" element={<DashLogin/>}/>
+                <Route path="/inscription" element={<DashBoardInscription/>}/>
+                <Route path="/categorie" element={<DashBoardCategorie/>}/>
+                <Route path="/budget" element={<DashBoardBudget/>}/>
+                <Route path="/form" element={<DashBoardTache/>}/>
+                <Route path="/allSpend" element={<DashAllSpend/>}/>
+                <Route path="/allSpendFilters" element={<DashAllSpendFilters/>}/>
+                <Route path="/enveloppe" element={<DashEnveloppe/>}/>
+                <Route path="/prediction" element={<DashPrediction/>}/>
+                <Route path="/agenda" element={<DashBoardAgenda/>}/>
+                <Route path="*" element={<NotFound/>}/> {/* Remplace Route "catch-all" */}
+            </Routes>
+        </Router>
+    </>
+
 );
 
 // ⚠️ Si tu es en React 18
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Root />);
+root.render(<Root/>);
