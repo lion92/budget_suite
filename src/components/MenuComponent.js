@@ -7,7 +7,7 @@ import { BiSolidCategory } from "react-icons/bi";
 import { GoTasklist } from "react-icons/go";
 import { CiMenuBurger, CiMoneyBill } from "react-icons/ci";
 import CookieConsent from "./cookie_bandeau";
-import Notifications from "../Notification";
+import Notifications from "./Notification";
 
 export default function MenuComponent(props) {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

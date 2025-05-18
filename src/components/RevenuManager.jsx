@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
-import '../src/components/css/revenue.css'
-import useBudgetStore from "./useBudgetStore";
+import './css/revenue.css'
+import useBudgetStore from "../useBudgetStore";
 import {useNotify} from "./Notification";
 
 const RevenueManager = () => {

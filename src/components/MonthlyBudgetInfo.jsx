@@ -1,5 +1,5 @@
 import React from "react";
-import useBudgetStore from "./useBudgetStore";
+import useBudgetStore from "../useBudgetStore";
 
 const MonthlyBudgetInfo = () => {
     const monthlySummary = useBudgetStore((state) => state.monthlySummary);

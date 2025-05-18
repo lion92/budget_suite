@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import AjoutBudget from "./components/ajoutBudget";
-import lien from "./components/lien";
+import AjoutBudget from "./ajoutBudget";
+import lien from "./lien";
 
 const AllSpendFilters = () => {
     const [year, setYear] = useState("2023");

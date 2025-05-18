@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import lien from "./lien";
 import ItemCategorie from "./ItemCategorie";
-import { useNotify } from "../Notification";
+import { useNotify } from "./Notification";
 
 export function Categorie(props) {
     let [categorieDescription, setCategorieDescription] = useState("");

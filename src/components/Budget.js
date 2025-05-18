@@ -4,11 +4,11 @@ import jsPDF from "jspdf";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import './css/budget_style.css';
-import {useNotify} from "../Notification";
+import {useNotify} from "./Notification";
 import AllSpend from "./AllSpend";
 import useBudgetStore from "../useBudgetStore";
 import ModalCategorie from "./ModalCategorie";
-import RevenueManager from "../RevenuManager";
+import RevenueManager from "./RevenuManager";
 import MonthlyReportChart from "./MonthlyReportChart";
 
 
