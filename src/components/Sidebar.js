@@ -33,6 +33,9 @@ function Sidebar(props) {
                     <NavLink to={"/budget"}>
                         <li>Budget</li>
                     </NavLink>
+                    <NavLink to={"/enveloppe"}>
+                        <li>Budget</li>
+                    </NavLink>
                 </ul>
             </div>
         </div>

@@ -18,6 +18,7 @@ import DashAllSpend from "./components/DashAllSpend";
 import DashBoardAgenda from "./components/DashBoardAgenda";
 import DashAllSpendFilters from "./components/DashAllSpendFilters";
 import DashPrediction from "./components/DashPrediction";
+import DashEnveloppe from "./components/DashEnveloppe";
 
 const Root = () => (
     <Router>
@@ -30,6 +31,7 @@ const Root = () => (
             <Route path="/form" element={<DashBoardTache />} />
             <Route path="/allSpend" element={<DashAllSpend />} />
             <Route path="/allSpendFilters" element={<DashAllSpendFilters />} />
+            <Route path="/enveloppe" element={<DashEnveloppe />} />
             <Route path="/prediction" element={<DashPrediction />} />
             <Route path="/agenda" element={<DashBoardAgenda />} />
             <Route path="*" element={<NotFound />} /> {/* Remplace Route "catch-all" */}

@@ -108,6 +108,7 @@ export default function MenuComponent(props) {
         { path: "/allspendFilters", label: "Dépenses filtrées", icon: <CiMoneyBill /> },
         { path: "/prediction", label: "Prédiction", icon: <CiMoneyBill /> },
         { path: "/agenda", label: "Agenda", icon: <CiMoneyBill /> },
+        { path: "/enveloppe", label: "enveloppe", icon: <CiMoneyBill /> },
     ];
 
     return (
