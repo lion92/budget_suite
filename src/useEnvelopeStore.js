@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import lien from "./components/lien";
+
 export const useEnvelopeStore = create((set, get) => ({
     envelopes: [],
     selectedMonth: new Date().getMonth() + 1,
@@ -19,7 +20,8 @@ export const useEnvelopeStore = create((set, get) => ({
         set({ envelopes: Array.isArray(data) ? data : [] });
     },
 
-    createEnvelope: async (name, notify) => {
+    // ✅ Ajout de `amount` dans la création d'une enveloppe
+    createEnvelope: async (name, amount, notify) => {
         const jwt = localStorage.getItem('jwt');
         const userId = localStorage.getItem('utilisateur');
         const month = get().selectedMonth;
@@ -28,7 +30,7 @@ export const useEnvelopeStore = create((set, get) => ({
         const res = await fetch(`${lien.url}envelopes`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, userId, month, year, jwt }),
+            body: JSON.stringify({ name, amount, userId, month, year, jwt }),
         });
 
         if (res.ok) {
@@ -39,13 +41,14 @@ export const useEnvelopeStore = create((set, get) => ({
         }
     },
 
-    updateEnvelope: async (envelopeId, newName, notify) => {
+    // ✅ Ajout de `newAmount` dans la mise à jour d'une enveloppe
+    updateEnvelope: async (envelopeId, newName, newAmount, notify) => {
         const jwt = localStorage.getItem('jwt');
 
         const res = await fetch(`${lien.url}envelopes/${envelopeId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: newName, jwt }),
+            body: JSON.stringify({ name: newName, amount: newAmount, jwt }),
         });
 
         if (res.ok) {
