@@ -217,7 +217,7 @@ const EnvelopeManager = ({
                                     </>
                                 ) : (
                                     <>
-                                        {t.description} – {t.amount} €
+                                        {t.description} – {t.amount} € {new Date(t.date).toLocaleDateString('fr-FR')}
                                         <button onClick={() =>
                                             setEditingTransaction((prev) => ({
                                                 ...prev,
