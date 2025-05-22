@@ -132,19 +132,20 @@ const EnvelopeManager = ({
         <div style={{ margin: 'auto', maxWidth: '800px' }}>
             <h2>Mes enveloppes ({selectedMonth}/{selectedYear})</h2>
 
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{marginBottom: '1rem'}}>
                 <p><strong>Total revenus :</strong> {totalRevenus.toFixed(2)} €</p>
                 <p><strong>Total alloué dans enveloppes :</strong> {totalMontantEnveloppes.toFixed(2)} €</p>
                 <p><strong>Total utilisé dans enveloppes :</strong> {totalInEnvelopes.toFixed(2)} €</p>
                 <p><strong>Reste à répartir :</strong> {resteRepartir.toFixed(2)} €</p>
                 {totalMontantEnveloppes > totalRevenus && (
-                    <p style={{ color: 'red' }}>⚠️ Le total des enveloppes dépasse vos revenus</p>
+                    <p style={{color: 'red'}}>⚠️ Le total des enveloppes dépasse vos revenus</p>
                 )}
+
             </div>
 
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{marginBottom: '1rem'}}>
                 <label>Mois : </label>
-                <select style={{ color: "black", width: '50%' }} value={selectedMonth}
+                <select style={{color: "black", width: '50%'}} value={selectedMonth}
                         onChange={(e) => setMonth(parseInt(e.target.value))}>
                     {[...Array(12).keys()].map((m) => (
                         <option key={m + 1} value={m + 1}>{m + 1}</option>
@@ -204,12 +205,23 @@ const EnvelopeManager = ({
                             <h3>{env.name}</h3>
                             <p><strong>Montant prévu :</strong> {parseFloat(env.amount).toFixed(2)} €</p>
                             <p><strong>Dépensé :</strong> {totalByEnvelope(env).toFixed(2)} €</p>
-                            <p><strong>Reste :</strong> {(parseFloat(env.amount) - totalByEnvelope(env)).toFixed(2)} €</p>
+                            <p><strong>Reste :</strong> {(parseFloat(env.amount) - totalByEnvelope(env)).toFixed(2)} €
+                            </p>
+                            <div className="progress-bar-container">
+                                <div
+                                    className="progress-bar-fill"
+                                    style={{
+                                        width: `${Math.min((totalByEnvelope(env) / parseFloat(env.amount)) * 100, 100)}%`,
+                                        backgroundColor: totalByEnvelope(env) > parseFloat(env.amount) ? '#e74c3c' : '#2ecc71'
+                                    }}
+                                />
+                            </div>
                             <button onClick={() => {
                                 setEditingEnvelope(env.id);
                                 setEditedEnvelopeName(env.name);
                                 setEditedEnvelopeAmount(env.amount);
-                            }}>✏️</button>
+                            }}>✏️
+                            </button>
                             <button onClick={() => handleDeleteEnvelope(env.id)}>🗑️</button>
                         </>
                     )}
