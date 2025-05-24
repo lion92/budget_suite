@@ -151,3 +151,12 @@ table .btn-danger:hover {
         padding: 0.5rem 1rem;
     }
 }
+table thead input {
+    color: black;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 4px;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 0.9rem;
+}

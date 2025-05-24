@@ -24,6 +24,11 @@ export function Budget() {
     const [showRevenuForm, setShowRevenuForm] = useState(false);
     const [showDepenseTable, setShowDepenseTable] = useState(true);
     const [showGraph, setShowGraph] = useState(true);
+    const [filterId, setFilterId] = useState('');
+    const [filterMontant, setFilterMontant] = useState('');
+    const [filterDescription, setFilterDescription] = useState('');
+    const [filterCategorie, setFilterCategorie] = useState('');
+    const [filterDate, setFilterDate] = useState('');
     const notify = useNotify();
     const bilanRef = useRef();
 
@@ -181,28 +186,85 @@ export function Budget() {
             {showDepenseTable && (
                 <div>
                     <h2>Dépenses</h2>
+                    <button onClick={() => {
+                        setFilterId('');
+                        setFilterMontant('');
+                        setFilterDescription('');
+                        setFilterCategorie('');
+                        setFilterDate('');
+                    }}>
+                        Réinitialiser les filtres
+                    </button>
                     <table>
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Montant</th>
-                            <th>Description</th>
-                            <th>Catégorie</th>
-                            <th>Date</th>
+                            <th>
+                                ID
+                                <input
+                                    type="text"
+                                    placeholder="Filtrer"
+                                    value={filterId}
+                                    onChange={(e) => setFilterId(e.target.value)}
+                                />
+                            </th>
+                            <th>
+                                Montant
+                                <input
+                                    type="text"
+                                    placeholder="Filtrer"
+                                    value={filterMontant}
+                                    onChange={(e) => setFilterMontant(e.target.value)}
+                                />
+                            </th>
+                            <th>
+                                Description
+                                <input
+                                    type="text"
+                                    placeholder="Filtrer"
+                                    value={filterDescription}
+                                    onChange={(e) => setFilterDescription(e.target.value)}
+                                />
+                            </th>
+                            <th>
+                                Catégorie
+                                <input
+                                    type="text"
+                                    placeholder="Filtrer"
+                                    value={filterCategorie}
+                                    onChange={(e) => setFilterCategorie(e.target.value)}
+                                />
+                            </th>
+                            <th>
+                                Date
+                                <input
+                                    type="text"
+                                    placeholder="Filtrer"
+                                    value={filterDate}
+                                    onChange={(e) => setFilterDate(e.target.value)}
+                                />
+                            </th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {depensesFiltres.map(dep => (
-                            <tr key={dep.id}>
-                                <td>{dep.id}</td>
-                                <td>{dep.montant}</td>
-                                <td>{dep.description}</td>
-                                <td>{dep.categorie}</td>
-                                <td>{new Date(dep.dateTransaction).toLocaleDateString('fr-FR')}</td>
-                                <td><button className="btn-danger" onClick={() => handleDelete(dep.id)}>Supprimer</button></td>
-                            </tr>
-                        ))}
+                        {depensesFiltres
+                            .filter(dep =>
+                                (!filterId || String(dep.id).includes(filterId)) &&
+                                (!filterMontant || String(dep.montant).includes(filterMontant)) &&
+                                (!filterDescription || dep.description.toLowerCase().includes(filterDescription.toLowerCase())) &&
+                                (!filterCategorie || String(dep.categorie).toLowerCase().includes(filterCategorie.toLowerCase())) &&
+                                (!filterDate || new Date(dep.dateTransaction).toLocaleDateString('fr-FR').includes(filterDate))
+                            )
+                            .map(dep => (
+                                <tr key={dep.id}>
+                                    <td>{dep.id}</td>
+                                    <td>{dep.montant}</td>
+                                    <td>{dep.description}</td>
+                                    <td>{dep.categorie}</td>
+                                    <td>{new Date(dep.dateTransaction).toLocaleDateString('fr-FR')}</td>
+                                    <td><button className="btn-danger" onClick={() => handleDelete(dep.id)}>Supprimer</button></td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
