@@ -1,7 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import lien from './lien'
-import './css/dash.scss'
+import lien from './lien';
+import './css/dash.scss';
 import {Budget} from "./Budget";
+import './css/connexion.css'
 
 const Connection = () => {
     const [messageLog, setMessageLog] = useState("");
@@ -14,305 +15,240 @@ const Connection = () => {
     const [catchaColler, setCatchaColler] = useState("");
     const [notification, setNotification] = useState({
         show: false,
-        type: "error", // "error", "success", "warning", "info"
+        type: "error",
         message: "",
     });
 
     useEffect(() => {
-        fetchUerToken();
+        fetchUserToken();
     }, []);
 
-    // Fonction pour afficher une notification
     const showNotification = (type, message) => {
-        setNotification({
-            show: true,
-            type,
-            message,
-        });
-
-        // Masquer la notification après 5 secondes
+        setNotification({show: true, type, message});
         setTimeout(() => {
-            setNotification(prev => ({
-                ...prev,
-                show: false,
-            }));
+            setNotification(prev => ({...prev, show: false}));
         }, 5000);
     };
 
-    function catchaGenerate() {
+    const catchaGenerate = () => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const result = Array.from({length: 7}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
+        setCatcha(result);
+    };
 
-        function generateString(length) {
-            let result = '';
-            const charactersLength = characters.length;
-            for (let i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-
-            return result;
+    const ValidateEmail = (mail) => {
+        const valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail);
+        if (!valid) {
+            setEmailError("Adresse email invalide");
+            showNotification("error", "Adresse email invalide");
+        } else {
+            setEmailError("");
         }
+        return valid;
+    };
 
-        setCatcha(generateString(7));
-    }
-
-    function ValidateEmail(mail) {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            return (true)
-        }
-        setEmailError("You have entered an invalid email address!")
-        showNotification("error", "Adresse email invalide");
-        return (false)
-    }
-
-    let fetchUerToken = useCallback(async () => {
-        let str = "" + localStorage.getItem('jwt')
-        if (!str || str === "null" || str === "undefined") {
+    const fetchUserToken = useCallback(async () => {
+        const jwt = localStorage.getItem('jwt');
+        if (!jwt || jwt === "null" || jwt === "undefined") {
             setMessageLog("Aucun token trouvé, veuillez vous connecter");
             return;
         }
 
         try {
-            const response = await fetch(
-                lien.url + "connection/user",
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        jwt: str
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
+            const response = await fetch(`${lien.url}connection/user`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({jwt})
+            });
 
-            // Vérifier si la réponse est OK
             if (!response.ok) {
                 setMessageLog(`Erreur du serveur: ${response.status}`);
                 showNotification("error", `Erreur du serveur: ${response.status}`);
                 return;
             }
 
-            // Lire le texte de la réponse
             const text = await response.text();
-
-            // Vérifier si la réponse n'est pas vide
             if (!text) {
-                setMessageLog("Le serveur a renvoyé une réponse vide");
-                showNotification("error", "Le serveur a renvoyé une réponse vide");
+                setMessageLog("Réponse vide du serveur");
+                showNotification("error", "Réponse vide du serveur");
                 return;
             }
 
-            // Essayer de parser le JSON
             let data;
             try {
                 data = JSON.parse(text);
-            } catch (error) {
-                console.error("Réponse invalide du serveur:", text);
+            } catch (e) {
                 setMessageLog("Réponse invalide du serveur");
                 showNotification("error", "Réponse invalide du serveur");
                 return;
             }
 
             if (!isNaN(data?.id)) {
-                localStorage.setItem("utilisateur", data?.id);
+                localStorage.setItem("utilisateur", data.id);
                 setMessageLog("Code Bon");
-                setProbleme('connecte');
+                setProbleme("connecte");
                 showNotification("success", "Connexion réussie");
             } else {
                 setMessageLog("Déconnecté - Token invalide");
                 showNotification("warning", "Session expirée - Veuillez vous reconnecter");
             }
-        } catch (error) {
-            console.error("Erreur lors de la vérification du token:", error);
+        } catch (err) {
             setMessageLog("Erreur de connexion au serveur");
             showNotification("error", "Erreur de connexion au serveur");
         }
     }, []);
 
-    let fetchConnection = useCallback(async (e) => {
+    const fetchConnection = useCallback(async (e) => {
         e.preventDefault();
-
-        // Réinitialiser les messages d'erreur
         setPasswordError("");
 
         if (password.length < 3) {
-            setPasswordError("Impossible : mot de passe trop court (minimum 3 caractères)");
-            showNotification("error", "Mot de passe trop court (minimum 3 caractères)");
+            setPasswordError("Mot de passe trop court");
+            showNotification("error", "Mot de passe trop court");
             return;
         }
 
         try {
-            const response = await fetch(
-                lien.url + "connection/login",
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        "password": password,
-                        "email": email
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+            const response = await fetch(`${lien.url}connection/login`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({email, password})
+            });
 
-            // Vérifier si la réponse est OK
             if (!response.ok) {
-                setMessageLog(`Erreur du serveur: ${response.status}`);
-                showNotification("error", `Erreur du serveur: ${response.status}`);
+                setMessageLog(`Erreur serveur: ${response.status}`);
+                showNotification("error", `Erreur serveur: ${response.status}`);
                 return;
             }
 
-            // Lire le texte de la réponse
             const text = await response.text();
-
-            // Vérifier si la réponse n'est pas vide
             if (!text) {
-                setMessageLog("Le serveur a renvoyé une réponse vide");
-                showNotification("error", "Le serveur a renvoyé une réponse vide");
+                setMessageLog("Réponse vide du serveur");
+                showNotification("error", "Réponse vide du serveur");
                 return;
             }
 
-            // Essayer de parser le JSON
             let data;
             try {
                 data = JSON.parse(text);
-            } catch (error) {
-                console.error("Réponse invalide du serveur:", text);
-                setMessageLog("Réponse invalide du serveur");
+            } catch {
+                setMessageLog("Réponse invalide");
                 showNotification("error", "Réponse invalide du serveur");
                 return;
             }
 
-            // Vérifier si une erreur est renvoyée dans la réponse
             if (data.message && !data.success) {
                 setMessageLog(data.message);
-
-                // Vérifier si c'est une erreur de validation d'email
-                if (data.message.includes("vérifier votre email")) {
-                    showNotification("warning", "Veuillez vérifier votre email avant de vous connecter");
-                } else {
-                    showNotification("error", data.message);
-                }
+                showNotification(data.message.includes("email") ? "warning" : "error", data.message);
                 return;
             }
 
-            // Vérifier si le JWT est présent dans la réponse
             if (!data.jwt) {
-                setMessageLog("Erreur de connexion : JWT manquant dans la réponse du serveur");
-                showNotification("error", "Erreur d'authentification - JWT manquant");
+                setMessageLog("JWT manquant dans la réponse");
+                showNotification("error", "JWT manquant dans la réponse");
                 return;
             }
 
             if (!isNaN(data?.id)) {
-                localStorage.setItem("utilisateur", data?.id);
-                localStorage.setItem('jwt', data?.jwt);
-                setMessageLog("Code Bon");
-                setProbleme('connecte');
+                localStorage.setItem("utilisateur", data.id);
+                localStorage.setItem("jwt", data.jwt);
+                setMessageLog("Connexion réussie");
+                setProbleme("connecte");
                 showNotification("success", "Connexion réussie");
+
+                // 🔁 Rafraîchissement pour mise à jour du menu
+                window.location.reload();
             } else {
-                setMessageLog("Combinaison code et mot de passe incorrecte");
+                setMessageLog("Identifiants incorrects");
                 showNotification("error", "Identifiants incorrects");
             }
-        } catch (error) {
-            console.error("Erreur lors de la connexion:", error);
-            setMessageLog("Erreur de connexion au serveur");
+        } catch (err) {
+            setMessageLog("Erreur de connexion");
             showNotification("error", "Erreur de connexion au serveur");
         }
     }, [email, password]);
 
-    // Pour déconnecter l'utilisateur
     const handleLogout = () => {
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('utilisateur');
-        setProbleme('non connecte');
-        setEmail('');
-        setPassword('');
-        setCatchaColler('');
-        setCatcha('');
-        showNotification("info", "Vous avez été déconnecté");
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("utilisateur");
+        setProbleme("non connecte");
+        setEmail("");
+        setPassword("");
+        setCatcha("");
+        setCatchaColler("");
+        showNotification("info", "Déconnecté");
     };
 
     return (
         <div>
-            {/* Composant de notification */}
             {notification.show && (
                 <div className={`notification ${notification.type}`}>
                     <div className="notification-content">
-                        <span className="notification-message">{notification.message}</span>
-                        <button
-                            className="notification-close"
-                            onClick={() => setNotification(prev => ({ ...prev, show: false }))}
-                        >
-                            &times;
-                        </button>
+                        <span>{notification.message}</span>
+                        <button onClick={() => setNotification(prev => ({...prev, show: false}))}>&times;</button>
                     </div>
                 </div>
             )}
 
-            {(probleme === "connecte") ? (
+            {probleme === "connecte" ? (
                 <div>
-                    <button onClick={handleLogout} className="logout-button">
-                        Déconnexion
-                    </button>
-                    <Budget></Budget>
-
+                    <button onClick={handleLogout} className="logout-button">Déconnexion</button>
+                    <Budget/>
                 </div>
             ) : (
-                <div>
-                    <div className="container2">
-                        <div className="status-indicator">{"" + probleme}</div>
-
-                        <div id="iconLogin"/>
-
-                        <input id='email' value={email} placeholder={'email'} onChange={e => {
+                <div className="container2">
+                    <div className="status-indicator">{messageLog || probleme}</div>
+                    <input
+                        id="email"
+                        value={email}
+                        placeholder="email"
+                        onChange={e => {
                             setEmail(e.target.value);
-                            if (ValidateEmail(email)) {
-                                setEmailError("");
-                            }
+                            ValidateEmail(e.target.value);
                         }}
-                               type={'text'}/>
-                        <p className="error">{mailError}</p>
+                        type="text"
+                    />
+                    <p className="error">{mailError}</p>
 
-                        <input id='password' value={password} placeholder={'password'}
-                               onChange={e => {
-                                   setPassword(e.target.value);
-                                   if (e.target.value.length < 3) {
-                                       setPasswordError("Le mot de passe doit être d'au moins 3 caractères");
-                                   } else {
-                                       setPasswordError("");
-                                   }
-                               }} type={'password'}/>
-                        <p className="error">{passwordError}</p>
+                    <input
+                        id="password"
+                        value={password}
+                        placeholder="password"
+                        onChange={e => {
+                            setPassword(e.target.value);
+                            setPasswordError(e.target.value.length < 3 ? "Mot de passe trop court" : "");
+                        }}
+                        type="password"
+                    />
+                    <p className="error">{passwordError}</p>
 
-                        <button onClick={catchaGenerate}>Générer Captcha</button>
-
-                        <h2 id="blur">{catcha}</h2>
-                        <h2>Saisir le captcha</h2>
-                        <input value={catchaColler} placeholder={'captcha'} onChange={e => {
+                    <button onClick={catchaGenerate}>Générer Captcha</button>
+                    <h2 id="blur">{catcha}</h2>
+                    <h2>Saisir le captcha</h2>
+                    <input
+                        value={catchaColler}
+                        placeholder="captcha"
+                        onChange={e => {
                             setCatchaColler(e.target.value);
+                            setPasswordError(e.target.value === catcha ? "Le captcha est correct" : "Le captcha n'est pas correct");
+                        }}
+                        type="text"
+                    />
 
-                            if ("" + e.target.value !== "" + catcha) {
-                                setPasswordError("Le captcha n'est pas correct");
-                            } else {
-                                setPasswordError("Le captcha est correct");
-                            }
-                        }} type={'text'}/>
-
-                        {passwordError === "Le captcha est correct" ?
-                            <button onClick={fetchConnection} id='btnLogin'>LOGIN</button> : ""
-                        }
-                    </div>
+                    {passwordError === "Le captcha est correct" && (
+                        <button onClick={fetchConnection} id="btnLogin">LOGIN</button>
+                    )}
                 </div>
             )}
-
-            {/* CSS pour les notifications */}
             <style jsx>{`
                 .notification {
                     position: fixed;
                     top: 20px;
                     right: 20px;
-                    max-width: 350px;
-                    padding: 15px;
-                    border-radius: 4px;
+                    max-width: 90%;
+                    width: 350px;
+                    padding: 1rem;
+                    border-radius: 6px;
                     animation: slideIn 0.5s forwards;
                     z-index: 1000;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -333,15 +269,15 @@ const Connection = () => {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    gap: 1rem;
                 }
 
                 .notification-close {
                     background: none;
                     border: none;
-                    color: white;
                     font-size: 20px;
+                    color: white;
                     cursor: pointer;
-                    margin-left: 10px;
                 }
 
                 .notification.error {
@@ -365,19 +301,113 @@ const Connection = () => {
                 }
 
                 .logout-button {
-                    margin-top: 20px;
-                    padding: 8px 16px;
-                    background-color: #f44336;
+                    margin: 2rem auto 0;
+                    padding: 0.75rem 1.5rem;
+                    background-color: #e74c3c;
                     color: white;
                     border: none;
-                    border-radius: 4px;
+                    border-radius: 8px;
                     cursor: pointer;
+                    font-size: 1rem;
+                    display: block;
+                    width: 90%;
+                    max-width: 300px;
+                    transition: background-color 0.3s ease;
                 }
 
                 .logout-button:hover {
-                    background-color: #d32f2f;
+                    background-color: #c0392b;
+                }
+
+                .container2 {
+                    width: 90%;
+                    max-width: 400px;
+                    margin: 3rem auto;
+                    padding: 2rem;
+                    background: white;
+                    border-radius: 20px;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .status-indicator {
+                    font-weight: bold;
+                    color: #5D3A9B;
+                    text-align: center;
+                    font-size: 1.1rem;
+                    text-transform: uppercase;
+                }
+
+                input {
+                    width: 100%;
+                    padding: 0.75rem 1rem;
+                    font-size: 1rem;
+                    border-radius: 10px;
+                    border: 1px solid #ccc;
+                }
+
+                input:focus {
+                    border-color: #3778c2;
+                    outline: none;
+                    box-shadow: 0 0 0 2px rgba(55, 120, 194, 0.2);
+                }
+
+                .error {
+                    color: red;
+                    font-size: 0.875rem;
+                    align-self: flex-start;
+                }
+
+                button {
+                    width: 100%;
+                    padding: 0.75rem 1rem;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    border: none;
+                    border-radius: 10px;
+                    background: linear-gradient(135deg, #3778c2, #4facfe);
+                    color: white;
+                    cursor: pointer;
+                    transition: background 0.3s ease;
+                }
+
+                button:hover {
+                    background: linear-gradient(135deg, #2b5a9e, #3a8efc);
+                }
+
+                #blur {
+                    filter: blur(1px);
+                    letter-spacing: 3px;
+                    user-select: none;
+                    background: #f0f0f0;
+                    padding: 10px;
+                    border-radius: 6px;
+                    font-weight: bold;
+                    font-size: 1.3rem;
+                    text-align: center;
+                    width: 100%;
+                }
+
+                @media (max-width: 480px) {
+                    .container2 {
+                        padding: 1.5rem;
+                        gap: 0.75rem;
+                    }
+
+                    input,
+                    button {
+                        font-size: 0.95rem;
+                    }
+
+                    #blur {
+                        font-size: 1.1rem;
+                    }
                 }
             `}</style>
+
         </div>
     );
 };

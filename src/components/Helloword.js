@@ -1,5 +1,6 @@
 import React from 'react';
 import './css/accueil.css'
+import BilanFinancier from "./BilanFinancier";
 
 const Helloword = () => {
     return (
@@ -10,8 +11,9 @@ const Helloword = () => {
                 <a className="about-link" href="https://projet.krissclotilde.com/" target="_blank" rel="noopener noreferrer">
                     👉 Qui suis-je ?
                 </a>
+                <BilanFinancier />
                 <div className="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/-bKgZv2-5_A?si=eI8AhRJa5K2qMieD"
+                    <iframe src="https://www.youtube.com/embed/nrulRmiz7wc?si=U2_qVTjGOaGIED2F"
                             title="YouTube video player" frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>

@@ -12,21 +12,31 @@ import Notifications from "./Notification";
 export default function MenuComponent(props) {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [afficher, setAfficher] = useState(window.innerWidth >= 768);
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("jwt"));
 
-    // Gérer resize window
     useEffect(() => {
         const handleResize = () => {
             const mobile = window.innerWidth < 768;
             setIsMobile(mobile);
-            setAfficher(!mobile); // cacher menu si mobile
+            setAfficher(!mobile);
         };
+
+        // Réécoute en cas de login/logout dans d'autres onglets
+        const handleStorageChange = () => {
+            setIsAuthenticated(!!localStorage.getItem("token"));
+        };
+
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            window.removeEventListener("storage", handleStorageChange);
+        };
     }, []);
 
     const handlemenu = () => setAfficher(!afficher);
 
-    // Fermer menu après clic (sur mobile)
     const handleLinkClick = () => {
         if (isMobile) setAfficher(false);
     };
@@ -97,10 +107,13 @@ export default function MenuComponent(props) {
         },
     };
 
-    const navLinks = [
-        { path: "/", label: "Bienvenue", icon: <SiWelcometothejungle /> },
+    const publicLinks = [
         { path: "/login", label: "Connexion", icon: <TbLogin2 /> },
         { path: "/inscription", label: "Inscription", icon: <MdOutlineAppRegistration /> },
+    ];
+
+    const privateLinks = [
+        { path: "/", label: "Bienvenue", icon: <SiWelcometothejungle /> },
         { path: "/categorie", label: "Catégorie", icon: <BiSolidCategory /> },
         { path: "/form", label: "Tâche", icon: <GoTasklist /> },
         { path: "/budget", label: "Budget", icon: <CiMoneyBill /> },
@@ -110,6 +123,8 @@ export default function MenuComponent(props) {
         { path: "/agenda", label: "Agenda", icon: <CiMoneyBill /> },
         { path: "/enveloppe", label: "Enveloppe", icon: <CiMoneyBill /> },
     ];
+
+    const navLinks = isAuthenticated ? privateLinks : publicLinks;
 
     return (
         <div style={styles.container}>

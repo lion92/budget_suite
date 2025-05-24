@@ -1,113 +1,64 @@
-import React, {useCallback, useState} from 'react';
-import lien from './lien'
+import React, { useCallback, useState } from 'react';
+import lien from './lien';
 
 const Inscription = () => {
     const [email, setEmail] = useState("");
-    const [inscriptionMessage, setInscriptionMessage] = useState("");
-    const [isSuccess, setIsSuccess] = useState(false);
     const [password, setPassword] = useState("");
     const [nom, setNom] = useState("");
     const [prenom, setPrenom] = useState("");
-    const [prenomError, setPrenomError] = useState("");
     const [nomError, setNomError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
+    const [prenomError, setPrenomError] = useState("");
     const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [inscriptionMessage, setInscriptionMessage] = useState("");
 
-    function validateEmail(mail) {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-            setEmailError("");
-            return true;
-        }
-        setEmailError("Vous avez entré une adresse email invalide!");
-        return false;
-    }
-
-    const validateForm = () => {
-        let isValid = true;
-
-        // Validation du nom
-        if (nom === "") {
-            setNomError("Le nom est obligatoire");
-            isValid = false;
-        } else {
-            setNomError("");
-        }
-
-        // Validation du prénom
-        if (prenom === "") {
-            setPrenomError("Le prénom est obligatoire");
-            isValid = false;
-        } else {
-            setPrenomError("");
-        }
-
-        // Validation de l'email
-        if (!validateEmail(email)) {
-            isValid = false;
-        }
-
-        // Validation du mot de passe
-        if (password.length < 3) {
-            setPasswordError("Le mot de passe doit comporter au moins 3 caractères");
-            isValid = false;
-        } else {
-            setPasswordError("");
-        }
-
-        return isValid;
+    const validateEmail = (mail) => {
+        const valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail);
+        setEmailError(valid ? "" : "Adresse email invalide");
+        return valid;
     };
 
-    let fetchInscription = useCallback(async (e) => {
+    const validateForm = () => {
+        let valid = true;
+        if (!nom) { setNomError("Le nom est obligatoire"); valid = false; } else setNomError("");
+        if (!prenom) { setPrenomError("Le prénom est obligatoire"); valid = false; } else setPrenomError("");
+        if (!validateEmail(email)) valid = false;
+        if (password.length < 3) {
+            setPasswordError("Le mot de passe doit comporter au moins 3 caractères");
+            valid = false;
+        } else setPasswordError("");
+        return valid;
+    };
+
+    const fetchInscription = useCallback(async (e) => {
         e.preventDefault();
-
-        // Réinitialisation des messages
-        setInscriptionMessage("");
         setIsSuccess(false);
+        setInscriptionMessage("");
 
-        // Validation du formulaire
-        if (!validateForm()) {
-            return;
-        }
-
+        if (!validateForm()) return;
         setIsLoading(true);
 
         try {
-            const response = await fetch(
-                lien.url + "connection/signup",
-                {
-                    method: "POST",
-                    body: JSON.stringify(
-                        {
-                            "nom": nom,
-                            "prenom": prenom,
-                            "password": password,
-                            "email": email
-                        }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch(`${lien.url}connection/signup`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nom, prenom, email, password })
+            });
 
+            const data = await response.json().catch(() => ({}));
             if (response.ok) {
                 setIsSuccess(true);
-                setInscriptionMessage("Inscription réussie! Un email de vérification a été envoyé à votre adresse email. Veuillez vérifier votre boîte de réception et suivre les instructions pour activer votre compte.");
-
-                // Réinitialisation du formulaire
-                setNom("");
-                setPrenom("");
-                setEmail("");
-                setPassword("");
+                setInscriptionMessage("Inscription réussie ! Vérifiez votre email pour activer votre compte.");
+                setNom(""); setPrenom(""); setEmail(""); setPassword("");
             } else {
-                const data = await response.json().catch(() => ({}));
                 setIsSuccess(false);
-                setInscriptionMessage(data.message || "Une erreur s'est produite lors de l'inscription. Veuillez réessayer.");
+                setInscriptionMessage(data.message || "Une erreur est survenue. Veuillez réessayer.");
             }
         } catch (error) {
-            setIsSuccess(false);
-            setInscriptionMessage("Erreur de connexion au serveur. Veuillez réessayer plus tard.");
-            console.error("Erreur d'inscription:", error);
+            console.error("Erreur inscription :", error);
+            setInscriptionMessage("Erreur de connexion au serveur.");
         } finally {
             setIsLoading(false);
         }
@@ -115,78 +66,36 @@ const Inscription = () => {
 
     return (
         <div className="containerInscription">
-            <div className="container2">
+            <div className="form-card">
                 <h2>Inscription</h2>
-                <div id="iconLogin"/>
 
-                <div>
-                    <input id='nom' value={nom} placeholder={'Nom'}
-                           onChange={e => {
-                               setNom(e.target.value);
-                               if (e.target.value === "") {
-                                   setNomError("Le nom est obligatoire");
-                               } else {
-                                   setNomError("");
-                               }
-                           }} type={'text'}/>
-                    <p className="error">{nomError}</p>
-                </div>
+                <input type="text" placeholder="Nom" value={nom}
+                       onChange={e => setNom(e.target.value)}/>
+                <p className="error">{nomError}</p>
 
-                <div>
-                    <input id='prenom' value={prenom} placeholder={'Prénom'}
-                           onChange={e => {
-                               setPrenom(e.target.value);
-                               if (e.target.value === "") {
-                                   setPrenomError("Le prénom est obligatoire");
-                               } else {
-                                   setPrenomError("");
-                               }
-                           }} type={'text'}/>
-                    <p className="error">{prenomError}</p>
-                </div>
+                <input type="text" placeholder="Prénom" value={prenom}
+                       onChange={e => setPrenom(e.target.value)}/>
+                <p className="error">{prenomError}</p>
 
-                <div>
-                    <input id='email' value={email} placeholder={'Email'}
-                           onChange={e => {
-                               setEmail(e.target.value);
-                               if (e.target.value !== "") {
-                                   validateEmail(e.target.value);
-                               }
-                           }}
-                           type={'text'}/>
-                    <p className="error">{emailError}</p>
-                </div>
+                <input type="text" placeholder="Email" value={email}
+                       onChange={e => setEmail(e.target.value)}/>
+                <p className="error">{emailError}</p>
 
-                <div>
-                    <input id='password' value={password} placeholder={'Mot de passe'}
-                           onChange={e => {
-                               setPassword(e.target.value);
-                               if (e.target.value.length < 3) {
-                                   setPasswordError("Le mot de passe doit comporter au moins 3 caractères");
-                               } else {
-                                   setPasswordError("");
-                               }
-                           }} type={'password'}/>
-                    <p className="error">{passwordError}</p>
-                </div>
+                <input type="password" placeholder="Mot de passe" value={password}
+                       onChange={e => setPassword(e.target.value)}/>
+                <p className="error">{passwordError}</p>
 
-                {inscriptionMessage && (
-                    <p className={isSuccess ? "success-message" : "error"}>
-                        {inscriptionMessage}
-                    </p>
-                )}
+                <p className={isSuccess ? "success-message" : "error-message"}>
+                    {inscriptionMessage}
+                </p>
 
-                <div className="info-message">
-                    <p>Un email de validation vous sera envoyé après l'inscription pour activer votre compte.</p>
-                </div>
-
-                <button
-                    onClick={fetchInscription}
-                    disabled={isLoading}
-                    className={isLoading ? "button-loading" : ""}
-                >
+                <button onClick={fetchInscription} disabled={isLoading}>
                     {isLoading ? "Inscription en cours..." : "S'inscrire"}
                 </button>
+
+                <p className="info-message">
+                    Vous recevrez un email pour activer votre compte.
+                </p>
             </div>
         </div>
     );

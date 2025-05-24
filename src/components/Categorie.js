@@ -2,82 +2,51 @@ import React, { useCallback, useEffect, useState } from "react";
 import lien from "./lien";
 import ItemCategorie from "./ItemCategorie";
 import { useNotify } from "./Notification";
+import "./css/categorie.css";
 
-export function Categorie(props) {
-    let [categorieDescription, setCategorieDescription] = useState("");
-    let [idCategorieValue, setidCategorieValue] = useState(-1);
-    let [categorie, setCategorie] = useState("");
-    let [valueInput, setValue] = useState("");
-    let [valueInputDescription, setDescription] = useState("");
-    let [idVal, setId] = useState(-1);
-    let [categorieCard, setCategorieCard] = useState([]);
-    let [colorCategorie, setColorCategorie] = useState("black");
-    let [month, setMonth] = useState("");
-    let [annee, setAnnee] = useState("");
-    let [budgetDebutMois, setbudgetDebutMois] = useState(0);
-    const notify = useNotify();
-    const [load, setLoad] = useState(false);
-
-    // États pour le filtre
+export function Categorie() {
+    const [categorieDescription, setCategorieDescription] = useState("");
+    const [idVal, setId] = useState(-1);
+    const [categorie, setCategorie] = useState("");
+    const [categorieCard, setCategorieCard] = useState([]);
+    const [colorCategorie, setColorCategorie] = useState("#000000");
+    const [month, setMonth] = useState("");
+    const [annee, setAnnee] = useState("");
+    const [budgetDebutMois, setBudgetDebutMois] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedMonth, setSelectedMonth] = useState("");
-    const [selectedYear, setSelectedYear] = useState("");
-
-    let attendre = () => {
-        setLoad(true);
-        setTimeout(() => {
-            setLoad(false);
-        }, 2000);
-    };
+    const notify = useNotify();
 
     useEffect(() => {
-        attendre();
         fetchAPI();
     }, []);
 
-    // Fonction de filtrage dynamique
-    const filteredCategories = categorieCard.filter((item) => {
-        return (
-            item.categorie.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            (selectedMonth ? item.month === selectedMonth : true) &&
-            (selectedYear ? item.annee.toString() === selectedYear.toString() : true)
-        );
-    });
-
-    let idchange = (data) => setId(data);
-    let changeAnnee = (data) => setAnnee(data);
-    let changeMonth = (data) => setMonth(data);
-    let changeBudgetDebutMois = (data) => setbudgetDebutMois(data);
-    let changecategorie = (data) => setCategorie(data);
-    let changeColor = (data) => setColorCategorie(data);
-
-    let fetchAPI = useCallback(async () => {
-        let str = localStorage.getItem("jwt") || "";
-        let idUser = parseInt(localStorage.getItem("utilisateur") || "0", 10);
-        const response = await fetch(`${lien.url}categorie/byuser/${idUser}`, {
-            headers: { Authorization: `Bearer ${str}` },
+    const fetchAPI = useCallback(async () => {
+        const jwt = localStorage.getItem("jwt") || "";
+        const userId = parseInt(localStorage.getItem("utilisateur") || "0", 10);
+        const response = await fetch(`${lien.url}categorie/byuser/${userId}`, {
+            headers: { Authorization: `Bearer ${jwt}` },
         });
-        const resbis = await response.json();
-        setCategorieCard(resbis);
+        const data = await response.json();
+        setCategorieCard(data);
     }, []);
 
-    let fetchdelete = useCallback(async (data) => {
-        let str = localStorage.getItem("jwt") || "";
-        let idTodo = parseInt(data, 10);
-        await fetch(`${lien.url}categorie/${idTodo}`, {
+    const fetchDelete = useCallback(async (id) => {
+        const jwt = localStorage.getItem("jwt") || "";
+        await fetch(`${lien.url}categorie/${id}`, {
             method: "DELETE",
-            body: JSON.stringify({ jwt: str }),
             headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ jwt }),
         });
         await fetchAPI();
         notify("Catégorie supprimée si elle n'est pas rattachée à d'autres éléments", "info");
-    });
+    }, [fetchAPI, notify]);
 
-    let fetchCreer = useCallback(async (e) => {
+    const fetchCreate = useCallback(async (e) => {
         e.preventDefault();
-        let str = localStorage.getItem("jwt") || "";
+        const jwt = localStorage.getItem("jwt") || "";
         await fetch(`${lien.url}categorie`, {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 categorie,
                 description: categorieDescription,
@@ -86,18 +55,18 @@ export function Categorie(props) {
                 month,
                 annee,
                 budgetDebutMois,
-                jwt: str,
+                jwt,
             }),
-            headers: { "Content-Type": "application/json" },
         });
         await fetchAPI();
         notify("Catégorie créée", "success");
-    });
+    }, [categorie, categorieDescription, colorCategorie, month, annee, budgetDebutMois, fetchAPI, notify]);
 
-    let fetchAPIupdate = useCallback(async () => {
-        let str = localStorage.getItem("jwt") || "";
+    const fetchUpdate = useCallback(async () => {
+        const jwt = localStorage.getItem("jwt") || "";
         await fetch(`${lien.url}categorie/${idVal}`, {
             method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 categorie,
                 description: categorieDescription,
@@ -106,87 +75,58 @@ export function Categorie(props) {
                 month,
                 annee,
                 budgetDebutMois,
-                jwt: str,
+                jwt,
             }),
-            headers: { "Content-Type": "application/json" },
         });
         notify("Catégorie mise à jour", "success");
         await fetchAPI();
-    });
+    }, [idVal, categorie, categorieDescription, colorCategorie, month, annee, budgetDebutMois, fetchAPI, notify]);
+
+    const filteredCategories = categorieCard.filter((item) =>
+        item.categorie.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
-        <div className="container2">
-            <div>
-                <div className="containerButton">
-                    <div>
-                        <input
-                            type="color"
-                            value={colorCategorie}
-                            style={{width:"100px"}}
-                            onChange={(e) => setColorCategorie(e.target.value)}
+        <div className="categorie-wrapper">
+            <form className="categorie-form" onSubmit={fetchCreate}>
+                <input type="color" value={colorCategorie} onChange={(e) => setColorCategorie(e.target.value)} />
+                <input type="text" placeholder="Catégorie" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
+                <input type="number" placeholder="Année" value={annee} onChange={(e) => setAnnee(e.target.value)} />
+                <select value={month} onChange={(e) => setMonth(e.target.value)}>
+                    <option value="">Mois</option>
+                    {["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"].map((mois) => (
+                        <option key={mois} value={mois}>{mois}</option>
+                    ))}
+                </select>
+                <input type="number" placeholder="Budget" value={budgetDebutMois} onChange={(e) => setBudgetDebutMois(e.target.value)} />
+                <input type="text" placeholder="Rechercher..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                <div className="form-buttons">
+                    <button type="button" onClick={fetchUpdate}>Modifier</button>
+                    <button type="submit">Créer</button>
+                </div>
+            </form>
+            <div className="categorie-list">
+                {filteredCategories.map((item) => (
+                    <div key={item.id} className="categorie-card" style={{ backgroundColor: item.color }}>
+                        <ItemCategorie
+                            del={() => fetchDelete(item.id)}
+                            color={item.color}
+                            changeColor={setColorCategorie}
+                            changecategorie={setCategorie}
+                            changeDec={setCategorie}
+                            changeTitle={setCategorieDescription}
+                            idFunc={setId}
+                            changeMonth={setMonth}
+                            changeBudgetDebutMois={setBudgetDebutMois}
+                            changeAnnee={setAnnee}
+                            categorie={item.categorie}
+                            annee={item.annee}
+                            month={item.month}
+                            budgetDebutMois={item.budgetDebutMois}
+                            id={item.id}
                         />
                     </div>
-
-                    <div>
-                        <label>Catégorie</label>
-                        <input placeholder="Catégorie" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-                    </div>
-
-                    <div>
-                        <label>Mois</label>
-                        <select value={month} onChange={(e) => setMonth(e.target.value)} className="form-select">
-                            <option value="">Tous</option>
-                            {["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"].map((mois) => (
-                                <option key={mois} value={mois}>{mois}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div>
-                        <label>Année</label>
-                        <input type="number" placeholder="Année" value={annee} onChange={(e) => setAnnee(e.target.value)} />
-                    </div>
-
-                    <div>
-                        <label>Budget Début Mois</label>
-                        <input placeholder="Budget" value={budgetDebutMois} onChange={(e) => setbudgetDebutMois(e.target.value)} />
-                    </div>
-
-                    {/* Champs de filtre */}
-                    <div>
-                        <label>Filtrer par Nom</label>
-                        <input type="text" placeholder="Rechercher une catégorie..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                    </div>
-
-                    <div>
-                        <button onClick={fetchAPIupdate}>Modifier</button>
-                        <button onClick={fetchCreer}>Créer</button>
-                    </div>
-                </div>
-
-                <div className="containerCote">
-                    {filteredCategories.map((item, index) => (
-                        <div key={index} className="container" style={{ backgroundColor: item.color, margin: "5px" }}>
-                            <ItemCategorie
-                                del={(e) => fetchdelete(item.id)}
-                                color={item.color}
-                                changeColor={changeColor}
-                                changecategorie={changecategorie}
-                                changeDec={setCategorie}
-                                changeTitle={setCategorieDescription}
-                                idFunc={idchange}
-                                changeMonth={changeMonth}
-                                changeBudgetDebutMois={changeBudgetDebutMois}
-                                changeAnnee={changeAnnee}
-                                categorie={item.categorie}
-                                annee={item.annee}
-                                month={item.month}
-                                budgetDebutMois={item.budgetDebutMois}
-                                id={item.id}
-                            />
-                        </div>
-                    ))}
-                </div>
+                ))}
             </div>
         </div>
     );
