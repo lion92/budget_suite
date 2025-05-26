@@ -21,7 +21,7 @@ const useBudgetStore = create((set, get) => ({
 
         const data = await res.json();
 
-        const revenus = Array.isArray(data) ? data : data.revenus;
+        const revenus = Array.isArray(data) ? data : data?.revenus;
         if (!Array.isArray(revenus)) {
             console.error("⚠️ L'API /revenues n'a pas retourné un tableau :", data);
             set({ revenus: [] });
@@ -78,6 +78,13 @@ const useBudgetStore = create((set, get) => ({
         const id = localStorage.getItem("utilisateur");
         const res = await fetch(`${lien.url}action/byuser/${id}`);
         const data = await res.json();
+
+        if (!Array.isArray(data)) {
+            console.error("❌ Réponse inattendue : data n'est pas un tableau :", data);
+            set({ depenses: [], total: 0 });
+            return;
+        }
+
         const total = data.reduce((acc, curr) => acc + parseFloat(curr.montant || 0), 0);
         set({ depenses: data, total });
     },

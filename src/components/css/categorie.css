@@ -2,7 +2,7 @@
 .categorie-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 1rem;
     font-family: Arial, sans-serif;
 }
 
@@ -24,12 +24,14 @@
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 1rem;
+    width: 100%;
 }
 
 .form-buttons {
     display: flex;
     gap: 0.5rem;
     align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 .form-buttons button {
@@ -41,6 +43,7 @@
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: fit-content;
 }
 
 .form-buttons button:hover {
@@ -53,16 +56,38 @@
     gap: 1rem;
     margin: auto;
     align-items: center;
+    justify-content: center;
 }
 
 .categorie-card {
     padding: 1rem;
     border-radius: 10px;
     color: white;
-    flex: 1;
-    min-width: 280px;
+    flex: 1 1 clamp(280px, 30%, 100%);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .categorie-form {
+        flex-direction: column;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-buttons button {
+        width: 100%;
+    }
+
+    .categorie-card {
+        flex: 1 1 100%;
+    }
 }

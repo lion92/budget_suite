@@ -14,6 +14,7 @@ import RevenueManager from "./RevenuManager";
 import MonthlyReportChart from "./MonthlyReportChart";
 import BilanFinancier from "./BilanFinancier";
 import { FilePlus, Table, BarChartBig } from 'lucide-react';
+import ImportTicket from "./ImportTicket";
 
 export function Budget() {
     const [depensesForm, setDepensesForm] = useState([{ description: "", montant: 0, categorie: "", date: new Date() }]);
@@ -111,6 +112,7 @@ export function Budget() {
             <h1>Gestionnaire de Budget</h1>
 
             <BilanFinancier />
+            <ImportTicket></ImportTicket>
 
             <div className="toolbar">
                 <button onClick={() => setShowDepenseForm(true)}><FilePlus /> Ajouter des dépenses</button>
