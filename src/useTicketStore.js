@@ -18,7 +18,7 @@ export const useTicketStore = create((set) => ({
             formData.append('file', file);
             formData.append('jwt', jwt); // ✅ IMPORTANT : ajouter ici le jwt comme champ
 
-            const response = await fetch(`${lien.url}ticket/upload`, {
+            const response = await fetch(lien.url+'ticket/upload', {
                 method: 'POST',
                 body: formData,
                 mode: 'cors',
@@ -41,7 +41,7 @@ export const useTicketStore = create((set) => ({
             const jwt = localStorage.getItem('jwt');
             if (!jwt) throw new Error('Token manquant');
 
-            const response = await fetch(`${lien.url}ticket/all`, {
+            const response = await fetch(lien.url+'ticket/all', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ jwt }),
