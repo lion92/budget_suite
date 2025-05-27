@@ -2,18 +2,23 @@ import React, { useEffect } from 'react';
 import { useTicketStore } from '../useTicketStore';
 
 const TicketList = () => {
-    const { allTickets, fetchTickets, result } = useTicketStore();
+    const { allTickets, fetchTickets, result, deleteTicket } = useTicketStore();
 
     useEffect(() => {
         fetchTickets();
     }, []);
 
     useEffect(() => {
-        // Rafraîchit la liste après un nouveau ticket
         if (result) {
             fetchTickets();
         }
     }, [result]);
+
+    const handleDelete = (id) => {
+        if (window.confirm('Supprimer ce ticket ?')) {
+            deleteTicket(id);
+        }
+    };
 
     return (
         <div style={styles.container}>
@@ -24,11 +29,18 @@ const TicketList = () => {
                 <ul style={styles.list}>
                     {allTickets.map((ticket) => (
                         <li key={ticket.id} style={styles.item}>
-                            <strong>Date :</strong>{' '}
-                            {new Date(ticket.dateAjout).toLocaleString('fr-FR')}
-                            <br />
-                            <strong>Texte OCR :</strong>
-                            <pre style={styles.text}>{ticket.texte}</pre>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div>
+                                    <strong>Date :</strong>{' '}
+                                    {new Date(ticket.dateAjout).toLocaleString('fr-FR')}
+                                    <br />
+                                    <strong>Texte OCR :</strong>
+                                    <pre style={styles.text}>{ticket.texte}</pre>
+                                </div>
+                                <button onClick={() => handleDelete(ticket.id)} style={styles.deleteBtn}>
+                                    🗑️
+                                </button>
+                            </div>
                         </li>
                     ))}
                 </ul>
@@ -63,6 +75,13 @@ const styles = {
         padding: '10px',
         border: '1px solid #ddd',
         marginTop: '0.5rem',
+    },
+    deleteBtn: {
+        background: 'transparent',
+        border: 'none',
+        fontSize: '1.2rem',
+        cursor: 'pointer',
+        color: '#c00',
     },
 };
 

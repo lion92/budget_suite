@@ -55,4 +55,28 @@ export const useTicketStore = create((set) => ({
             console.error('❌ Erreur fetchTickets:', err);
         }
     },
+    deleteTicket: async (id) => {
+        try {
+            const jwt = localStorage.getItem('jwt');
+            if (!jwt) throw new Error('Token manquant');
+
+            const response = await fetch(lien.url+'ticket/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jwt, id }),
+            });
+
+            const data = await response.json();
+            if (!response.ok || data.error) {
+                throw new Error(data.message || 'Échec suppression');
+            }
+
+            set((state) => ({
+                allTickets: state.allTickets.filter((ticket) => ticket.id !== id),
+            }));
+        } catch (err) {
+            alert('Erreur lors de la suppression du ticket.');
+            console.error(err);
+        }
+    },
 }));
