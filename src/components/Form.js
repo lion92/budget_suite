@@ -210,7 +210,7 @@ export default function Form(props) {
                     localStorage.removeItem('jwt');
                     localStorage.removeItem("utilisateur");
                 }} to="/">
-                    <button style={{color: 'red'}}>Deconnexion</button>
+                    <button style={{color: 'salmon'}}>Deconnexion</button>
 
                 </Link>:""}
 

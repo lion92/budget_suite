@@ -8,7 +8,6 @@
   --c-primary-light: #9f8db4;
   --c-primary-dark: #2f143b;
   --c-primary-hover: #8946ab;
-  --c-primary-gradient: linear-gradient(to bottom, #8946ab 0%, #8858da 100%);
   --text-bright:black;
   /* Gray colors from dashboard.scss */
   --c-gray-900: #000;
@@ -598,7 +597,6 @@ button, .card-btn {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--c-white);
-  background: var(--c-primary-gradient);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: var(--transition-standard);
