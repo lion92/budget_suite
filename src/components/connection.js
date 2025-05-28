@@ -11,8 +11,6 @@ const Connection = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [probleme, setProbleme] = useState("non connecte");
-    const [catcha, setCatcha] = useState("");
-    const [catchaColler, setCatchaColler] = useState("");
     const [notification, setNotification] = useState({
         show: false,
         type: "error",
@@ -28,12 +26,6 @@ const Connection = () => {
         setTimeout(() => {
             setNotification(prev => ({...prev, show: false}));
         }, 5000);
-    };
-
-    const catchaGenerate = () => {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const result = Array.from({length: 7}, () => characters[Math.floor(Math.random() * characters.length)]).join('');
-        setCatcha(result);
     };
 
     const ValidateEmail = (mail) => {
@@ -155,8 +147,6 @@ const Connection = () => {
                 setMessageLog("Connexion réussie");
                 setProbleme("connecte");
                 showNotification("success", "Connexion réussie");
-
-                // 🔁 Rafraîchissement pour mise à jour du menu
                 window.location.reload();
             } else {
                 setMessageLog("Identifiants incorrects");
@@ -174,8 +164,6 @@ const Connection = () => {
         setProbleme("non connecte");
         setEmail("");
         setPassword("");
-        setCatcha("");
-        setCatchaColler("");
         showNotification("info", "Déconnecté");
     };
 
@@ -222,192 +210,9 @@ const Connection = () => {
                     />
                     <p className="error">{passwordError}</p>
 
-                    <button onClick={catchaGenerate}>Générer Captcha</button>
-                    <h2 id="blur">{catcha}</h2>
-                    <h2>Saisir le captcha</h2>
-                    <input
-                        value={catchaColler}
-                        placeholder="captcha"
-                        onChange={e => {
-                            setCatchaColler(e.target.value);
-                            setPasswordError(e.target.value === catcha ? "Le captcha est correct" : "Le captcha n'est pas correct");
-                        }}
-                        type="text"
-                    />
-
-                    {passwordError === "Le captcha est correct" && (
-                        <button onClick={fetchConnection} id="btnLogin">LOGIN</button>
-                    )}
+                    <button onClick={fetchConnection} id="btnLogin">LOGIN</button>
                 </div>
             )}
-            <style jsx>{`
-                .notification {
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    max-width: 90%;
-                    width: 350px;
-                    padding: 1rem;
-                    border-radius: 6px;
-                    animation: slideIn 0.5s forwards;
-                    z-index: 1000;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-
-                @keyframes slideIn {
-                    from {
-                        transform: translateX(100%);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateX(0);
-                        opacity: 1;
-                    }
-                }
-
-                .notification-content {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    gap: 1rem;
-                }
-
-                .notification-close {
-                    background: none;
-                    border: none;
-                    font-size: 20px;
-                    color: white;
-                    cursor: pointer;
-                }
-
-                .notification.error {
-                    background-color: #f44336;
-                    color: white;
-                }
-
-                .notification.success {
-                    background-color: #4CAF50;
-                    color: white;
-                }
-
-                .notification.warning {
-                    background-color: #ff9800;
-                    color: white;
-                }
-
-                .notification.info {
-                    background-color: #2196F3;
-                    color: white;
-                }
-
-                .logout-button {
-                    margin: 2rem auto 0;
-                    padding: 0.75rem 1.5rem;
-                    background-color: #e74c3c;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 1rem;
-                    display: block;
-                    width: 90%;
-                    max-width: 300px;
-                    transition: background-color 0.3s ease;
-                }
-
-                .logout-button:hover {
-                    background-color: #c0392b;
-                }
-
-                .container2 {
-                    width: 90%;
-                    max-width: 400px;
-                    margin: 3rem auto;
-                    padding: 2rem;
-                    background: white;
-                    border-radius: 20px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 1rem;
-                }
-
-                .status-indicator {
-                    font-weight: bold;
-                    color: #5D3A9B;
-                    text-align: center;
-                    font-size: 1.1rem;
-                    text-transform: uppercase;
-                }
-
-                input {
-                    width: 100%;
-                    padding: 0.75rem 1rem;
-                    font-size: 1rem;
-                    border-radius: 10px;
-                    border: 1px solid #ccc;
-                }
-
-                input:focus {
-                    border-color: #3778c2;
-                    outline: none;
-                    box-shadow: 0 0 0 2px rgba(55, 120, 194, 0.2);
-                }
-
-                .error {
-                    color: red;
-                    font-size: 0.875rem;
-                    align-self: flex-start;
-                }
-
-                button {
-                    width: 100%;
-                    padding: 0.75rem 1rem;
-                    font-size: 1rem;
-                    font-weight: bold;
-                    border: none;
-                    border-radius: 10px;
-                    background: linear-gradient(135deg, #3778c2, #4facfe);
-                    color: white;
-                    cursor: pointer;
-                    transition: background 0.3s ease;
-                }
-
-                button:hover {
-                    background: linear-gradient(135deg, #2b5a9e, #3a8efc);
-                }
-
-                #blur {
-                    filter: blur(1px);
-                    letter-spacing: 3px;
-                    user-select: none;
-                    background: #f0f0f0;
-                    padding: 10px;
-                    border-radius: 6px;
-                    font-weight: bold;
-                    font-size: 1.3rem;
-                    text-align: center;
-                    width: 100%;
-                }
-
-                @media (max-width: 480px) {
-                    .container2 {
-                        padding: 1.5rem;
-                        gap: 0.75rem;
-                    }
-
-                    input,
-                    button {
-                        font-size: 0.95rem;
-                    }
-
-                    #blur {
-                        font-size: 1.1rem;
-                    }
-                }
-            `}</style>
-
         </div>
     );
 };
