@@ -217,12 +217,10 @@
 .card-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
 .card-description {
-    color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 1.5rem;
 }
