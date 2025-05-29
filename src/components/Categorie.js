@@ -14,6 +14,7 @@ export function Categorie() {
     const [annee, setAnnee] = useState("");
     const [budgetDebutMois, setBudgetDebutMois] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
+    const [iconName, setIconName] = useState("");
     const notify = useNotify();
 
     useEffect(() => {
@@ -23,11 +24,24 @@ export function Categorie() {
     const fetchAPI = useCallback(async () => {
         const jwt = localStorage.getItem("jwt") || "";
         const userId = parseInt(localStorage.getItem("utilisateur") || "0", 10);
-        const response = await fetch(`${lien.url}categorie/byuser/${userId}`, {
+
+        // Fetch des catégories
+        const resCategorie = await fetch(`${lien.url}categorie/byuser/${userId}`, {
             headers: { Authorization: `Bearer ${jwt}` },
         });
-        const data = await response.json();
-        setCategorieCard(data);
+        const data = await resCategorie.json();
+
+        // Fetch des icônes
+        const resIcons = await fetch(`${lien.url}category-images`);
+        const icons = await resIcons.json();
+
+        // Associer chaque icône à sa catégorie
+        const withIcons = data.map(cat => {
+            const icon = icons.find(i => i.categorie?.id === cat.id);
+            return { ...cat, iconName: icon?.iconName || "" };
+        });
+
+        setCategorieCard(withIcons);
     }, []);
 
     const fetchDelete = useCallback(async (id) => {
@@ -37,33 +51,83 @@ export function Categorie() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ jwt }),
         });
+
+        // Supprimer aussi l'icône associée
+        await fetch(`${lien.url}category-images/${id}`, {
+            method: "DELETE",
+        });
+
         await fetchAPI();
-        notify("Catégorie supprimée si elle n'est pas rattachée à d'autres éléments", "info");
+        notify("Catégorie supprimée", "info");
     }, [fetchAPI, notify]);
 
     const fetchCreate = useCallback(async (e) => {
         e.preventDefault();
         const jwt = localStorage.getItem("jwt") || "";
-        await fetch(`${lien.url}categorie`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                categorie,
-                description: categorieDescription,
-                color: colorCategorie,
-                user: parseInt(localStorage.getItem("utilisateur") || "0", 10),
-                month,
-                annee,
-                budgetDebutMois,
-                jwt,
-            }),
-        });
-        await fetchAPI();
-        notify("Catégorie créée", "success");
-    }, [categorie, categorieDescription, colorCategorie, month, annee, budgetDebutMois, fetchAPI, notify]);
+        const userId = parseInt(localStorage.getItem("utilisateur") || "0", 10);
+        console.log(userId)
+
+        try {
+            // Création de la catégorie
+            const res = await fetch(`${lien.url}categorie`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    categorie,
+                    description: categorieDescription,
+                    color: colorCategorie,
+                    user: userId,
+                    month,
+                    annee,
+                    budgetDebutMois,
+                    jwt,
+                }),
+            });
+
+            // Tenter de parser la réponse JSON
+                console.log(res);
+               let created = await res.json();
+
+            // Création de l'icône si une catégorie est créée
+            console.log(res);
+            if (created?.id && iconName) {
+                const iconRes = await fetch(`${lien.url}category-images`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        categoryId: created.id,
+                        iconName,
+                    }),
+                });
+
+                // Gérer une éventuelle erreur de réponse vide
+                if (!iconRes.ok) {
+                    console.warn("Échec lors de l’ajout de l’icône :", iconRes.status);
+                }
+            }
+
+            await fetchAPI();
+            notify("Catégorie créée avec succès", "success");
+
+            // Reset des champs
+            setCategorie("");
+            setCategorieDescription("");
+            setColorCategorie("#000000");
+            setMonth("");
+            setAnnee("");
+            setBudgetDebutMois(0);
+            setIconName("");
+
+        } catch (error) {
+            console.error("Erreur lors de la création :", error);
+            notify("Échec de la création de la catégorie", "error");
+        }
+    }, [categorie, categorieDescription, colorCategorie, month, annee, budgetDebutMois, iconName, fetchAPI, notify]);
+
 
     const fetchUpdate = useCallback(async () => {
         const jwt = localStorage.getItem("jwt") || "";
+
         await fetch(`${lien.url}categorie/${idVal}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -78,9 +142,21 @@ export function Categorie() {
                 jwt,
             }),
         });
+
+        if (idVal && iconName) {
+            await fetch(`${lien.url}category-images`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    categoryId: idVal,
+                    iconName,
+                }),
+            });
+        }
+
         notify("Catégorie mise à jour", "success");
         await fetchAPI();
-    }, [idVal, categorie, categorieDescription, colorCategorie, month, annee, budgetDebutMois, fetchAPI, notify]);
+    }, [idVal, categorie, categorieDescription, colorCategorie, month, annee, budgetDebutMois, iconName, fetchAPI, notify]);
 
     const filteredCategories = categorieCard.filter((item) =>
         item.categorie.toLowerCase().includes(searchTerm.toLowerCase())
@@ -99,12 +175,21 @@ export function Categorie() {
                     ))}
                 </select>
                 <input type="number" placeholder="Budget" value={budgetDebutMois} onChange={(e) => setBudgetDebutMois(e.target.value)} />
+                <select value={iconName} onChange={(e) => setIconName(e.target.value)}>
+                    <option value="">Icône</option>
+                    <option value="fa-solid fa-utensils">🍽️ Nourriture</option>
+                    <option value="fa-solid fa-car">🚗 Transport</option>
+                    <option value="fa-solid fa-house">🏠 Logement</option>
+                    <option value="fa-solid fa-heart">❤️ Santé</option>
+                    <option value="fa-solid fa-cart-shopping">🛒 Courses</option>
+                </select>
                 <input type="text" placeholder="Rechercher..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 <div className="form-buttons">
                     <button type="button" onClick={fetchUpdate}>Modifier</button>
                     <button type="submit">Créer</button>
                 </div>
             </form>
+
             <div className="categorie-list">
                 {filteredCategories.map((item) => (
                     <div key={item.id} className="categorie-card" style={{ backgroundColor: item.color }}>
@@ -113,17 +198,19 @@ export function Categorie() {
                             color={item.color}
                             changeColor={setColorCategorie}
                             changecategorie={setCategorie}
-                            changeDec={setCategorie}
                             changeTitle={setCategorieDescription}
+                            changeDec={setCategorieDescription}
                             idFunc={setId}
                             changeMonth={setMonth}
-                            changeBudgetDebutMois={setBudgetDebutMois}
                             changeAnnee={setAnnee}
+                            changeBudgetDebutMois={setBudgetDebutMois}
+                            changeIcon={setIconName}
                             categorie={item.categorie}
                             annee={item.annee}
                             month={item.month}
                             budgetDebutMois={item.budgetDebutMois}
                             id={item.id}
+                            iconName={item.iconName}
                         />
                     </div>
                 ))}
