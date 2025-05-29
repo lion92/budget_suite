@@ -4,6 +4,39 @@ import ItemCategorie from "./ItemCategorie";
 import { useNotify } from "./Notification";
 import "./css/categorie.css";
 
+const iconOptions = [
+    { label: "🍽️ Nourriture", value: "fa-solid fa-utensils" },
+    { label: "🚗 Transport", value: "fa-solid fa-car" },
+    { label: "🏠 Logement", value: "fa-solid fa-house" },
+    { label: "❤️ Santé", value: "fa-solid fa-heart" },
+    { label: "🛒 Courses", value: "fa-solid fa-cart-shopping" },
+    { label: "🎓 Éducation", value: "fa-solid fa-graduation-cap" },
+    { label: "🎬 Loisirs", value: "fa-solid fa-film" },
+    { label: "👕 Vêtements", value: "fa-solid fa-shirt" },
+    { label: "⚡ Énergie", value: "fa-solid fa-bolt" },
+    { label: "💧 Eau", value: "fa-solid fa-droplet" },
+    { label: "📱 Téléphone", value: "fa-solid fa-mobile-screen" },
+    { label: "🌐 Internet", value: "fa-solid fa-globe" },
+    { label: "🎁 Cadeaux", value: "fa-solid fa-gift" },
+    { label: "🎄 Fêtes", value: "fa-solid fa-tree" },
+    { label: "🏋️ Sport", value: "fa-solid fa-dumbbell" },
+    { label: "🛠️ Réparations", value: "fa-solid fa-screwdriver-wrench" },
+    { label: "🍼 Enfants", value: "fa-solid fa-baby" },
+    { label: "🎵 Musique", value: "fa-solid fa-music" },
+    { label: "✈️ Voyage", value: "fa-solid fa-plane" },
+    { label: "🐶 Animaux", value: "fa-solid fa-dog" },
+    { label: "📚 Livres", value: "fa-solid fa-book" },
+    { label: "🧼 Hygiène", value: "fa-solid fa-soap" },
+    { label: "📺 Abonnements", value: "fa-solid fa-tv" },
+    { label: "🏦 Banque", value: "fa-solid fa-building-columns" },
+    { label: "📅 Impôts", value: "fa-solid fa-calendar-days" },
+    { label: "🚿 Entretien", value: "fa-solid fa-broom" },
+    { label: "🖥️ Électronique", value: "fa-solid fa-computer" },
+    { label: "🎮 Jeux", value: "fa-solid fa-gamepad" },
+    { label: "👩‍⚕️ Médical", value: "fa-solid fa-stethoscope" },
+    { label: "🍷 Sorties", value: "fa-solid fa-wine-glass" },
+];
+
 export function Categorie() {
     const [categorieDescription, setCategorieDescription] = useState("");
     const [idVal, setId] = useState(-1);
@@ -25,17 +58,14 @@ export function Categorie() {
         const jwt = localStorage.getItem("jwt") || "";
         const userId = parseInt(localStorage.getItem("utilisateur") || "0", 10);
 
-        // Fetch des catégories
         const resCategorie = await fetch(`${lien.url}categorie/byuser/${userId}`, {
             headers: { Authorization: `Bearer ${jwt}` },
         });
         const data = await resCategorie.json();
 
-        // Fetch des icônes
         const resIcons = await fetch(`${lien.url}category-images`);
         const icons = await resIcons.json();
 
-        // Associer chaque icône à sa catégorie
         const withIcons = data.map(cat => {
             const icon = icons.find(i => i.categorie?.id === cat.id);
             return { ...cat, iconName: icon?.iconName || "" };
@@ -48,25 +78,13 @@ export function Categorie() {
         const jwt = localStorage.getItem("jwt") || "";
 
         try {
-            // Supprimer l'icône associée à la catégorie
-            const iconRes = await fetch(`${lien.url}category-images/${id}`, {
-                method: "DELETE",
-            });
+            await fetch(`${lien.url}category-images/${id}`, { method: "DELETE" });
 
-            if (!iconRes.ok) {
-                console.warn(`Icône non supprimée (peut-être inexistante) pour la catégorie ${id}`);
-            }
-
-            // Supprimer la catégorie elle-même
-            const res = await fetch(`${lien.url}categorie/${id}`, {
+            await fetch(`${lien.url}categorie/${id}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ jwt }), // <- Ce body est inutile pour un DELETE si le JWT est dans les headers
+                body: JSON.stringify({ jwt }),
             });
-
-            if (!res.ok) {
-                throw new Error(`Échec de suppression de la catégorie ${id}`);
-            }
 
             await fetchAPI();
             notify("Catégorie et icône supprimées", "info");
@@ -81,10 +99,8 @@ export function Categorie() {
         e.preventDefault();
         const jwt = localStorage.getItem("jwt") || "";
         const userId = parseInt(localStorage.getItem("utilisateur") || "0", 10);
-        console.log(userId)
 
         try {
-            // Création de la catégorie
             const res = await fetch(`${lien.url}categorie`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -100,14 +116,10 @@ export function Categorie() {
                 }),
             });
 
-            // Tenter de parser la réponse JSON
-                console.log(res);
-               let created = await res.json();
+            const created = await res.json();
 
-            // Création de l'icône si une catégorie est créée
-            console.log(res);
             if (created?.id && iconName) {
-                const iconRes = await fetch(`${lien.url}category-images`, {
+                await fetch(`${lien.url}category-images`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -115,17 +127,11 @@ export function Categorie() {
                         iconName,
                     }),
                 });
-
-                // Gérer une éventuelle erreur de réponse vide
-                if (!iconRes.ok) {
-                    console.warn("Échec lors de l’ajout de l’icône :", iconRes.status);
-                }
             }
 
             await fetchAPI();
             notify("Catégorie créée avec succès", "success");
 
-            // Reset des champs
             setCategorie("");
             setCategorieDescription("");
             setColorCategorie("#000000");
@@ -139,7 +145,6 @@ export function Categorie() {
             notify("Échec de la création de la catégorie", "error");
         }
     }, [categorie, categorieDescription, colorCategorie, month, annee, budgetDebutMois, iconName, fetchAPI, notify]);
-
 
     const fetchUpdate = useCallback(async () => {
         const jwt = localStorage.getItem("jwt") || "";
@@ -193,11 +198,9 @@ export function Categorie() {
                 <input type="number" placeholder="Budget" value={budgetDebutMois} onChange={(e) => setBudgetDebutMois(e.target.value)} />
                 <select value={iconName} onChange={(e) => setIconName(e.target.value)}>
                     <option value="">Icône</option>
-                    <option value="fa-solid fa-utensils">🍽️ Nourriture</option>
-                    <option value="fa-solid fa-car">🚗 Transport</option>
-                    <option value="fa-solid fa-house">🏠 Logement</option>
-                    <option value="fa-solid fa-heart">❤️ Santé</option>
-                    <option value="fa-solid fa-cart-shopping">🛒 Courses</option>
+                    {iconOptions.map((icon) => (
+                        <option key={icon.value} value={icon.value}>{icon.label}</option>
+                    ))}
                 </select>
                 <input type="text" placeholder="Rechercher..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 <div className="form-buttons">
