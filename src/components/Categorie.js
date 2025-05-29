@@ -46,19 +46,35 @@ export function Categorie() {
 
     const fetchDelete = useCallback(async (id) => {
         const jwt = localStorage.getItem("jwt") || "";
-        await fetch(`${lien.url}categorie/${id}`, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ jwt }),
-        });
 
-        // Supprimer aussi l'icône associée
-        await fetch(`${lien.url}category-images/${id}`, {
-            method: "DELETE",
-        });
+        try {
+            // Supprimer l'icône associée à la catégorie
+            const iconRes = await fetch(`${lien.url}category-images/${id}`, {
+                method: "DELETE",
+            });
 
-        await fetchAPI();
-        notify("Catégorie supprimée", "info");
+            if (!iconRes.ok) {
+                console.warn(`Icône non supprimée (peut-être inexistante) pour la catégorie ${id}`);
+            }
+
+            // Supprimer la catégorie elle-même
+            const res = await fetch(`${lien.url}categorie/${id}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ jwt }), // <- Ce body est inutile pour un DELETE si le JWT est dans les headers
+            });
+
+            if (!res.ok) {
+                throw new Error(`Échec de suppression de la catégorie ${id}`);
+            }
+
+            await fetchAPI();
+            notify("Catégorie et icône supprimées", "info");
+
+        } catch (error) {
+            console.error("Erreur lors de la suppression :", error);
+            notify("Erreur lors de la suppression", "error");
+        }
     }, [fetchAPI, notify]);
 
     const fetchCreate = useCallback(async (e) => {
