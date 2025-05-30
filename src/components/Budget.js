@@ -262,9 +262,15 @@ export function Budget() {
                                     <td>{dep.id}</td>
                                     <td>{dep.montant}</td>
                                     <td>{dep.description}</td>
-                                    <td>{dep.categorie}</td>
+                                    <td>{dep.categorie}<span style={{fontSize: 32, marginBottom: 10, color: 'white'}}>
+                                        <i className={dep?.iconName}></i>
+                                    </span></td>
+
                                     <td>{new Date(dep.dateTransaction).toLocaleDateString('fr-FR')}</td>
-                                    <td><button className="btn-danger" onClick={() => handleDelete(dep.id)}>Supprimer</button></td>
+                                    <td>
+                                        <button className="btn-danger" onClick={() => handleDelete(dep.id)}>Supprimer
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

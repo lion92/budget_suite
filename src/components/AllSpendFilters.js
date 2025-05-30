@@ -27,6 +27,7 @@ const AllSpendFilters = () => {
                     throw new Error("Network response was not ok");
                 }
                 const resbis = await response.json();
+                console.log(resbis)
                 setListDesDepense(resbis);
                 setFilteredDepense(resbis); // Initialize filtered list with all expenses
             } catch (error) {
@@ -147,12 +148,15 @@ const AllSpendFilters = () => {
             </div>
             <div className="container">
                 {filteredDepense.map((item) => (
-                    <div key={item.id} className="card" style={{height: "100%", boxShadow:"4px 4px 4px black"}}>
+                    <div key={item.id} className="card" style={{height: "100%", boxShadow: "4px 4px 4px black"}}>
                         <div>Id: {item.id}</div>
-                        <div style={{ color: "red" }}>Montant: {item.montant}</div>
+                        <div style={{color: "red"}}>Montant: {item.montant}</div>
                         <div className="description">Description: {item.description}</div>
                         <div className="description">Categorie: {item.categorie}</div>
                         <div className="description">Date: {item.dateTransaction}</div>
+                        <div style={{fontSize: 32, marginBottom: 10, color: 'black'}}>
+                            <i className={item?.iconName}></i>
+                        </div>
                     </div>
                 ))}
             </div>
