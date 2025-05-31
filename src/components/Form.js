@@ -241,6 +241,7 @@ export default function Form(props) {
 
                         {listItem.map((item, index) => {
                             return (
+                                <>
                                 <Item
                                     del={del}
                                     changeColor={changeColor}
@@ -251,6 +252,8 @@ export default function Form(props) {
                                     description={item.description}
                                     id={item.id}
                                 ></Item>
+                            <p>{item?.createdAt}</p>
+                                </>
                             );
                         })}
 
