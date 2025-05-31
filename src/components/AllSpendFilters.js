@@ -27,9 +27,8 @@ const AllSpendFilters = () => {
                     throw new Error("Network response was not ok");
                 }
                 const resbis = await response.json();
-                console.log(resbis)
                 setListDesDepense(resbis);
-                setFilteredDepense(resbis); // Initialize filtered list with all expenses
+                setFilteredDepense(resbis);
             } catch (error) {
                 console.error("Failed to fetch expenses:", error);
             }
@@ -42,30 +41,23 @@ const AllSpendFilters = () => {
         const filterExpenses = () => {
             let filtered = listDesDepense;
 
-            // Filtrer par montant
             if (minMontant !== '') {
                 filtered = filtered.filter(expense => expense.montant >= parseFloat(minMontant));
             }
             if (maxMontant !== '') {
                 filtered = filtered.filter(expense => expense.montant <= parseFloat(maxMontant));
             }
-
-            // Filtrer par date
             if (startDate !== '') {
                 filtered = filtered.filter(expense => new Date(expense.dateTransaction) >= new Date(startDate));
             }
             if (endDate !== '') {
                 filtered = filtered.filter(expense => new Date(expense.dateTransaction) <= new Date(endDate));
             }
-
-            // Filtrer par description
             if (descriptionSearch !== '') {
                 filtered = filtered.filter(expense =>
                     expense.description.toLowerCase().includes(descriptionSearch.toLowerCase())
                 );
             }
-
-            // Filtrer par catégorie
             if (categorieSearch !== '') {
                 filtered = filtered.filter(expense =>
                     expense.categorie.toLowerCase().includes(categorieSearch.toLowerCase())
@@ -73,8 +65,6 @@ const AllSpendFilters = () => {
             }
 
             setFilteredDepense(filtered);
-
-            // Calculer la somme des montants filtrés
             const total = filtered.reduce((acc, expense) => acc + expense.montant, 0);
             setTotalFilteredMontant(total);
         };
@@ -89,79 +79,78 @@ const AllSpendFilters = () => {
         setEndDate('');
         setDescriptionSearch('');
         setCategorieSearch('');
-        setFilteredDepense(listDesDepense); // Reset to show all expenses
-        setTotalFilteredMontant(listDesDepense.reduce((acc, expense) => acc + expense.montant, 0)); // Reset total amount
+        setFilteredDepense(listDesDepense);
+        setTotalFilteredMontant(listDesDepense.reduce((acc, expense) => acc + expense.montant, 0));
     };
 
     return (
         <>
             <h1 style={{ fontSize: 20, color: "blueviolet", textAlign: "center" }}>Toutes vos dépenses</h1>
+
             <div className="container" style={{ marginBottom: '20px', textAlign: 'center' }}>
-                <input
-                    type="number"
-                    placeholder="Montant minimal"
-                    value={minMontant}
-                    onChange={(e) => setMinMontant(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <input
-                    type="number"
-                    placeholder="Montant maximal"
-                    value={maxMontant}
-                    onChange={(e) => setMaxMontant(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
-                <input
-                    type="date"
-                    placeholder="Date de début"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    style={{ marginRight: '10px', color:"black" }}
-                />
-                <input
-                    type="date"
-                    placeholder="Date de fin"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    style={{ marginRight: '10px', color:"black" }}
-                />
-                <input
-                    type="text"
-                    placeholder="Recherche description"
-                    value={descriptionSearch}
-                    onChange={(e) => setDescriptionSearch(e.target.value)}
-                    style={{ marginRight: '10px', color:"black" }}
-                />
-                <input
-                    type="text"
-                    placeholder="Recherche catégorie"
-                    value={categorieSearch}
-                    onChange={(e) => setCategorieSearch(e.target.value)}
-                    style={{ marginRight: '10px' }}
-                />
+                <input type="number" placeholder="Montant minimal" value={minMontant}
+                       onChange={(e) => setMinMontant(e.target.value)} style={{ marginRight: '10px' }}/>
+                <input type="number" placeholder="Montant maximal" value={maxMontant}
+                       onChange={(e) => setMaxMontant(e.target.value)} style={{ marginRight: '10px' }}/>
+                <input type="date" value={startDate}
+                       onChange={(e) => setStartDate(e.target.value)} style={{ marginRight: '10px', color: "black" }}/>
+                <input type="date" value={endDate}
+                       onChange={(e) => setEndDate(e.target.value)} style={{ marginRight: '10px', color: "black" }}/>
+                <input type="text" placeholder="Recherche description" value={descriptionSearch}
+                       onChange={(e) => setDescriptionSearch(e.target.value)} style={{ marginRight: '10px', color: "black" }}/>
+                <input type="text" placeholder="Recherche catégorie" value={categorieSearch}
+                       onChange={(e) => setCategorieSearch(e.target.value)} style={{ marginRight: '10px', color: "black" }}/>
                 <button onClick={resetFilters} style={{ padding: '5px 10px', marginLeft: '10px' }}>
                     Réinitialiser
                 </button>
             </div>
-            <div style={{ textAlign: 'center', marginBottom: '20px', color: "red", fontSize:30 }}>
-                <strong style={{ textAlign: 'center', marginBottom: '20px', color: "black" }}>Total des montants après filtre: </strong>{totalFilteredMontant} €
+
+            <div style={{ textAlign: 'center', marginBottom: '20px', color: "red", fontSize: 30 }}>
+                <strong style={{ color: "black" }}>Total des montants après filtre : </strong>{totalFilteredMontant.toFixed(2)} €
             </div>
-            <div className="container">
-                {filteredDepense.map((item) => (
-                    <div key={item.id} className="card" style={{height: "100%", boxShadow: "4px 4px 4px black"}}>
-                        <div>Id: {item.id}</div>
-                        <div style={{color: "red"}}>Montant: {item.montant}</div>
-                        <div className="description">Description: {item.description}</div>
-                        <div className="description">Categorie: {item.categorie}</div>
-                        <div className="description">Date: {item.dateTransaction}</div>
-                        <div style={{fontSize: 32, marginBottom: 10, color: 'black'}}>
-                            <i className={item?.iconName}></i>
-                        </div>
-                    </div>
-                ))}
+
+            <div style={{ overflowX: "auto", padding: "0 20px" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <thead style={{ backgroundColor: "#f1f1f1" }}>
+                    <tr>
+                        <th style={thStyle}>ID</th>
+                        <th style={thStyle}>Montant (€)</th>
+                        <th style={thStyle}>Description</th>
+                        <th style={thStyle}>Catégorie</th>
+                        <th style={thStyle}>Date</th>
+                        <th style={thStyle}>Icône</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {filteredDepense.map((item) => (
+                        <tr key={item.id} style={{ borderBottom: "1px solid #ddd" }}>
+                            <td style={tdStyle}>{item.id}</td>
+                            <td style={{ ...tdStyle, color: "red" }}>{item.montant.toFixed(2)} €</td>
+                            <td style={tdStyle}>{item.description}</td>
+                            <td style={tdStyle}>{item.categorie}</td>
+                            <td style={tdStyle}>{new Date(item.dateTransaction).toLocaleDateString("fr-FR")}</td>
+                            <td style={{ ...tdStyle, fontSize: "24px", color: "white" }}>
+                                <i className={item.iconName}></i>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
         </>
     );
+};
+
+const thStyle = {
+    padding: "10px",
+    borderBottom: "2px solid #ccc",
+    textAlign: "left",
+    fontWeight: "bold"
+};
+
+const tdStyle = {
+    padding: "8px",
+    fontSize: "14px"
 };
 
 export default AllSpendFilters;
