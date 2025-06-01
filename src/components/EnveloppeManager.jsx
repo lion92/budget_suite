@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useEnvelopeStore } from "../useEnvelopeStore";
+import React, {useEffect, useState} from 'react';
+import {useEnvelopeStore} from "../useEnvelopeStore";
 import useBudgetStore from "../useBudgetStore";
 import '../components/css/enveloppe_manager.css';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
+import EnvelopeChallenge from "./EnveloppeChallenge";
 
 const EnvelopeManager = ({
                              notify = (msg, type) => {
@@ -130,6 +131,7 @@ const EnvelopeManager = ({
 
     return (
         <div style={{ margin: 'auto', maxWidth: '800px' }}>
+            <EnvelopeChallenge></EnvelopeChallenge>
             <h2>Mes enveloppes ({selectedMonth}/{selectedYear})</h2>
 
             <div style={{marginBottom: '1rem'}}>

@@ -1,10 +1,12 @@
 import React from 'react'
 import './enveloppe.scss'
 import HelloBis from "./HelloBis";
+import EnveloppeChallenge from "./EnveloppeChallenge";
 
 function Enveloppe() {
     return <>
         <HelloBis></HelloBis>
+        <EnveloppeChallenge></EnveloppeChallenge>
         <h1>projet à venir</h1>
         <div className="containerCote">
             <div id="enveloppe">

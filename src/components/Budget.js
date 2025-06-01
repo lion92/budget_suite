@@ -262,7 +262,7 @@ export function Budget() {
                                     <td>{dep.id}</td>
                                     <td>{dep.montant}</td>
                                     <td>{dep.description}</td>
-                                    <td>{dep.categorie}<span style={{fontSize: 32, marginBottom: 10, color: 'white'}}>
+                                    <td>{dep.categorie}<span style={{fontSize: 32, marginBottom: 10, color: 'black'}}>
                                         <i className={dep?.iconName}></i>
                                     </span></td>
 

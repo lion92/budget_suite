@@ -129,7 +129,7 @@ const AllSpendFilters = () => {
                             <td style={tdStyle}>{item.description}</td>
                             <td style={tdStyle}>{item.categorie}</td>
                             <td style={tdStyle}>{new Date(item.dateTransaction).toLocaleDateString("fr-FR")}</td>
-                            <td style={{ ...tdStyle, fontSize: "24px", color: "white" }}>
+                            <td style={{ ...tdStyle, fontSize: "24px", color: "black" }}>
                                 <i className={item.iconName}></i>
                             </td>
                         </tr>
