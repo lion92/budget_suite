@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import lien from './lien';
 import './css/dash.scss';
 import {Budget} from "./Budget";
-import './css/connexion.css'
+import './css/connexion.css';
 
 const Connection = () => {
     const [messageLog, setMessageLog] = useState("");
@@ -17,9 +17,22 @@ const Connection = () => {
         message: "",
     });
 
+    const isEmailValid = email.length > 0 && mailError === "";
+    const isPasswordValid = password.length >= 3 && passwordError === "";
+
     useEffect(() => {
         fetchUserToken();
     }, []);
+
+    useEffect(() => {
+        if (mailError || passwordError) {
+            const timer = setTimeout(() => {
+                setEmailError("");
+                setPasswordError("");
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [mailError, passwordError]);
 
     const showNotification = (type, message) => {
         setNotification({show: true, type, message});
@@ -69,7 +82,7 @@ const Connection = () => {
             let data;
             try {
                 data = JSON.parse(text);
-            } catch (e) {
+            } catch {
                 setMessageLog("Réponse invalide du serveur");
                 showNotification("error", "Réponse invalide du serveur");
                 return;
@@ -94,6 +107,7 @@ const Connection = () => {
         e.preventDefault();
         setPasswordError("");
 
+        if (!ValidateEmail(email)) return;
         if (password.length < 3) {
             setPasswordError("Mot de passe trop court");
             showNotification("error", "Mot de passe trop court");
@@ -186,15 +200,14 @@ const Connection = () => {
             ) : (
                 <div className="container2">
                     <div className="status-indicator">{messageLog || probleme}</div>
+
                     <input
                         id="email"
                         value={email}
                         placeholder="email"
-                        onChange={e => {
-                            setEmail(e.target.value);
-                            ValidateEmail(e.target.value);
-                        }}
+                        onChange={e => setEmail(e.target.value)}
                         type="text"
+                        className={mailError ? "input-error" : isEmailValid ? "input-success" : ""}
                     />
                     <p className="error">{mailError}</p>
 
@@ -202,11 +215,9 @@ const Connection = () => {
                         id="password"
                         value={password}
                         placeholder="password"
-                        onChange={e => {
-                            setPassword(e.target.value);
-                            setPasswordError(e.target.value.length < 3 ? "Mot de passe trop court" : "");
-                        }}
+                        onChange={e => setPassword(e.target.value)}
                         type="password"
+                        className={passwordError ? "input-error" : isPasswordValid ? "input-success" : ""}
                     />
                     <p className="error">{passwordError}</p>
 

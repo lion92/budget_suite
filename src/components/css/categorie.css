@@ -508,34 +508,3 @@
         transition-duration: 0.01ms !important;
     }
 }
-
-/* Mode sombre */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: #60a5fa;
-        --primary-hover: #3b82f6;
-        --secondary-color: #1f2937;
-        --text-primary: #f9fafb;
-        --text-secondary: #d1d5db;
-        --border-color: #374151;
-    }
-
-    .categorie-wrapper {
-        background: linear-gradient(135deg, #e0e8f5 0%, #b9bdc7 100%);
-    }
-
-    .categorie-form {
-        border-color: rgb(159, 141, 180);
-    }
-
-    .categorie-form input,
-    .categorie-form select {
-        background: #374151;
-        border-color: #4b5563;
-        color: white;
-    }
-
-    .categorie-card {
-        background: #374151;
-    }
-}

@@ -152,33 +152,6 @@
   --z-tooltip: 1070;
 }
 
-/* === MODE SOMBRE === */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #dfd9ec;
-    --surface: var(--primary-900);
-    --surface-hover: var(--primary-800);
-    --border: var(--primary-800);
-    --border-hover: var(--primary-700);
-    --text-primary: var(--neutral-100);
-    --text-secondary: var(--neutral-300);
-    --text-muted: var(--neutral-400);
-    --text-inverse: var(--neutral-900);
-
-    /* Ajustements des couleurs neutres pour le mode sombre */
-    --neutral-50: #171717;
-    --neutral-100: #262626;
-    --neutral-200: #404040;
-    --neutral-300: #525252;
-    --neutral-400: #737373;
-    --neutral-500: #a3a3a3;
-    --neutral-600: #d4d4d4;
-    --neutral-700: #e5e5e5;
-    --neutral-800: #f5f5f5;
-    --neutral-900: #fafafa;
-  }
-}
-
 /* === CLASSES UTILITAIRES === */
 .text-primary { color: var(--text-primary); }
 .text-secondary { color: var(--text-secondary); }
