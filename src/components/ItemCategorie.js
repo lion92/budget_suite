@@ -57,7 +57,7 @@ export default function ItemCategorie(props) {
             <p>Année : {annee}</p>
             <p>Budget du mois : {budgetDebutMois}</p>
 
-            <button style={{ width: "100%" }} onClick={handleDelete}>
+            <button onClick={handleDelete}>
                 Supprimer
             </button>
         </div>
