@@ -139,14 +139,35 @@ export function Budget() {
                         <form onSubmit={handleCreate} className="form-depense">
                             {depensesForm.map((dep, index) => (
                                 <div key={index} className="depense-row">
-                                    <input placeholder="Description" value={dep.description} onChange={(e) => updateDepenseField(index, "description", e.target.value)} />
-                                    <input type="number" placeholder="Montant" value={dep.montant} onChange={(e) => updateDepenseField(index, "montant", parseFloat(e.target.value))} />
-                                    <select value={dep.categorie} onChange={(e) => updateDepenseField(index, "categorie", e.target.value)}>
+                                    <input placeholder="Description" value={dep.description}
+                                           onChange={(e) => updateDepenseField(index, "description", e.target.value)}/>
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        placeholder="Montant (entier)"
+                                        value={dep.montant}
+                                        onChange={(e) => {
+                                            const val = e.target.value;
+                                            if (/^-?\d*$/.test(val)) {
+                                                updateDepenseField(index, "montant", val);
+                                            }
+                                        }}
+                                        onBlur={(e) => {
+                                            const val = parseInt(e.target.value, 10);
+                                            updateDepenseField(index, "montant", isNaN(val) ? 0 : val);
+                                        }}
+                                    />
+
+                                    <select value={dep.categorie}
+                                            onChange={(e) => updateDepenseField(index, "categorie", e.target.value)}>
                                         <option value="">-- Choisir catégorie --</option>
                                         {categories?.map(c => <option key={c.id} value={c.id}>{c.categorie}</option>)}
                                     </select>
-                                    <DatePicker selected={dep.date} onChange={(date) => updateDepenseField(index, "date", date)} dateFormat="dd/MM/yyyy" />
-                                    {depensesForm.length > 1 && <button type="button" onClick={() => removeLigneDepense(index)}>❌</button>}
+                                    <DatePicker selected={dep.date}
+                                                onChange={(date) => updateDepenseField(index, "date", date)}
+                                                dateFormat="dd/MM/yyyy"/>
+                                    {depensesForm.length > 1 &&
+                                        <button type="button" onClick={() => removeLigneDepense(index)}>❌</button>}
                                 </div>
                             ))}
                             <button type="button" onClick={addLigneDepense}>+ Ajouter une ligne</button>
