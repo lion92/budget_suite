@@ -195,7 +195,6 @@
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-xl), 0 0 0 1px rgba(192, 132, 252, 0.1);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    max-width: min(900px, 95vw);
     width: 100%;
     box-sizing: border-box;
     position: relative;
