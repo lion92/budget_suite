@@ -42,7 +42,6 @@ const Agenda = () => {
             <h1>Agenda React</h1>
             {saveMessage && <p>{saveMessage}</p>}
             <EventForm addEvent={addEvent} />
-            <CalendarView events={events} />
             <div className="event-list">
                 <h2>Tous les événements</h2>
                 {events.length > 0 ? (

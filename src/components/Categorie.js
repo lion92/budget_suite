@@ -211,7 +211,7 @@ export function Categorie() {
 
             <div className="categorie-list">
                 {filteredCategories.map((item) => (
-                    <div key={item.id} className="categorie-card" style={{ backgroundColor: item.color }}>
+                    <div key={item.id} className="categorie-card">
                         <ItemCategorie
                             del={() => fetchDelete(item.id)}
                             color={item.color}

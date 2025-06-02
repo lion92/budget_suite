@@ -40,9 +40,10 @@ export default function ItemCategorie(props) {
     return (
         <div
             className="card"
-            style={{ height: "420px", boxShadow: "7px 7px 7px black" }}
+            style={{ height: "420px", boxShadow: "7px 7px 7px black"}}
             onClick={handleClick}
         >
+            <div style={{backgroundColor:color, height:'1em', width:'1em'}}></div>
             {/* ✅ Affichage de l'icône */}
             {iconName && (
                 <div style={{ fontSize: 32, marginBottom: 10, color:'black' }}>

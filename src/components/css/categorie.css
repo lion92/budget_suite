@@ -353,7 +353,6 @@
     background: white;
     border-radius: var(--radius-xl);
     padding: 2rem;
-    box-shadow: var(--shadow-md);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -367,8 +366,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    height: 2px;
 }
 
 .categorie-card:hover {
