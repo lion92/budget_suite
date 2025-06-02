@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useBudgetStore from "../useBudgetStore";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./css/bilanFniancier.css"
 
 const BilanFinancier = () => {
     const { revenus, depenses } = useBudgetStore();
@@ -31,7 +32,7 @@ const BilanFinancier = () => {
     const messageColor = solde > 0 ? "green" : solde < 0 ? "red" : "gray";
 
     return (
-        <div className="bilan-financier container2">
+        <div className="bilan-financier">
             <h2>Bilan Financier</h2>
 
             <div className="periode-select">

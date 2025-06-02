@@ -448,8 +448,12 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Animation de fermeture */
@@ -506,3 +510,24 @@
         display: none !important;
     }
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow-y: auto; /* permet le scroll */
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 700px;
+    border-radius: 8px;
+    position: relative;
+}
+
