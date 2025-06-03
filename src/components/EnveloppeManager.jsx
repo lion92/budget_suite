@@ -26,7 +26,7 @@ const EnvelopeManager = ({
         setYear,
     } = useEnvelopeStore();
 
-    const { revenus, fetchRevenus } = useBudgetStore();
+    const {revenus, fetchRevenus} = useBudgetStore();
 
     const [newEnvelopeName, setNewEnvelopeName] = useState('');
     const [newEnvelopeAmount, setNewEnvelopeAmount] = useState('');
@@ -77,7 +77,7 @@ const EnvelopeManager = ({
 
     const handleAddTransaction = (envelope) => {
         const envelopeId = envelope.id;
-        const { description, amount } = newTransactions[envelopeId] || {};
+        const {description, amount} = newTransactions[envelopeId] || {};
         if (!description || isNaN(parseFloat(amount))) return;
 
         const reste = parseFloat(envelope.amount) - totalByEnvelope(envelope);
@@ -98,7 +98,7 @@ const EnvelopeManager = ({
 
         setNewTransactions((prev) => ({
             ...prev,
-            [envelopeId]: { description: '', amount: '' },
+            [envelopeId]: {description: '', amount: ''},
         }));
     };
 
@@ -117,7 +117,7 @@ const EnvelopeManager = ({
         );
 
         setEditingTransaction((prev) => {
-            const updated = { ...prev };
+            const updated = {...prev};
             delete updated[transaction.id];
             return updated;
         });
@@ -130,7 +130,7 @@ const EnvelopeManager = ({
     };
 
     return (
-        <div style={{ margin: 'auto', maxWidth: '800px' }}>
+        <div style={{margin: 'auto', maxWidth: '800px'}}>
             <EnvelopeChallenge></EnvelopeChallenge>
             <h2>Mes enveloppes ({selectedMonth}/{selectedYear})</h2>
 
@@ -154,25 +154,25 @@ const EnvelopeManager = ({
                     ))}
                 </select>
 
-                <label style={{ marginLeft: '1rem' }}>Année : </label>
+                <label style={{marginLeft: '1rem'}}>Année : </label>
                 <input
                     type="number"
                     value={selectedYear}
                     onChange={(e) => setYear(parseInt(e.target.value))}
-                    style={{ width: '100px', color: "black" }}
+                    style={{width: '100px', color: "black"}}
                 />
             </div>
 
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{marginBottom: '1rem'}}>
                 <input
-                    style={{ width: '40%' }}
+                    style={{width: '40%'}}
                     type="text"
                     placeholder="Nom de l'enveloppe"
                     value={newEnvelopeName}
                     onChange={(e) => setNewEnvelopeName(e.target.value)}
                 />
                 <input
-                    style={{ width: '30%', marginLeft: '1rem' }}
+                    style={{width: '30%', marginLeft: '1rem'}}
                     type="number"
                     placeholder="Montant"
                     value={newEnvelopeAmount}
@@ -182,18 +182,18 @@ const EnvelopeManager = ({
             </div>
 
             {envelopes.map((env) => (
-                <div key={env.id} style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' }}>
+                <div key={env.id} style={{border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem'}}>
                     {editingEnvelope === env.id ? (
                         <>
                             <input
-                                style={{ width: '40%' }}
+                                style={{width: '40%'}}
                                 type="text"
                                 placeholder="Nom"
                                 value={editedEnvelopeName}
                                 onChange={(e) => setEditedEnvelopeName(e.target.value)}
                             />
                             <input
-                                style={{ width: '30%', marginLeft: '1rem' }}
+                                style={{width: '30%', marginLeft: '1rem'}}
                                 type="number"
                                 placeholder="Montant"
                                 value={editedEnvelopeAmount}
@@ -239,7 +239,7 @@ const EnvelopeManager = ({
                                             onChange={(e) =>
                                                 setEditingTransaction((prev) => ({
                                                     ...prev,
-                                                    [t.id]: { ...prev[t.id], description: e.target.value },
+                                                    [t.id]: {...prev[t.id], description: e.target.value},
                                                 }))
                                             }
                                         />
@@ -249,29 +249,33 @@ const EnvelopeManager = ({
                                             onChange={(e) =>
                                                 setEditingTransaction((prev) => ({
                                                     ...prev,
-                                                    [t.id]: { ...prev[t.id], amount: e.target.value },
+                                                    [t.id]: {...prev[t.id], amount: e.target.value},
                                                 }))
                                             }
                                         />
                                         <button onClick={() => handleUpdateTransaction(t)}>💾</button>
                                         <button onClick={() =>
                                             setEditingTransaction((prev) => {
-                                                const updated = { ...prev };
+                                                const updated = {...prev};
                                                 delete updated[t.id];
                                                 return updated;
-                                            })}>❌</button>
+                                            })}>❌
+                                        </button>
                                     </>
                                 ) : (
-                                    <>
-                                        {t.description} – {t.amount} € {new Date(t.date).toLocaleDateString('fr-FR')}
-                                        <button onClick={() =>
-                                            setEditingTransaction((prev) => ({
-                                                ...prev,
-                                                [t.id]: { description: t.description, amount: t.amount },
-                                            }))
-                                        }>✏️</button>
-                                        <button onClick={() => handleDeleteTransaction(t.id)}>🗑️</button>
-                                    </>
+                                    <div style={{display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",padding:"2px"}}>
+                                        <div style={{fontSize:"0.9em"}}>{t.description} – <span style={{color:"red"}}>{t.amount} €</span> {new Date(t.date).toLocaleDateString('fr-FR')}</div>
+                                        <div>
+                                            <button onClick={() =>
+                                                setEditingTransaction((prev) => ({
+                                                    ...prev,
+                                                    [t.id]: {description: t.description, amount: t.amount},
+                                                }))
+                                            }>✏️
+                                            </button>
+                                            <button onClick={() => handleDeleteTransaction(t.id)}>🗑️</button>
+                                        </div>
+                                    </div>
                                 )}
                             </li>
                         ))}
@@ -285,7 +289,7 @@ const EnvelopeManager = ({
                             onChange={(e) =>
                                 setNewTransactions((prev) => ({
                                     ...prev,
-                                    [env.id]: { ...prev[env.id], description: e.target.value },
+                                    [env.id]: {...prev[env.id], description: e.target.value},
                                 }))
                             }
                         />
@@ -296,7 +300,7 @@ const EnvelopeManager = ({
                             onChange={(e) =>
                                 setNewTransactions((prev) => ({
                                     ...prev,
-                                    [env.id]: { ...prev[env.id], amount: e.target.value },
+                                    [env.id]: {...prev[env.id], amount: e.target.value},
                                 }))
                             }
                         />
