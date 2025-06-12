@@ -28,11 +28,15 @@ const EnvelopeManager = ({
 
     const {revenus, fetchRevenus} = useBudgetStore();
 
+    const iconeList = ['💰', '🛒', '🍽', '🏠', '🚗', '🎁', '🎓', '📱', '💡', '🏥', '🐶', '🧼', '💳', '🎉'];
+
     const [newEnvelopeName, setNewEnvelopeName] = useState('');
     const [newEnvelopeAmount, setNewEnvelopeAmount] = useState('');
+    const [newEnvelopeIcone, setNewEnvelopeIcone] = useState('');
     const [editingEnvelope, setEditingEnvelope] = useState(null);
     const [editedEnvelopeName, setEditedEnvelopeName] = useState('');
     const [editedEnvelopeAmount, setEditedEnvelopeAmount] = useState('');
+    const [editedEnvelopeIcone, setEditedEnvelopeIcone] = useState('');
     const [newTransactions, setNewTransactions] = useState({});
     const [editingTransaction, setEditingTransaction] = useState({});
 
@@ -57,15 +61,15 @@ const EnvelopeManager = ({
 
     const handleCreateEnvelope = () => {
         if (!newEnvelopeName.trim() || isNaN(parseFloat(newEnvelopeAmount))) return;
-        createEnvelope(newEnvelopeName, parseFloat(newEnvelopeAmount), notify);
+        createEnvelope(newEnvelopeName, parseFloat(newEnvelopeAmount), newEnvelopeIcone, notify);
         setNewEnvelopeName('');
         setNewEnvelopeAmount('');
+        setNewEnvelopeIcone('');
     };
 
     const handleUpdateEnvelope = (id) => {
         if (!editedEnvelopeName.trim() || isNaN(parseFloat(editedEnvelopeAmount))) return;
-
-        updateEnvelope(id, editedEnvelopeName, parseFloat(editedEnvelopeAmount), notify);
+        updateEnvelope(id, editedEnvelopeName, parseFloat(editedEnvelopeAmount), editedEnvelopeIcone, notify);
         setEditingEnvelope(null);
     };
 
@@ -131,7 +135,7 @@ const EnvelopeManager = ({
 
     return (
         <div style={{margin: 'auto', maxWidth: '800px'}}>
-            <EnvelopeChallenge></EnvelopeChallenge>
+            <EnvelopeChallenge/>
             <h2>Mes enveloppes ({selectedMonth}/{selectedYear})</h2>
 
             <div style={{marginBottom: '1rem'}}>
@@ -142,7 +146,6 @@ const EnvelopeManager = ({
                 {totalMontantEnveloppes > totalRevenus && (
                     <p style={{color: 'red'}}>⚠️ Le total des enveloppes dépasse vos revenus</p>
                 )}
-
             </div>
 
             <div style={{marginBottom: '1rem'}}>
@@ -165,20 +168,44 @@ const EnvelopeManager = ({
 
             <div style={{marginBottom: '1rem'}}>
                 <input
-                    style={{width: '40%'}}
+                    style={{width: '30%'}}
                     type="text"
                     placeholder="Nom de l'enveloppe"
                     value={newEnvelopeName}
                     onChange={(e) => setNewEnvelopeName(e.target.value)}
                 />
                 <input
-                    style={{width: '30%', marginLeft: '1rem'}}
+                    style={{width: '20%', marginLeft: '1rem'}}
                     type="number"
                     placeholder="Montant"
                     value={newEnvelopeAmount}
                     onChange={(e) => setNewEnvelopeAmount(e.target.value)}
                 />
+                <input
+                    style={{width: '15%', marginLeft: '1rem'}}
+                    type="text"
+                    placeholder="Icône"
+                    value={newEnvelopeIcone}
+                    onChange={(e) => setNewEnvelopeIcone(e.target.value)}
+                />
                 <button onClick={handleCreateEnvelope}>➕ Ajouter</button>
+                <div style={{marginTop: '0.5rem'}}>
+                    {iconeList.map((icon) => (
+                        <span key={icon}
+                              onClick={() => setNewEnvelopeIcone(icon)}
+                              style={{
+                                  fontSize: '1.5rem',
+                                  padding: '4px 6px',
+                                  marginRight: '4px',
+                                  cursor: 'pointer',
+                                  border: newEnvelopeIcone === icon ? '2px solid #3498db' : '1px solid #ccc',
+                                  borderRadius: '6px'
+                              }}
+                        >
+              {icon}
+            </span>
+                    ))}
+                </div>
             </div>
 
             {envelopes.map((env) => (
@@ -199,12 +226,42 @@ const EnvelopeManager = ({
                                 value={editedEnvelopeAmount}
                                 onChange={(e) => setEditedEnvelopeAmount(e.target.value)}
                             />
+                            <input
+                                style={{width: '15%', marginLeft: '1rem'}}
+                                type="text"
+                                placeholder="Icône"
+                                value={editedEnvelopeIcone}
+                                onChange={(e) => setEditedEnvelopeIcone(e.target.value)}
+                            />
                             <button onClick={() => handleUpdateEnvelope(env.id)}>💾</button>
                             <button onClick={() => setEditingEnvelope(null)}>❌</button>
+                            <div style={{marginTop: '0.5rem'}}>
+                                {iconeList.map((icon) => (
+                                    <span key={icon}
+                                          onClick={() => setEditedEnvelopeIcone(icon)}
+                                          style={{
+                                              fontSize: '1.5rem',
+                                              padding: '4px 6px',
+                                              marginRight: '4px',
+                                              cursor: 'pointer',
+                                              border: editedEnvelopeIcone === icon ? '2px solid #3498db' : '1px solid #ccc',
+                                              borderRadius: '6px'
+                                          }}
+                                    >
+                    {icon}
+                  </span>
+                                ))}
+                            </div>
                         </>
                     ) : (
                         <>
-                            <h3>{env.name}</h3>
+                            {env.icone && /^[0-9A-Fa-f]+$/.test(env.icone) ? (
+                                <span style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}>
+    {String.fromCodePoint(parseInt(env.icone, 16))}
+
+                                    {env?.name}
+  </span>
+                            ) : null}
                             <p><strong>Montant prévu :</strong> {parseFloat(env.amount).toFixed(2)} €</p>
                             <p><strong>Dépensé :</strong> {totalByEnvelope(env).toFixed(2)} €</p>
                             <p><strong>Reste :</strong> {(parseFloat(env.amount) - totalByEnvelope(env)).toFixed(2)} €
@@ -222,6 +279,7 @@ const EnvelopeManager = ({
                                 setEditingEnvelope(env.id);
                                 setEditedEnvelopeName(env.name);
                                 setEditedEnvelopeAmount(env.amount);
+                                setEditedEnvelopeIcone(env.icon || '');
                             }}>✏️
                             </button>
                             <button onClick={() => handleDeleteEnvelope(env.id)}>🗑️</button>
@@ -263,8 +321,17 @@ const EnvelopeManager = ({
                                         </button>
                                     </>
                                 ) : (
-                                    <div style={{display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",padding:"2px"}}>
-                                        <div style={{fontSize:"0.9em"}}>{t.description} – <span style={{color:"red"}}>{t.amount} €</span> {new Date(t.date).toLocaleDateString('fr-FR')}</div>
+                                    <div style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        flexDirection: "column",
+                                        padding: "2px"
+                                    }}>
+                                        <div style={{fontSize: "0.9em"}}>
+                                            {t.description} – <span
+                                            style={{color: "red"}}>{t.amount} €</span> {new Date(t.date).toLocaleDateString('fr-FR')}
+                                        </div>
                                         <div>
                                             <button onClick={() =>
                                                 setEditingTransaction((prev) => ({
