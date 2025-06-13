@@ -16,6 +16,7 @@ import DashAllSpendFilters from "./components/DashAllSpendFilters";
 import DashPrediction from "./components/DashPrediction";
 import DashEnveloppe from "./components/DashEnveloppe";
 import {ToastContainer} from "react-toastify";
+import './components/css/toast.css'
 
 const Root = () => (
     <>      <ToastContainer position="top-right" autoClose={3000}/>
