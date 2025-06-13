@@ -122,7 +122,14 @@ export function Budget() {
                 <button onClick={() => setShowGraph(!showGraph)}><BarChartBig /> {showGraph ? "Cacher" : "Voir"} graphiques</button>
             </div>
 
-            {showModal && <ModalCategorie onClose={() => setShowModal(false)} />}
+            {showModal && (
+                <ModalCategorie
+                    onClose={() => {
+                        setShowModal(false);
+                        fetchCategories(); // <-- Recharge les catégories dès que la modale se ferme
+                    }}
+                />
+            )}
 
             {showRevenuForm && (
                 <div className="modal-overlay">
