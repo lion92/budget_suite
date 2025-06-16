@@ -538,7 +538,6 @@ td, th, tr {
 
 th {
     background: var(--gradient-primary);
-    color: var(--text-inverse);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.05em;

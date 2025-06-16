@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
-import './css/revenue.css'
+import './css/revenue.css';
 import useBudgetStore from "../useBudgetStore";
-import {useNotify} from "./Notification";
+import { useNotify } from "./Notification";
 
-const RevenueManager = () => {
-    const [description, setDescription] = useState("");
-    const [montant, setMontant] = useState(0);
-    const [date, setDate] = useState(new Date());
-
+const RevenueManager = ({ onClose }) => {
+    const [revenusForm, setRevenusForm] = useState([{ description: "", amount: 0, date: new Date() }]);
     const notify = useNotify();
 
     const {
@@ -23,18 +20,33 @@ const RevenueManager = () => {
         fetchRevenus();
     }, []);
 
+    const updateRevenuField = (index, field, value) => {
+        const updated = [...revenusForm];
+        updated[index][field] = value;
+        setRevenusForm(updated);
+    };
+
+    const addLigneRevenu = () => {
+        setRevenusForm([...revenusForm, { description: "", amount: 0, date: new Date() }]);
+    };
+
+    const removeLigneRevenu = (index) => {
+        const updated = revenusForm.filter((_, i) => i !== index);
+        setRevenusForm(updated);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await addRevenu({
-            name: description,
-            amount: montant,
-            date: date
-        }, notify);
-
-
-        setDescription("");
-        setMontant(0);
-        setDate(new Date());
+        for (const rev of revenusForm) {
+            await addRevenu({
+                name: rev.description,
+                amount: parseFloat(rev.amount),
+                date: rev.date
+            }, notify);
+        }
+        setRevenusForm([{ description: "", amount: 0, date: new Date() }]);
+        fetchRevenus();
+        if (onClose) onClose();
     };
 
     const handleDelete = async (id) => {
@@ -48,26 +60,37 @@ const RevenueManager = () => {
             <h2>Mes Revenus</h2>
 
             <form onSubmit={handleSubmit} className="form-depense">
-                <input
-                    type="text"
-                    placeholder="Description"
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Montant"
-                    value={montant}
-                    onChange={e => setMontant(parseFloat(e.target.value))}
-                    required
-                />
-                <DatePicker
-                    selected={date}
-                    onChange={setDate}
-                    dateFormat="dd/MM/yyyy"
-                />
-                <button type="submit">Ajouter Revenu</button>
+                {revenusForm.map((rev, index) => (
+                    <div key={index} className="revenu-row">
+                        <input
+                            type="text"
+                            placeholder="Description"
+                            value={rev.description}
+                            onChange={e => updateRevenuField(index, "description", e.target.value)}
+                            required
+                        />
+                        <input
+                            type="number"
+                            placeholder="Montant"
+                            value={rev.amount}
+                            onChange={e => updateRevenuField(index, "amount", e.target.value)}
+                            required
+                        />
+                        <DatePicker
+                            selected={rev.date}
+                            onChange={date => updateRevenuField(index, "date", date)}
+                            dateFormat="dd/MM/yyyy"
+                        />
+                        {revenusForm.length > 1 && (
+                            <button type="button" onClick={() => removeLigneRevenu(index)}>❌</button>
+                        )}
+                    </div>
+                ))}
+                <div className="button-row">
+                    <button type="button" onClick={addLigneRevenu}>+ Ajouter une ligne</button>
+                    <button type="submit">Enregistrer les revenus</button>
+                    {onClose && <button type="button" onClick={onClose}>Fermer</button>}
+                </div>
             </form>
 
             <table>

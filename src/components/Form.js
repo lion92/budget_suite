@@ -287,8 +287,6 @@ export default function Form(props) {
 
     return (
         <div className="form-container">
-
-            <TasksNotion></TasksNotion>
             <div className="form-wrapper">
                 {localStorage.getItem("jwt") ?
                     <div className="logout-section">
