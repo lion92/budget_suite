@@ -4,6 +4,7 @@ import lien from './lien'
 import {Link} from "react-router-dom";
 import {useNotify} from "./Notification";
 import './css/form.css'
+import TasksNotion from "../TasksNotion";
 
 export default function Form(props) {
     let [titre, setValue] = useState("");
@@ -286,6 +287,8 @@ export default function Form(props) {
 
     return (
         <div className="form-container">
+
+            <TasksNotion></TasksNotion>
             <div className="form-wrapper">
                 {localStorage.getItem("jwt") ?
                     <div className="logout-section">
