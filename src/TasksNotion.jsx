@@ -36,16 +36,26 @@ const TasksNotion = () => {
 
     const updateStatus = async (id, newStatus) => {
         try {
-            await fetch(`${API_URL}/${id}`, {
-                method: 'PATCH',
+            // Trouver la tâche actuelle
+            const taskToUpdate = tasks.find(t => t.id === id);
+            if (!taskToUpdate) return;
+
+            // Mise à jour partielle
+            await fetch(API_URL+'/'+id, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: newStatus }),
+                body: JSON.stringify({
+                    ...taskToUpdate,
+                    status: newStatus
+                }),
             });
+
             fetchTasks();
         } catch (error) {
             console.error('Erreur update status :', error);
         }
     };
+
 
     const deleteTask = async (id) => {
         try {
@@ -62,7 +72,7 @@ const TasksNotion = () => {
         fetchTasks();
     }, []);
 
-    const statusOptions = ['À faire', 'En cours', 'Terminé'];
+    const statusOptions = ['Not started','A faire', 'En cours', 'fini'];
 
     return (
         <div style={{ padding: '2rem', fontFamily: 'Arial', maxWidth: '900px', margin: 'auto' }}>
@@ -106,7 +116,9 @@ const TasksNotion = () => {
                                     onChange={(e) => updateStatus(task.id, e.target.value)}
                                 >
                                     {statusOptions.map((opt) => (
-                                        <option key={opt} value={opt}>{opt}</option>
+                                        <option key={opt} value={opt}>
+                                            {opt}
+                                        </option>
                                     ))}
                                 </select>
                             </td>
