@@ -535,3 +535,35 @@
     max-width: 600px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
+.cochon-epargne {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1rem;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+}
+
+.cochon-epargne {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    border: 2px dashed #ccc;
+}
+
+.piggy-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease-in-out;
+    transform-origin: center bottom;
+}
+
+.piggy-image {
+    width: 120px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}

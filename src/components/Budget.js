@@ -33,6 +33,7 @@ export function Budget() {
     const notify = useNotify();
     const bilanRef = useRef();
 
+
     const {
         depenses,
         revenus,
@@ -111,15 +112,19 @@ export function Budget() {
         <div className="budget-container">
             <h1>Gestionnaire de Budget</h1>
 
-            <BilanFinancier />
+            <BilanFinancier/>
             <ImportTicket></ImportTicket>
 
             <div className="toolbar">
-                <button onClick={() => setShowDepenseForm(true)}><FilePlus /> Ajouter des dépenses</button>
-                <button onClick={() => setShowRevenuForm(true)}><FilePlus /> Ajouter un revenu</button>
-                <button onClick={() => setShowModal(true)}><FilePlus /> Ajouter une catégorie</button>
-                <button onClick={() => setShowDepenseTable(!showDepenseTable)}><Table /> {showDepenseTable ? "Cacher" : "Voir"} tableau</button>
-                <button onClick={() => setShowGraph(!showGraph)}><BarChartBig /> {showGraph ? "Cacher" : "Voir"} graphiques</button>
+                <button onClick={() => setShowDepenseForm(true)}><FilePlus/> Ajouter des dépenses</button>
+                <button onClick={() => setShowRevenuForm(true)}><FilePlus/> Ajouter un revenu</button>
+                <button onClick={() => setShowModal(true)}><FilePlus/> Ajouter une catégorie</button>
+                <button onClick={() => setShowDepenseTable(!showDepenseTable)}>
+                    <Table/> {showDepenseTable ? "Cacher" : "Voir"} tableau
+                </button>
+                <button onClick={() => setShowGraph(!showGraph)}>
+                    <BarChartBig/> {showGraph ? "Cacher" : "Voir"} graphiques
+                </button>
             </div>
 
             {showModal && (
@@ -134,7 +139,7 @@ export function Budget() {
             {showRevenuForm && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <RevenueManager onClose={() => setShowRevenuForm(false)} />
+                        <RevenueManager onClose={() => setShowRevenuForm(false)}/>
                         <button type="button" onClick={() => setShowRevenuForm(false)}>Fermer</button>
                     </div>
                 </div>
@@ -188,39 +193,71 @@ export function Budget() {
             <div className="select-date">
                 <label>Mois :
                     <select value={selectedMonth} onChange={e => setSelectedMonth(parseInt(e.target.value))}>
-                        {Array.from({ length: 12 }).map((_, i) => (
-                            <option key={i} value={i}>{new Date(0, i).toLocaleString('fr-FR', { month: 'long' })}</option>
+                        {Array.from({length: 12}).map((_, i) => (
+                            <option key={i} value={i}>{new Date(0, i).toLocaleString('fr-FR', {month: 'long'})}</option>
                         ))}
                     </select>
                 </label>
                 <label>Année :
-                    <input type="number" value={selectedYear} onChange={e => setSelectedYear(parseInt(e.target.value))} />
+                    <input type="number" value={selectedYear}
+                           onChange={e => setSelectedYear(parseInt(e.target.value))}/>
                 </label>
             </div>
 
             <div className="bilan-mensuel" ref={bilanRef}>
-                <h2>Bilan de {new Date(selectedYear, selectedMonth).toLocaleString('fr-FR', { month: 'long', year: 'numeric' })}</h2>
+                <h2>Bilan de {new Date(selectedYear, selectedMonth).toLocaleString('fr-FR', {
+                    month: 'long',
+                    year: 'numeric'
+                })}</h2>
                 <p><strong>Revenus :</strong> {totalRevenus.toFixed(2)} €</p>
                 <p><strong>Dépenses :</strong> {totalDepenses.toFixed(2)} €</p>
                 <p><strong>Solde :</strong> {solde.toFixed(2)} €</p>
                 <button onClick={downloadBilanPDF}>Télécharger le bilan PDF</button>
             </div>
 
-            {showGraph && (
-                <div className="chart-section">
-                    <AllSpend depenses={depensesFiltres} />
-                    <MonthlyReportChart />
+            <div className="cochon-epargne">
+                <h4>Votre cochon-épargne</h4>
+                <div
+                    className="piggy-wrapper"
+                    style={{
+                        transform: `scale(${totalRevenus > 0 ? Math.max(solde / totalRevenus, 0.2) : 0.2})`
+                    }}
+                >
+                    <img
+                        src="/assets/pigs/pig_1.png"
+                        alt="Cochon épargne"
+                        className="piggy-image"
+                    />
                 </div>
-            )}
+                <p>
+                    Vous avez économisé <strong>{solde.toFixed(2)} €</strong> sur un total
+                    de <strong>{totalRevenus.toFixed(2)} €</strong>.
+                </p>
+            </div>
+            <p>
+                Vous avez économisé <strong>{solde.toFixed(2)} €</strong> sur un total
+                de <strong>{totalRevenus.toFixed(2)} €</strong>.
+            </p>
 
-            {showDepenseTable && (
-                <div>
-                    <h2>Dépenses</h2>
-                    <button onClick={() => {
-                        setFilterId('');
-                        setFilterMontant('');
-                        setFilterDescription('');
-                        setFilterCategorie('');
+
+    {
+        showGraph && (
+            <div className="chart-section">
+                <AllSpend depenses={depensesFiltres}/>
+                <MonthlyReportChart/>
+            </div>
+        )
+    }
+
+    {
+        showDepenseTable && (
+            <div>
+                <h2>Dépenses</h2>
+                <button onClick={() => {
+                    setFilterId('');
+                    setFilterMontant('');
+                    setFilterDescription('');
+                    setFilterCategorie('');
                         setFilterDate('');
                     }}>
                         Réinitialiser les filtres
