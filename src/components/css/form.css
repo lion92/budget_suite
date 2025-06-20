@@ -946,7 +946,6 @@ html {
 @media (prefers-color-scheme: dark) {
     .form-content {
         background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.7) 100%);
-        color: #f1f5f9;
     }
 
     .input-field,
@@ -955,11 +954,5 @@ html {
     .search-input {
         background: rgba(30, 41, 59, 0.8);
         border-color: rgba(71, 85, 105, 0.6);
-        color: #f1f5f9;
-    }
-
-    .input-label,
-    .filter-label {
-        color: #e2e8f0;
     }
 }
