@@ -12,6 +12,7 @@ function Sidebar(props) {
                 <div className="logo-details">
                     <div className="logo_name">Budget</div>
                 </div>
+
                 <ul className="nav-list">
 
 

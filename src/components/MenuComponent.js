@@ -8,6 +8,8 @@ import { GoTasklist } from "react-icons/go";
 import { CiMenuBurger, CiMoneyBill } from "react-icons/ci";
 import CookieConsent from "./cookie_bandeau";
 import Notifications from "./Notification";
+import {Depenses} from "./Depenses";
+import {Revenues} from "../Revenues";
 
 export default function MenuComponent(props) {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -145,16 +147,25 @@ export default function MenuComponent(props) {
                 </div>
             )}
 
-            <section style={{ ...styles.content, ...styles.contentWithSidebar }}>
-                <CookieConsent />
+            <section style={{...styles.content, ...styles.contentWithSidebar}}>
+                <CookieConsent/>
                 <div style={styles.header}>
                     <h1>{props.title}</h1>
                     {isMobile && (
                         <button style={styles.toggleBtn} onClick={handlemenu}>
-                            <CiMenuBurger />
+                            <CiMenuBurger/>
                         </button>
                     )}
                 </div>
+                {isAuthenticated &&
+                    (
+                        <div className="container" style={{backgroundColor: "lightcoral"}}>
+                            <Depenses></Depenses>
+                            <Revenues></Revenues>
+                        </div>
+                    )
+                }
+
                 {props.contenue}
             </section>
         </div>
